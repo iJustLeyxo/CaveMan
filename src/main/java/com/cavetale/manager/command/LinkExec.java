@@ -40,7 +40,7 @@ public final class LinkExec extends Exec {
                 return;
             }
         }
-        Console.out(Style.LOG, "Creating plugins directory\n");
+        Console.out(Style.DEBUG, "Creating plugins directory\n");
         File folder = new File("plugins/");
         folder.mkdirs();
         for (Plugin p : selected) {

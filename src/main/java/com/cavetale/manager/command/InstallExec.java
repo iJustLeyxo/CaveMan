@@ -78,7 +78,7 @@ public final class InstallExec extends Exec {
                 return true;
             }
         }
-        Console.out(Style.LOG, "Creating plugins directory\n");
+        Console.out(Style.DEBUG, "Creating plugins directory\n");
         File folder = new File("plugins/");
         folder.mkdirs();
         for (Plugin p : selected) {

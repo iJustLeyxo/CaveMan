@@ -12,7 +12,7 @@ public final class ExitExec extends Exec {
 
     @Override
     public void run() {
-        Console.out(Style.LOG, "Exiting\n\n");
+        Console.out(Style.DEBUG, "Exiting\n\n");
         System.exit(0);
     }
 }

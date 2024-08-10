@@ -71,14 +71,14 @@ public enum Command {
     }
 
     public final void run(@NotNull Result result) {
-        Console.out(Style.LOG, "Running command " + this.refs[0]);
+        Console.out(Style.DEBUG, "Running command " + this.refs[0]);
         if (result.tokens().flags().containsKey(Flag.HELP)) {
             this.help();
         } else {
             this.exec(result);
         }
         this.exec(result);
-        Console.out(Style.LOG, Style.DONE, "Finished running command " + this.refs[0]);
+        Console.out(Style.DEBUG, Style.DONE, "Finished running command " + this.refs[0]);
     }
 
     public void help() {

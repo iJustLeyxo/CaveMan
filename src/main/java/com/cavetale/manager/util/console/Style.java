@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 public enum Style implements XCodeProvider, VerbosityProvider {
     PROMPT(Verbosity.OVERRIDE, XCode.MAGENTA, XCode.BOLD),
     INPUT(Verbosity.BLOCK, XCode.WHITE, XCode.BOLD),
-    LOG(Verbosity.VERBOSE, XCode.GRAY),
+    DEBUG(Verbosity.VERBOSE, XCode.GRAY),
     INFO(Verbosity.DEFAULT, XCode.BLUE),
     DONE(Verbosity.DEFAULT, XCode.GREEN),
     HELP(Verbosity.OVERRIDE, XCode.GREEN),

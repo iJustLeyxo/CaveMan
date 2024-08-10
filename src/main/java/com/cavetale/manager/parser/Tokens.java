@@ -15,7 +15,7 @@ public record Tokens (
         @NotNull Map<Flag, EmptyContainer> flags
 ) {
     public boolean analyse() {
-        Console.out(Style.LOG, "Analysing tokens\n");
+        Console.out(Style.DEBUG, "Analysing tokens\n");
         boolean changed = false;
         if (this.flags().containsKey(Flag.VERBOSE)) {
             Console.verbosity = Verbosity.VERBOSE;
@@ -38,7 +38,7 @@ public record Tokens (
         if (changed) {
             Console.out(Style.INFO, "\n");
         }
-        Console.out(Style.LOG, Style.DONE, "Finished analysing tokens\n\n");
+        Console.out(Style.DEBUG, Style.DONE, "Finished analysing tokens\n\n");
         return changed;
     }
 }

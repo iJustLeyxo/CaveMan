@@ -27,11 +27,11 @@ public final class Manager {
                         Console.out(Style.WARN, "Nothing to do. Try typing \"help\".\n\n");
                     }
                 } else {
-                    Console.out(Style.LOG, "Running " + result.tokens().commands().size() + " commands\n");
+                    Console.out(Style.DEBUG, "Running " + result.tokens().commands().size() + " commands\n");
                     for (Command cmd : result.tokens().commands()) {
                         cmd.run(result);
                     }
-                    Console.out(Style.LOG, Style.DONE, "Finished running commands\n");
+                    Console.out(Style.DEBUG, Style.DONE, "Finished running commands\n");
                 }
             } catch (InputException e) {
                 Console.out(Style.WARN, e.getMessage() + "\n\n");
@@ -41,7 +41,7 @@ public final class Manager {
             }
             args = null;
         }
-        Console.out(Style.LOG, "Exiting\n\n");
+        Console.out(Style.DEBUG, "Exiting\n\n");
         System.exit(0);
     }
 }
