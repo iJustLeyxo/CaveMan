@@ -66,7 +66,7 @@ public enum Command {
     }
 
     public final void run(@NotNull Result result) {
-        Console.log(Style.DEBUG, "Running command " + this.refs[0]);
+        Console.log(Style.DEBUG, "Running command " + this.refs[0] + "\n\n");
         if (result.tokens().flags().containsKey(Flag.HELP)) {
             this.help();
         } else {

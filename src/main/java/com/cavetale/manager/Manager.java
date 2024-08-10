@@ -27,11 +27,11 @@ public final class Manager {
                         Console.log(Style.WARN, "Nothing to do. Try typing \"help\".\n\n");
                     }
                 } else {
-                    Console.log(Style.DEBUG, "Running " + result.tokens().commands().size() + " commands\n");
+                    Console.log(Style.DEBUG, "Running " + result.tokens().commands().size() + " commands\n\n");
                     for (Command cmd : result.tokens().commands()) {
                         cmd.run(result);
                     }
-                    Console.log(Style.DEBUG, "Finished running commands\n");
+                    Console.log(Style.DEBUG, "Finished running commands\n\n");
                 }
             } catch (InputException e) {
                 Console.log(Style.WARN, e.getMessage() + "\n\n");

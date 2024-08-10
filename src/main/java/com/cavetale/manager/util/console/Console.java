@@ -55,7 +55,7 @@ public final class Console {
     }
 
     public static String in(@NotNull String s) {
-        log(Style.PROMPT + s + " ");
+        log(Style.PROMPT + s + " " + Style.INPUT);
         String arg = System.console().readLine();
         log("\n");
         return arg;
