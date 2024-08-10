@@ -1,8 +1,9 @@
 package com.cavetale.setup;
 
+import lombok.Getter;
+
 import java.util.EnumSet;
 import java.util.Set;
-import lombok.Getter;
 
 @Getter
 public enum Server implements PluginSet {

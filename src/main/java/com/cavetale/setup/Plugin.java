@@ -1,12 +1,13 @@
 package com.cavetale.setup;
 
+import lombok.Getter;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
-import lombok.Getter;
 
 /**
  * Enums generated via script.

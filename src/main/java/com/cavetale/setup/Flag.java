@@ -5,7 +5,7 @@ public enum Flag {
     HELP("Print help"),
     JAR("Specify jar location"),
     PLUGIN("Specify plugins"),
-    SERVER("Specify servers"),
+    SERVER("Specify serverSoftware"),
     VERBOSE("Verbose output");
 
     public final char shortForm;

@@ -12,10 +12,10 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
   <build>
     <finalName>${project.name}</finalName>
     <plugins>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -34,30 +34,28 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-	<version>3.2.2</version>
+        <version>3.2.2</version>
         <configuration>
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>com.cavetale.setup.Main</mainClass>
+              <mainClass>com.cavetale.manager.Manager</mainClass>
             </manifest>
           </archive>
         </configuration>
       </plugin>
     </plugins>
-
   </build>
-  <repositories>
 
+  <repositories>
     <!-- Cavetale Repo -->
     <repository>
       <id>cavetale</id>
       <url>https://cavetale.com/jenkins/plugin/repository/everything/</url>
     </repository>
-
   </repositories>
-  <dependencies>
 
+  <dependencies>
     <!-- Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -66,5 +64,11 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+        <groupId>org.jetbrains</groupId>
+        <artifactId>annotations</artifactId>
+        <version>24.0.0</version>
+        <scope>compile</scope>
+    </dependency>
   </dependencies>
 </project>

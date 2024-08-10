@@ -5,17 +5,13 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public final class Main {
-    private Set<Plugin> specifiedPlugins = EnumSet.noneOf(Plugin.class);
-    private Set<Server> specifiedServers = EnumSet.noneOf(Server.class);
-    private Set<Category> specifiedCategories = EnumSet.noneOf(Category.class);
-    private List<Command> commands = new ArrayList<>();
+    private final Set<Plugin> specifiedPlugins = EnumSet.noneOf(Plugin.class);
+    private final Set<Server> specifiedServers = EnumSet.noneOf(Server.class);
+    private final Set<Category> specifiedCategories = EnumSet.noneOf(Category.class);
+    private final List<Command> commands = new ArrayList<>();
     private boolean verbose = false;
     private String jarLocation = "/home/mc/public/jar";
 
@@ -85,7 +81,7 @@ public final class Main {
                     case PLUGIN: {
                         Plugin plugin = Plugin.of(arg);
                         if (plugin == null) {
-                            throw new AppException("Unknown plugin: " + arg);
+                            throw new AppException("Unknown plugins: " + arg);
                         }
                         specifiedPlugins.add(plugin);
                         break;
