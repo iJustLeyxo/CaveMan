@@ -1,5 +1,6 @@
-package com.cavetale.manager.data;
+package com.cavetale.manager.data.server;
 
+import com.cavetale.manager.data.DataError;
 import com.cavetale.manager.parser.InputException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -8,7 +9,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public enum ServerSoftware {
+public enum Software {
     PAPER("https://api.papermc.io/v2/projects/paper/versions/1.21/builds/127/downloads/paper-1.21-127.jar", "Paper", "PaperMC"),
     SPIGOT("https://download.getbukkit.org/spigot/spigot-1.21.jar", "Spigot", "SpigotMC"),
     BUKKIT("https://download.getbukkit.org/craftbukkit/craftbukkit-1.21.jar", "Bukkit", "Craftbukkit");
@@ -16,7 +17,7 @@ public enum ServerSoftware {
     public final @NotNull String[] refs;
     public final @Nullable URI uri;
 
-    ServerSoftware(@NotNull String uri, @NotNull String ref, @NotNull String... refs) {
+    Software(@NotNull String uri, @NotNull String ref, @NotNull String... refs) {
         this.refs = new String[refs.length + 1];
         this.refs[0] = ref;
         System.arraycopy(refs, 0, this.refs, 1, this.refs.length - 1);
@@ -34,10 +35,10 @@ public enum ServerSoftware {
         return new File(new File(this.uri.getPath()).getName());
     }
 
-    public static final @NotNull ServerSoftware DEFAULT = PAPER;
+    public static final @NotNull Software DEFAULT = PAPER;
 
-    public static @NotNull ServerSoftware get(@NotNull String ref) throws NotFoundException {
-        for (ServerSoftware s : values()) {
+    public static @NotNull Software get(@NotNull String ref) throws NotFoundException {
+        for (Software s : values()) {
             for (String r : s.refs) {
                 if (r.equalsIgnoreCase(ref)) {
                     return s;

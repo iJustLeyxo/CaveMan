@@ -1,4 +1,4 @@
-package com.cavetale.manager.util.download;
+package com.cavetale.manager.util;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -1,4 +1,4 @@
-package com.cavetale.manager.data;
+package com.cavetale.manager.data.server;
 
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Tokens;
@@ -8,21 +8,21 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class ServerSoftwares {
+public final class SoftwareManager {
     private final @NotNull Tokens tokens;
-    private @NotNull Set<ServerSoftware> selected = new HashSet<>();
+    private @NotNull Set<Software> selected = new HashSet<>();
 
-    public ServerSoftwares(@NotNull Tokens tokens) {
+    public SoftwareManager(@NotNull Tokens tokens) {
         this.tokens = tokens;
     }
 
-    public Set<ServerSoftware> selected() {
+    public Set<Software> selected() {
         if (this.selected.isEmpty()) {
             if (this.tokens.flags().containsKey(Flag.SOFTWARE)) {
                 this.selected.addAll(((ServerSoftwareContainer) this.tokens.flags().get(Flag.SOFTWARE)).get());
             }
             if (this.selected.isEmpty()) {
-                this.selected.add(ServerSoftware.DEFAULT);
+                this.selected.add(Software.DEFAULT);
             }
         }
         return this.selected;

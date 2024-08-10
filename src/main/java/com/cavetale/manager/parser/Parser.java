@@ -1,10 +1,10 @@
 package com.cavetale.manager.parser;
 
-import com.cavetale.manager.data.Plugins;
-import com.cavetale.manager.data.ServerSoftwares;
-import com.cavetale.manager.parser.container.Container;
-import com.cavetale.manager.util.cmd.Cmd;
-import com.cavetale.manager.util.cmd.Style;
+import com.cavetale.manager.data.plugin.PluginManager;
+import com.cavetale.manager.data.server.SoftwareManager;
+import com.cavetale.manager.parser.container.EmptyContainer;
+import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.Style;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.Set;
 public final class Parser {
     public static @NotNull Result parse(String[] args) throws InputException {
         Set<Command> commands = new LinkedHashSet<>();
-        Map<Flag, Container> flags = new HashMap<>();
+        Map<Flag, EmptyContainer> flags = new HashMap<>();
         Flag flag = null;
         for (String arg : args) {
             if (arg.charAt(0) == '-') {
@@ -43,13 +43,13 @@ public final class Parser {
                 if (flag == null) {
                     Command cmd = Command.get(arg);
                     if (commands.contains(cmd)) {
-                        Cmd.out(Style.INFO, "Ignoring duplicate command \"" + arg + "\n");
+                        Console.out(Style.INFO, "Ignoring duplicate command \"" + arg + "\n");
                     }
                     commands.add(cmd);
                 }
             }
         }
         Tokens tokens = new Tokens(commands, flags);
-        return new Result(tokens, new Plugins(tokens), new ServerSoftwares(tokens));
+        return new Result(tokens, new PluginManager(tokens), new SoftwareManager(tokens));
     }
 }

@@ -3,7 +3,7 @@ package com.cavetale.manager.parser.container;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class PathContainer extends Container {
+public final class PathContainer extends EmptyContainer {
     private @Nullable String path = null;
 
     @Override

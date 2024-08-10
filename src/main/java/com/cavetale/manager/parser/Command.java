@@ -6,50 +6,50 @@ import org.jetbrains.annotations.NotNull;
 public enum Command {
     EXIT("Exit interactive mode") {
         @Override
-        public @NotNull Executor get(@NotNull Result result) {
-            return new ExitExecutor(result);
+        public @NotNull Exec get(@NotNull Result result) {
+            return new ExitExec(result);
         }
     },
     HELP("Show usage help") {
         @Override
-        public @NotNull Executor get(@NotNull Result result) {
-            return new HelpExecutor(result);
+        public @NotNull Exec get(@NotNull Result result) {
+            return new HelpExec(result);
         }
     },
     INSTALL("Install selected plugins") {
         @Override
-        public @NotNull Executor get(@NotNull Result result) {
-            return new InstallExecutor(result);
+        public @NotNull Exec get(@NotNull Result result) {
+            return new InstallExec(result);
         }
     },
     LINK("Create symbolic links") {
         @Override
-        public @NotNull Executor get(@NotNull Result result) {
-            return new LinkExecutor(result);
+        public @NotNull Exec get(@NotNull Result result) {
+            return new LinkExec(result);
         }
     },
     LIST("List selected plugins") {
         @Override
-        public @NotNull Executor get(@NotNull Result result) {
-            return new ListExecutor(result);
+        public @NotNull Exec get(@NotNull Result result) {
+            return new ListExec(result);
         }
     },
     STATUS("Installation status") {
         @Override
-        public @NotNull Executor get(@NotNull Result result) {
-            return new StatusExecutor(result);
+        public @NotNull Exec get(@NotNull Result result) {
+            return new StatusExec(result);
         }
     },
     UNINSTALL("Delete plugins") {
         @Override
-        public @NotNull Executor get(@NotNull Result result) {
-            return new UninstallExecutor(result);
+        public @NotNull Exec get(@NotNull Result result) {
+            return new UninstallExec(result);
         }
     },
     UNLINK("Unlink linked plugins") {
         @Override
-        public @NotNull Executor get(@NotNull Result result) {
-            return new UnlinkExecutor(result);
+        public @NotNull Exec get(@NotNull Result result) {
+            return new UnlinkExec(result);
         }
     };
 
@@ -65,7 +65,7 @@ public enum Command {
         this.get(result);
     }
 
-    public abstract @NotNull Executor get(@NotNull Result result);
+    public abstract @NotNull Exec get(@NotNull Result result);
 
     public static @NotNull Command get(@NotNull String ref) throws NotFoundException {
         for (Command c : values()) {

@@ -1,22 +1,21 @@
 package com.cavetale.manager.command;
 
-import com.cavetale.manager.data.Plugin;
-import com.cavetale.manager.data.PluginCategory;
-import com.cavetale.manager.data.ServerConfig;
-import com.cavetale.manager.data.ServerSoftware;
+import com.cavetale.manager.data.plugin.Plugin;
+import com.cavetale.manager.data.plugin.Category;
+import com.cavetale.manager.data.server.Software;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
-import com.cavetale.manager.util.cmd.Cmd;
-import com.cavetale.manager.util.cmd.EscCode;
-import com.cavetale.manager.util.cmd.Style;
-import com.cavetale.manager.util.cmd.Verbosity;
+import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.EscCode;
+import com.cavetale.manager.util.console.Style;
+import com.cavetale.manager.util.console.Verbosity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Set;
 
-public final  class ListExecutor extends Executor {
-    public ListExecutor(@NotNull Result result) {
+public final  class ListExec extends Exec {
+    public ListExec(@NotNull Result result) {
         super(result);
     }
 
@@ -52,30 +51,30 @@ public final  class ListExecutor extends Executor {
             if (!resolve) {
                 return;
             }
-            Set<Plugin> selected = this.result.plugins().get(null, true, null);
+            Set<Plugin> selected = this.result.pluginManager().get(null, true, null);
             if (!selected.isEmpty()) {
-                Cmd.list(selected.size() + " plugins(s) selected",
+                Console.list(selected.size() + " plugins(s) selected",
                         selected, Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
             } else {
-                Cmd.out(Style.WARN, "No plugins selected\n\n");
+                Console.out(Style.WARN, "No plugins selected\n\n");
             }
         }
     }
 
     private static void plugins() {
-        Cmd.list("Plugins", List.of(Plugin.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
+        Console.list("Plugins", List.of(Plugin.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
     }
 
     private static void categories() {
-        Cmd.list("Categories", List.of(PluginCategory.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
+        Console.list("Categories", List.of(Category.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
     }
 
     private static void servers() {
-        Cmd.list("Servers", List.of(ServerConfig.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
+        Console.list("Servers", List.of(com.cavetale.manager.data.plugin.Server.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
     }
 
     private static void serverSoftware() {
-        Cmd.list("Server software", List.of(ServerSoftware.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
+        Console.list("Server software", List.of(Software.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.cavetale.manager.util.cmd;
+package com.cavetale.manager.util.console;
 
 import org.jetbrains.annotations.NotNull;
 

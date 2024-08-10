@@ -1,4 +1,4 @@
-package com.cavetale.manager.data;
+package com.cavetale.manager.data.plugin;
 
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Tokens;
@@ -15,12 +15,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public final class Plugins {
+public final class PluginManager {
     private final @NotNull Tokens tokens;
     private final @NotNull Map<Plugin, Details> plugins = new HashMap<>();
     private final @NotNull Set<String> unknown = new HashSet<>();
 
-    public Plugins(@NotNull Tokens tokens) {
+    public PluginManager(@NotNull Tokens tokens) {
         this.tokens = tokens;
         this.resolve();
     }
@@ -33,13 +33,13 @@ public final class Plugins {
             selected.addAll(((PluginContainer) this.tokens.flags().get(Flag.PLUGIN)).get());
         }
         if (this.tokens.flags().containsKey(Flag.CATEGORY)) {
-            for (PluginCategory pluginCategory : ((PluginCategoryContainer) this.tokens.flags().get(Flag.CATEGORY)).get()) {
-                selected.addAll(pluginCategory.plugins());
+            for (Category category : ((PluginCategoryContainer) this.tokens.flags().get(Flag.CATEGORY)).get()) {
+                selected.addAll(category.plugins());
             }
         }
         if (this.tokens.flags().containsKey(Flag.SERVER)) {
-            for (ServerConfig serverConfig : ((ServerConfigContainer) this.tokens.flags().get(Flag.SERVER)).get()) {
-                selected.addAll(serverConfig.plugins());
+            for (Server server : ((ServerConfigContainer) this.tokens.flags().get(Flag.SERVER)).get()) {
+                selected.addAll(server.plugins());
             }
         }
         File folder = new File("plugins/");

@@ -8,7 +8,7 @@ public enum Flag {
     ALL("Select all"),
     CATEGORY("Specify categor(y/ies)", "-s <categor(y/ies)>") {
         @Override
-        public @NotNull Container container() {
+        public @NotNull EmptyContainer container() {
             return new PluginCategoryContainer();
         }
     },
@@ -18,26 +18,26 @@ public enum Flag {
     INTERACTIVE("Enter command prompt mode"),
     PATH('P', "Specify a file path", "-P <path>") {
         @Override
-        public @NotNull Container container() {
+        public @NotNull EmptyContainer container() {
             return new PathContainer();
         }
     },
     PLUGIN('p', "Specify plugins(s)", "-p <plugins(s)>") {
         @Override
-        public @NotNull Container container() {
+        public @NotNull EmptyContainer container() {
             return new PluginContainer();
         }
     },
     QUIET("Reduced console output"),
     SERVER('s', "Specify server(s)", "-s <server(s)>") {
         @Override
-        public @NotNull Container container() {
+        public @NotNull EmptyContainer container() {
             return new ServerConfigContainer();
         }
     },
     SOFTWARE('S', "Specify server software") {
         @Override
-        public @NotNull Container container() {
+        public @NotNull EmptyContainer container() {
             return new ServerSoftwareContainer();
         }
     },
@@ -75,8 +75,8 @@ public enum Flag {
         this.usage = usage;
     }
 
-    public @NotNull Container container() {
-        return new Container();
+    public @NotNull EmptyContainer container() {
+        return new EmptyContainer();
     }
 
     public static @NotNull Flag get(@NotNull Character ref) throws NotFoundException {

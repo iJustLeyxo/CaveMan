@@ -1,11 +1,11 @@
 package com.cavetale.manager.parser;
 
-import com.cavetale.manager.data.Plugins;
-import com.cavetale.manager.data.ServerSoftwares;
+import com.cavetale.manager.data.plugin.PluginManager;
+import com.cavetale.manager.data.server.SoftwareManager;
 import org.jetbrains.annotations.NotNull;
 
 public record Result (
         @NotNull Tokens tokens,
-        @NotNull Plugins plugins,
-        @NotNull ServerSoftwares serverSoftware
+        @NotNull PluginManager pluginManager,
+        @NotNull SoftwareManager serverSoftware
 ) { }

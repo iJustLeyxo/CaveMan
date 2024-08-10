@@ -1,4 +1,4 @@
-package com.cavetale.manager.util.cmd;
+package com.cavetale.manager.util.console;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -7,11 +7,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public final class Cmd {
+public final class Console {
     public static Verbosity verbosity = Verbosity.DEFAULT;
 
     public static boolean outs(@NotNull Verbosity verbosity) {
-        return Cmd.verbosity.value >= verbosity.value;
+        return Console.verbosity.value >= verbosity.value;
     }
 
     public static boolean outs(@NotNull VerbosityProvider verbosity) {

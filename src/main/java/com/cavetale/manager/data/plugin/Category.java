@@ -1,4 +1,4 @@
-package com.cavetale.manager.data;
+package com.cavetale.manager.data.plugin;
 
 import com.cavetale.manager.parser.InputException;
 import org.jetbrains.annotations.NotNull;
@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public enum PluginCategory implements PluginProvider {
+public enum Category implements Provider {
     GLOBAL("Global plugins"),
     BUILD("Plugins for build serverSoftware"),
     CORE("Essential plugins"),
@@ -26,12 +26,12 @@ public enum PluginCategory implements PluginProvider {
     public final @NotNull String ref;
     public final @NotNull String info;
 
-    PluginCategory(@NotNull String info) {
+    Category(@NotNull String info) {
         this.ref = this.name().toLowerCase();
         this.info = info;
     }
 
-    PluginCategory(@NotNull String ref, @NotNull String info) {
+    Category(@NotNull String ref, @NotNull String info) {
         this.ref = ref;
         this.info = info;
     }
@@ -52,8 +52,8 @@ public enum PluginCategory implements PluginProvider {
         return this.ref;
     }
 
-    public static PluginCategory get(@NotNull String ref) throws NotFoundException {
-        for (PluginCategory c : values()) {
+    public static Category get(@NotNull String ref) throws NotFoundException {
+        for (Category c : values()) {
             if (c.ref.equalsIgnoreCase(ref)) {
                 return c;
             }

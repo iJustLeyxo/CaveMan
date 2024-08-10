@@ -1,32 +1,32 @@
 package com.cavetale.manager.parser.container;
 
-import com.cavetale.manager.data.ServerConfig;
+import com.cavetale.manager.data.plugin.Server;
 import com.cavetale.manager.parser.InputException;
-import com.cavetale.manager.util.cmd.Cmd;
-import com.cavetale.manager.util.cmd.Style;
+import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.Style;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public final class ServerConfigContainer extends Container {
-    private final @NotNull Set<ServerConfig> serverConfigs = new HashSet<>();
+public final class ServerConfigContainer extends EmptyContainer {
+    private final @NotNull Set<Server> servers = new HashSet<>();
 
     @Override
     public boolean option(@NotNull String option) throws InputException {
-        ServerConfig serverConfig = ServerConfig.get(option);
-        if (this.serverConfigs.contains(serverConfig)) {
-            Cmd.out(Style.INFO, "Ignoring duplicate \"" + option + "\n");
+        Server server = Server.get(option);
+        if (this.servers.contains(server)) {
+            Console.out(Style.INFO, "Ignoring duplicate \"" + option + "\n");
         } else {
-            this.serverConfigs.add(serverConfig);
+            this.servers.add(server);
         }
         return true;
     }
 
     @Override
     public boolean isEmpty() {
-        return serverConfigs.isEmpty();
+        return servers.isEmpty();
     }
 
-    public @NotNull Set<ServerConfig> get() { return this.serverConfigs; }
+    public @NotNull Set<Server> get() { return this.servers; }
 }
