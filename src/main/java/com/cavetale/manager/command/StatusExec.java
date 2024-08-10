@@ -61,9 +61,4 @@ public final class StatusExec extends Exec {
                     unknown, Verbosity.OVERRIDE, EscCode.GRAY, 4, 21);
         }
     }
-
-    @Override
-    public void help() {
-
-    }
 }

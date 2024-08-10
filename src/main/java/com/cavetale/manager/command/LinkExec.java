@@ -64,9 +64,4 @@ public final class LinkExec extends Exec {
         }
         Console.out("\n");
     }
-
-    @Override
-    public void help() {
-
-    }
 }

@@ -26,11 +26,6 @@ public final class InstallExec extends Exec {
         }
     }
 
-    @Override
-    public void help() {
-
-    }
-
     private boolean serverSoftware() {
         if (!this.result.tokens().flags().containsKey(Flag.SOFTWARE)) {
             return false;

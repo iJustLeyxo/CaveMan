@@ -15,9 +15,4 @@ public final class ExitExec extends Exec {
         Console.out(Style.LOG, "Exiting\n\n");
         System.exit(0);
     }
-
-    @Override
-    public void help() {
-
-    }
 }

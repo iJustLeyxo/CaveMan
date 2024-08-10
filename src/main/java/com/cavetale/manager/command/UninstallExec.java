@@ -27,11 +27,6 @@ public final class UninstallExec extends Exec {
         }
     }
 
-    @Override
-    public void help() {
-
-    }
-
     private boolean serverSoftware() {
         if (!this.result.tokens().flags().containsKey(Flag.SOFTWARE)) {
             return false;

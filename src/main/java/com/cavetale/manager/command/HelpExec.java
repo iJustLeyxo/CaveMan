@@ -33,7 +33,7 @@ public final class HelpExec extends Exec {
         Collections.sort(commands);
         for (Command c : commands) {
             Console.outF(Style.HELP, "%2s %-13s | %-30s | %-30s%n",
-                    "", c.ref, c.description, "");
+                    "", c.ref, c.info, "");
         }
         Console.out(Style.HELP,  EscCode.BOLD +
                 "\n------------------------------------- Flags --------------------------------------\n");
@@ -49,10 +49,5 @@ public final class HelpExec extends Exec {
                     Objects.requireNonNullElse(f.usage, ""));
         }
         Console.out(Style.HELP, "\n");
-    }
-
-    @Override
-    public void help() {
-
     }
 }

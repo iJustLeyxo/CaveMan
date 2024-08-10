@@ -9,14 +9,8 @@ public abstract class Exec {
 
     public Exec(@NotNull Result result) {
         this.result = result;
-        if (this.result.tokens().flags().containsKey(Flag.HELP)) {
-            this.help();
-        } else {
-            this.run();
-        }
+        this.run();
     }
 
     protected abstract void run();
-
-    protected abstract void help();
 }

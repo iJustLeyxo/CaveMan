@@ -63,9 +63,4 @@ public final class UnlinkExec extends Exec {
             }
         }
     }
-
-    @Override
-    public void help() {
-
-    }
 }

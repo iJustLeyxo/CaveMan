@@ -76,9 +76,4 @@ public final  class ListExec extends Exec {
     private static void serverSoftware() {
         Console.list("Server software", List.of(Software.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
     }
-
-    @Override
-    public void help() {
-
-    }
 }
