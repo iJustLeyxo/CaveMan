@@ -33,7 +33,7 @@ public final class HelpExec extends Exec {
         Collections.sort(commands);
         for (Command c : commands) {
             Console.outF(Style.HELP, "%2s %-13s | %-32s | %-33s%n",
-                    "", c.ref, c.info, "");
+                    "", c.refs[0], c.info, Objects.requireNonNullElse(c.usage, ""));
         }
         Console.out(Style.HELP,  EscCode.BOLD +
                 "\n------------------------------------- Flags --------------------------------------\n");

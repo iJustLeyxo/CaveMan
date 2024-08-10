@@ -9,84 +9,80 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public enum Command {
-    EXIT("Exit interactive mode") {
+    EXIT("Exit interactive mode", null) {
         @Override
         public void exec(@NotNull Result result) {
             new ExitExec(result);
         }
     },
-    HELP("Show usage help") {
+    HELP("Show usage help", null) {
         @Override
         public void exec(@NotNull Result result) {
             new HelpExec(result);
         }
     },
-    INSTALL("Install selected plugins") {
+    INSTALL("Install selected plugins", null) {
         @Override
         public void exec(@NotNull Result result) {
             new InstallExec(result);
         }
     },
-    LINK("Create symbolic links") {
+    LINK("Create symbolic links", null) {
         @Override
         public void exec(@NotNull Result result) {
             new LinkExec(result);
         }
     },
-    LIST("List selected plugins") {
+    LIST("List selected plugins", null) {
         @Override
         public void exec(@NotNull Result result) {
             new ListExec(result);
         }
     },
-    STATUS("Installation status") {
+    STATUS("Installation status", null) {
         @Override
         public void exec(@NotNull Result result) {
             new StatusExec(result);
         }
     },
-    UNINSTALL("Delete plugins") {
+    UNINSTALL("Delete plugins", null) {
         @Override
         public void exec(@NotNull Result result) {
             new UninstallExec(result);
         }
     },
-    UNLINK("Unlink linked plugins") {
+    UNLINK("Unlink linked plugins", null) {
         @Override
         public void exec(@NotNull Result result) {
             new UnlinkExec(result);
         }
     };
 
-    public final @NotNull String ref;
+    public final @NotNull String[] refs;
     public final @NotNull String info;
     public final @Nullable String usage;
 
-    Command(@NotNull String info, @Nullable String usage) {
+    Command(@NotNull String info, @Nullable String usage, @NotNull String... aliases) {
+        this.refs = new String[aliases.length + 1];
+        this.refs[0] = this.name().toLowerCase();
+        System.arraycopy(refs, 0, this.refs, 1, aliases.length);
         this.usage = usage;
-        this.ref = this.name().toLowerCase();
-        this.info = info;
-    }
-
-    Command(@NotNull String info) {
-        this.usage = null;
-        this.ref = this.name().toLowerCase();
         this.info = info;
     }
 
     public final void run(@NotNull Result result) {
-        Console.out(Style.LOG, "Running command " + this.ref);
+        Console.out(Style.LOG, "Running command " + this.refs[0]);
         if (result.tokens().flags().containsKey(Flag.HELP)) {
             this.help();
         } else {
             this.exec(result);
         }
         this.exec(result);
-        Console.out(Style.LOG, Style.DONE, "Finished running command " + this.ref);
+        Console.out(Style.LOG, Style.DONE, "Finished running command " + this.refs[0]);
     }
 
     public void help() {
-        Console.out(Style.HELP, this.ref + ": " + this.info + " | " +
+        Console.out(Style.HELP, this.refs[0] + ": " + this.info + " | " +
                 Objects.requireNonNullElse(this.usage, "") + "\n\n");
     }
 
@@ -94,8 +90,10 @@ public enum Command {
 
     public static @NotNull Command get(@NotNull String ref) throws NotFoundException {
         for (Command c : values()) {
-            if (ref.equalsIgnoreCase(c.ref)) {
-                return c;
+            for (String r : c.refs) {
+                if (r.equalsIgnoreCase(ref)) {
+                    return c;
+                }
             }
         }
         throw new NotFoundException(ref);

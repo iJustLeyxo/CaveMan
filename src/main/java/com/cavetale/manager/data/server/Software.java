@@ -17,10 +17,10 @@ public enum Software {
     public final @NotNull String[] refs;
     public final @Nullable URI uri;
 
-    Software(@NotNull String uri, @NotNull String ref, @NotNull String... refs) {
-        this.refs = new String[refs.length + 1];
+    Software(@NotNull String uri, @NotNull String ref, @NotNull String... aliases) {
+        this.refs = new String[aliases.length + 1];
         this.refs[0] = ref;
-        System.arraycopy(refs, 0, this.refs, 1, this.refs.length - 1);
+        System.arraycopy(aliases, 0, this.refs, 1, aliases.length);
         try {
             this.uri = new URI(uri);
         } catch (URISyntaxException e) {
