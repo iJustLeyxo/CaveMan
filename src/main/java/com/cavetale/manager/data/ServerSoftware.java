@@ -7,18 +7,19 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 
 public enum ServerSoftware {
-    PAPER("https://api.papermc.io/v2/projects/paper/versions/1.21/builds/127/downloads/paper-1.21-127.jar"),
-    SPIGOT("https://download.getbukkit.org/spigot/spigot-1.21.jar"),
-    BUKKIT("https://download.getbukkit.org/craftbukkit/craftbukkit-1.21.jar");
+    PAPER("https://api.papermc.io/v2/projects/paper/versions/1.21/builds/127/downloads/paper-1.21-127.jar", "Paper", "PaperMC"),
+    SPIGOT("https://download.getbukkit.org/spigot/spigot-1.21.jar", "Spigot", "SpigotMC"),
+    BUKKIT("https://download.getbukkit.org/craftbukkit/craftbukkit-1.21.jar", "Bukkit", "Craftbukkit");
 
-    public final @NotNull String ref;
+    public final @NotNull String[] refs;
     public final @Nullable URI uri;
 
-    ServerSoftware(@NotNull String uri) {
-        this.ref = this.name().toLowerCase();
+    ServerSoftware(@NotNull String uri, @NotNull String ref, @NotNull String... refs) {
+        this.refs = new String[refs.length + 1];
+        this.refs[0] = ref;
+        System.arraycopy(refs, 0, this.refs, 1, this.refs.length - 1);
         try {
             this.uri = new URI(uri);
         } catch (URISyntaxException e) {
@@ -37,8 +38,10 @@ public enum ServerSoftware {
 
     public static @NotNull ServerSoftware get(@NotNull String ref) throws NotFoundException {
         for (ServerSoftware s : values()) {
-            if (s.ref.equalsIgnoreCase(ref)) {
-                return s;
+            for (String r : s.refs) {
+                if (r.equalsIgnoreCase(ref)) {
+                    return s;
+                }
             }
         }
         throw new NotFoundException(ref);
@@ -52,7 +55,7 @@ public enum ServerSoftware {
 
     public final class URIError extends DataError {
         public URIError(@NotNull String uri, @NotNull Throwable cause) {
-            super("Faulty url \n" + uri + "\n in " + ref + " server software: " + cause.getMessage(), cause);
+            super("Faulty url \n" + uri + "\n in " + refs[0] + " server software: " + cause.getMessage(), cause);
         }
     }
 }
