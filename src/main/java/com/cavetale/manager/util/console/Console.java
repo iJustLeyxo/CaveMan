@@ -38,17 +38,12 @@ public final class Console {
         return log(Style.OVERRIDE, s);
     }
 
-    public static boolean logF(@NotNull VerbosityProvider style, @NotNull XCodeProvider mod,
-                               @NotNull String format, @NotNull String... strings) {
-        if (logs(style)) {
-            System.out.printf(style + mod.toString() + format + XCode.RESET, (Object[]) strings);
+    public static boolean logF(@NotNull StyleProvider style, @NotNull String format, @NotNull String... strings) {
+        if (logs(verbosity)) {
+            System.out.printf(style + format + XCode.RESET, (Object[]) strings);
             return true;
         }
         return false;
-    }
-
-    public static boolean logF(@NotNull StyleProvider style, @NotNull String format, @NotNull String... strings) {
-        return logF(style, style, format, strings);
     }
 
     public static String[] in() {

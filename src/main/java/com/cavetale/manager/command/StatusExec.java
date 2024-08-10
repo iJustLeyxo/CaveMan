@@ -3,9 +3,8 @@ package com.cavetale.manager.command;
 import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.XCode;
-import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Verbosity;
+import com.cavetale.manager.util.console.XCode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -20,7 +19,7 @@ public final class StatusExec extends Exec {
         Set<Plugin> selected = this.result.pluginManager().get(null, true, null);
         if (!selected.isEmpty()) {
             Console.list(selected.size() + " plugins(s) selected",
-                    selected, Style.INFO, XCode.BLUE, 4, 21);
+                    selected, Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
             Set<Plugin> plugins = this.result.pluginManager().get(true, true, false);
             if (!plugins.isEmpty()) {
                 Console.list(plugins.size() + " plugins(s) installed (not linked)",
