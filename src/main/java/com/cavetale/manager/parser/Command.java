@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public enum Command {
-    EXIT("Exit interactive mode", null) {
+    EXIT("Close the application", null, "quit", "q") {
         @Override
         public void exec(@NotNull Result result) {
             new ExitExec(result);
