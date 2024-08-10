@@ -10,37 +10,37 @@ import java.util.LinkedList;
 public final class Console {
     public static Detail detail = Detail.DEFAULT;
 
-    public static boolean logs(@NotNull Detailed verbosity) {
-        return Console.detail.value >= verbosity.detail().value;
+    public static boolean logs(@NotNull Detailed detailed) {
+        return Console.detail.value >= detailed.detail().value;
     }
 
-    public static boolean log(@NotNull Styled style) {
+    public static boolean log(@NotNull Styled styled) {
         if (logs(detail)) {
-            System.out.print(style);
+            System.out.print(styled);
             return true;
         }
         return false;
     }
 
-    public static boolean log(@NotNull Detailed verbosity, @NotNull XCoded style, @NotNull String s) {
-        if (logs(verbosity)) {
-            System.out.print(style + s + XCode.RESET);
+    public static boolean log(@NotNull Detailed detailed, @NotNull XCoded xcoded, @NotNull String s) {
+        if (logs(detailed)) {
+            System.out.print(xcoded + s + XCode.RESET);
             return true;
         }
         return false;
     }
 
-    public static boolean log(@NotNull Styled style, @NotNull String s) {
-        return log(style, style, s);
+    public static boolean log(@NotNull Styled styled, @NotNull String s) {
+        return log(styled, styled, s);
     }
 
     public static boolean log(@NotNull String s) {
         return log(Style.OVERRIDE, s);
     }
 
-    public static boolean logF(@NotNull Styled style, @NotNull String format, @NotNull String... strings) {
+    public static boolean logF(@NotNull Styled styled, @NotNull String format, @NotNull String... contents) {
         if (logs(detail)) {
-            System.out.printf(style + format + XCode.RESET, (Object[]) strings);
+            System.out.printf(styled + format + XCode.RESET, (Object[]) contents);
             return true;
         }
         return false;
