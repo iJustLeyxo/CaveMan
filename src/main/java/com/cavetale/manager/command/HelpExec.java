@@ -4,7 +4,7 @@ import com.cavetale.manager.parser.Command;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.EscCode;
+import com.cavetale.manager.util.console.XCode;
 import com.cavetale.manager.util.console.Style;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,10 +20,10 @@ public final class HelpExec extends Exec {
 
     @Override
     public void run() {
-        Console.out(Style.HELP, EscCode.BOLD +
+        Console.out(Style.HELP, XCode.BOLD +
                 "-------------------------------------- Help --------------------------------------\n" +
-                EscCode.WEIGHT_OFF + "Interactive: java -jar Manager.jar\n" +
-                "Single: java -jar Manager.jar <1+command(s)> <0+flag(s)>\n" + EscCode.BOLD +
+                XCode.WEIGHT_OFF + "Interactive: java -jar Manager.jar\n" +
+                "Single: java -jar Manager.jar <1+command(s)> <0+flag(s)>\n" + XCode.BOLD +
                 "\n------------------------------------ Commands ------------------------------------\n");
         Console.outF(Style.HELP, "%2s %-13s | %-32s | %-33s%n",
                 "", "Command", "Info", "");
@@ -35,7 +35,7 @@ public final class HelpExec extends Exec {
             Console.outF(Style.HELP, "%2s %-13s | %-32s | %-33s%n",
                     "", c.refs[0], c.info, Objects.requireNonNullElse(c.usage, ""));
         }
-        Console.out(Style.HELP,  EscCode.BOLD +
+        Console.out(Style.HELP,  XCode.BOLD +
                 "\n------------------------------------- Flags --------------------------------------\n");
         Console.outF(Style.HELP, "%2s %-13s | %-32s | %-33s%n",
                 "", "Flag", "Info", "Usage");

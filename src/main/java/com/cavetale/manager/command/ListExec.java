@@ -6,7 +6,7 @@ import com.cavetale.manager.data.server.Software;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.EscCode;
+import com.cavetale.manager.util.console.XCode;
 import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Verbosity;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +54,7 @@ public final  class ListExec extends Exec {
             Set<Plugin> selected = this.result.pluginManager().get(null, true, null);
             if (!selected.isEmpty()) {
                 Console.list(selected.size() + " plugins(s) selected",
-                        selected, Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
+                        selected, Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
             } else {
                 Console.out(Style.WARN, "No plugins selected\n\n");
             }
@@ -62,18 +62,18 @@ public final  class ListExec extends Exec {
     }
 
     private static void plugins() {
-        Console.list("Plugins", List.of(Plugin.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
+        Console.list("Plugins", List.of(Plugin.values()), Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
     }
 
     private static void categories() {
-        Console.list("Categories", List.of(Category.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
+        Console.list("Categories", List.of(Category.values()), Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
     }
 
     private static void servers() {
-        Console.list("Servers", List.of(com.cavetale.manager.data.plugin.Server.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
+        Console.list("Servers", List.of(com.cavetale.manager.data.plugin.Server.values()), Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
     }
 
     private static void serverSoftware() {
-        Console.list("Server software", List.of(Software.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
+        Console.list("Server software", List.of(Software.values()), Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
     }
 }

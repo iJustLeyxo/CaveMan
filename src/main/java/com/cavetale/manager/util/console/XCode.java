@@ -2,7 +2,7 @@ package com.cavetale.manager.util.console;
 
 import org.jetbrains.annotations.NotNull;
 
-public enum EscCode implements EscCodeProvider {
+public enum XCode implements XCodeProvider {
     RESET("\u001B[0m"),
     BOLD("\u001B[1m"),
     WEIGHT_OFF("\u001B[22m"),
@@ -16,7 +16,7 @@ public enum EscCode implements EscCodeProvider {
 
     private final @NotNull String code;
 
-    EscCode(@NotNull String code) {
+    XCode(@NotNull String code) {
         this.code = code;
     }
 

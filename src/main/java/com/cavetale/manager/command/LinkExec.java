@@ -5,7 +5,7 @@ import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.parser.container.PathContainer;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.EscCode;
+import com.cavetale.manager.util.console.XCode;
 import com.cavetale.manager.util.console.Style;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +34,7 @@ public final class LinkExec extends Exec {
         }
         assert path != null;
         Console.list(selected.size() + " plugins(s) selected for linking",
-                selected, Style.WARN, EscCode.BLUE, 4, 21);
+                selected, Style.WARN, XCode.BLUE, 4, 21);
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
             if (!Console.in("Proceed with linking (Y/n)?").equalsIgnoreCase("y")) {
                 return;

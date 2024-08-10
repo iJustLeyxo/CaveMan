@@ -18,7 +18,7 @@ public final class Console {
         return outs(verbosity.verbosity());
     }
 
-    public static boolean out(@NotNull VerbosityProvider verbosity, @NotNull EscCodeProvider style) {
+    public static boolean out(@NotNull VerbosityProvider verbosity, @NotNull XCodeProvider style) {
         if (outs(verbosity)) {
             System.out.print(style);
             return true;
@@ -26,9 +26,9 @@ public final class Console {
         return false;
     }
 
-    public static boolean out(@NotNull VerbosityProvider verbosity, @NotNull EscCodeProvider style, @NotNull String s) {
+    public static boolean out(@NotNull VerbosityProvider verbosity, @NotNull XCodeProvider style, @NotNull String s) {
         if (outs(verbosity)) {
-            System.out.print(style + s + EscCode.RESET);
+            System.out.print(style + s + XCode.RESET);
             return true;
         }
         return false;
@@ -42,10 +42,10 @@ public final class Console {
         return out(Style.OVERRIDE, s);
     }
 
-    public static boolean outF(@NotNull VerbosityProvider style, @NotNull EscCodeProvider mod,
+    public static boolean outF(@NotNull VerbosityProvider style, @NotNull XCodeProvider mod,
                                @NotNull String format, @NotNull String... strings) {
         if (outs(style)) {
-            System.out.printf(style + mod.toString() + format + EscCode.RESET, (Object[]) strings);
+            System.out.printf(style + mod.toString() + format + XCode.RESET, (Object[]) strings);
             return true;
         }
         return false;
@@ -72,7 +72,7 @@ public final class Console {
 
     public static <T extends Comparable<? super T>> void list(
             @Nullable String header, Collection<T> objects,
-            @NotNull VerbosityProvider verbosity, @NotNull EscCodeProvider style, int cols, int colSize
+            @NotNull VerbosityProvider verbosity, @NotNull XCodeProvider style, int cols, int colSize
     ) {
         if (!outs(verbosity.verbosity())) {
             return;
@@ -80,7 +80,7 @@ public final class Console {
         LinkedList<T> list = new LinkedList<>(objects);
         Collections.sort(list);
         if (header != null) {
-            out(verbosity, style, EscCode.BOLD + header + "\n");
+            out(verbosity, style, XCode.BOLD + header + "\n");
         }
         out(verbosity, style, "-".repeat(cols * colSize + cols - 1) + "\n");
         int i = 0;

@@ -2,21 +2,21 @@ package com.cavetale.manager.util.console;
 
 import org.jetbrains.annotations.NotNull;
 
-public enum Style implements EscCodeProvider, VerbosityProvider {
-    PROMPT(Verbosity.OVERRIDE, EscCode.MAGENTA, EscCode.BOLD),
-    INPUT(Verbosity.BLOCK, EscCode.WHITE, EscCode.BOLD),
-    LOG(Verbosity.VERBOSE, EscCode.GRAY),
-    INFO(Verbosity.DEFAULT, EscCode.BLUE),
-    DONE(Verbosity.DEFAULT, EscCode.GREEN),
-    HELP(Verbosity.OVERRIDE, EscCode.GREEN),
-    WARN(Verbosity.QUIET, EscCode.YELLOW),
-    ERR(Verbosity.SILENT, EscCode.RED),
-    OVERRIDE(Verbosity.OVERRIDE, EscCode.RESET);
+public enum Style implements XCodeProvider, VerbosityProvider {
+    PROMPT(Verbosity.OVERRIDE, XCode.MAGENTA, XCode.BOLD),
+    INPUT(Verbosity.BLOCK, XCode.WHITE, XCode.BOLD),
+    LOG(Verbosity.VERBOSE, XCode.GRAY),
+    INFO(Verbosity.DEFAULT, XCode.BLUE),
+    DONE(Verbosity.DEFAULT, XCode.GREEN),
+    HELP(Verbosity.OVERRIDE, XCode.GREEN),
+    WARN(Verbosity.QUIET, XCode.YELLOW),
+    ERR(Verbosity.SILENT, XCode.RED),
+    OVERRIDE(Verbosity.OVERRIDE, XCode.RESET);
 
     private final @NotNull Verbosity verbosity;
-    private final @NotNull EscCode[] codes;
+    private final @NotNull XCode[] codes;
 
-    Style(@NotNull Verbosity verbosity, @NotNull EscCode... codes) {
+    Style(@NotNull Verbosity verbosity, @NotNull XCode... codes) {
         this.verbosity = verbosity;
         this.codes = codes;
     }
@@ -24,7 +24,7 @@ public enum Style implements EscCodeProvider, VerbosityProvider {
     @Override
     public @NotNull String toString() {
         StringBuilder s = new StringBuilder();
-        for (EscCode c : codes) {
+        for (XCode c : codes) {
             s.append(c);
         }
         return s.toString();
