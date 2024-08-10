@@ -5,8 +5,8 @@
   <artifactId>setup</artifactId>
   <version>0.1-SNAPSHOT</version>
 
-  <name>Setup</name>
-  <url>https://github.com/StarTux/Setup</url>
+  <name>CaveMan</name>
+  <url>https://github.com/iJustLeyxo/CaveMan</url>
   <packaging>jar</packaging>
 
   <properties>
@@ -25,9 +25,6 @@
           <target>21</target>
           <showDeprecation>true</showDeprecation>
           <showWarnings>true</showWarnings>
-          <compilerArgs>
-            <arg>-Xlint:unchecked</arg>
-          </compilerArgs>
         </configuration>
       </plugin>
 
@@ -48,7 +45,6 @@
   </build>
 
   <repositories>
-    <!-- Cavetale Repo -->
     <repository>
       <id>cavetale</id>
       <url>https://cavetale.com/jenkins/plugin/repository/everything/</url>
@@ -56,14 +52,6 @@
   </repositories>
 
   <dependencies>
-    <!-- Lombok -->
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>1.18.32</version>
-      <scope>provided</scope>
-    </dependency>
-
     <dependency>
         <groupId>org.jetbrains</groupId>
         <artifactId>annotations</artifactId>
