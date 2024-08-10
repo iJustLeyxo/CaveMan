@@ -5,8 +5,8 @@ import com.cavetale.manager.parser.Command;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.Detail;
 import com.cavetale.manager.util.console.Style;
-import com.cavetale.manager.util.console.Verbosity;
 import com.cavetale.manager.util.console.XCode;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +29,7 @@ public final class UnlinkExec extends Exec {
         }
         if (!selected.isEmpty()) {
             Console.list(selected.size() + " plugins(s) to unlink",
-                    selected, Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
+                    selected, Detail.OVERRIDE, XCode.BLUE, 4, 21);
         } else {
             Console.log(Style.INFO, "Nothing selected for unlink\n\n");
             return;

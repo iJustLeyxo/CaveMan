@@ -8,21 +8,21 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public final class Console {
-    public static Verbosity verbosity = Verbosity.DEFAULT;
+    public static Detail detail = Detail.DEFAULT;
 
-    public static boolean logs(@NotNull VerbosityProvider verbosity) {
-        return Console.verbosity.value >= verbosity.verbosity().value;
+    public static boolean logs(@NotNull Detailed verbosity) {
+        return Console.detail.value >= verbosity.detail().value;
     }
 
-    public static boolean log(@NotNull StyleProvider style) {
-        if (logs(verbosity)) {
+    public static boolean log(@NotNull Styled style) {
+        if (logs(detail)) {
             System.out.print(style);
             return true;
         }
         return false;
     }
 
-    public static boolean log(@NotNull VerbosityProvider verbosity, @NotNull XCodeProvider style, @NotNull String s) {
+    public static boolean log(@NotNull Detailed verbosity, @NotNull XCoded style, @NotNull String s) {
         if (logs(verbosity)) {
             System.out.print(style + s + XCode.RESET);
             return true;
@@ -30,7 +30,7 @@ public final class Console {
         return false;
     }
 
-    public static boolean log(@NotNull StyleProvider style, @NotNull String s) {
+    public static boolean log(@NotNull Styled style, @NotNull String s) {
         return log(style, style, s);
     }
 
@@ -38,8 +38,8 @@ public final class Console {
         return log(Style.OVERRIDE, s);
     }
 
-    public static boolean logF(@NotNull StyleProvider style, @NotNull String format, @NotNull String... strings) {
-        if (logs(verbosity)) {
+    public static boolean logF(@NotNull Styled style, @NotNull String format, @NotNull String... strings) {
+        if (logs(detail)) {
             System.out.printf(style + format + XCode.RESET, (Object[]) strings);
             return true;
         }
@@ -47,7 +47,7 @@ public final class Console {
     }
 
     public static String[] in() {
-        log(Verbosity.OVERRIDE, Style.PROMPT, "> ");
+        log(Detail.OVERRIDE, Style.PROMPT, "> ");
         log(Style.INPUT);
         String[] args = System.console().readLine().split(" ");
         log("\n");
@@ -63,9 +63,9 @@ public final class Console {
 
     public static <T extends Comparable<? super T>> void list(
             @Nullable String header, Collection<T> objects,
-            @NotNull VerbosityProvider verbosity, @NotNull XCodeProvider style, int cols, int colSize
+            @NotNull Detailed verbosity, @NotNull XCoded style, int cols, int colSize
     ) {
-        if (!logs(verbosity.verbosity())) {
+        if (!logs(verbosity.detail())) {
             return;
         }
         LinkedList<T> list = new LinkedList<>(objects);

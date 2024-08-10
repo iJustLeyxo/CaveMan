@@ -2,7 +2,7 @@ package com.cavetale.manager.util.console;
 
 import org.jetbrains.annotations.NotNull;
 
-public enum XCode implements XCodeProvider {
+public enum XCode implements XCoded {
     RESET("\u001B[0m"),
     BOLD("\u001B[1m"),
     WEIGHT_OFF("\u001B[22m"),

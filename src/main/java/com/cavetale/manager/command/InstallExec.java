@@ -6,8 +6,8 @@ import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.Download;
 import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.Detail;
 import com.cavetale.manager.util.console.Style;
-import com.cavetale.manager.util.console.Verbosity;
 import com.cavetale.manager.util.console.XCode;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +33,7 @@ public final class InstallExec extends Exec {
         }
         Set<Software> selected = this.result.serverSoftware().selected();
         Console.list(selected.size() + " server software(s) selected for installation",
-                selected, Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
+                selected, Detail.OVERRIDE, XCode.BLUE, 4, 21);
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
             if (!Console.in("Proceed with server software installation (Y/n)?").equalsIgnoreCase("y")) {
                 return true;
@@ -73,7 +73,7 @@ public final class InstallExec extends Exec {
             return false;
         }
         Console.list(selected.size() + " plugins(s) selected for installation",
-                selected, Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
+                selected, Detail.OVERRIDE, XCode.BLUE, 4, 21);
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
             if (!Console.in("Proceed with plugin installation (Y/n)?").equalsIgnoreCase("y")) {
                 return true;

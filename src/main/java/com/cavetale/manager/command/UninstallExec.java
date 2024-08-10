@@ -6,8 +6,8 @@ import com.cavetale.manager.parser.Command;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.Detail;
 import com.cavetale.manager.util.console.Style;
-import com.cavetale.manager.util.console.Verbosity;
 import com.cavetale.manager.util.console.XCode;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +33,7 @@ public final class UninstallExec extends Exec {
         }
         Set<Software> selected = this.result.serverSoftware().selected();
         Console.list(selected.size() + " software(s) selected to uninstall",
-                selected, Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
+                selected, Detail.OVERRIDE, XCode.BLUE, 4, 21);
         for (Software s : selected) {
             Console.log(Style.INFO, "Uninstalling " + s.refs[0] + " server software");
             File file = s.file();
@@ -69,7 +69,7 @@ public final class UninstallExec extends Exec {
         }
         if (!selected.isEmpty()) {
             Console.list(selected.size() + " plugins(s) to uninstall",
-                    selected, Verbosity.OVERRIDE, XCode.YELLOW, 4, 21);
+                    selected, Detail.OVERRIDE, XCode.YELLOW, 4, 21);
         } else {
             return false;
         }

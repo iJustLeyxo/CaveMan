@@ -2,21 +2,21 @@ package com.cavetale.manager.util.console;
 
 import org.jetbrains.annotations.NotNull;
 
-public enum Verbosity implements VerbosityProvider {
+public enum Detail implements Detailed {
     OVERRIDE(Integer.MIN_VALUE),
-    SILENT(-2),
-    QUIET(-1),
+    MINIMAL(-2),
+    LOW(-1),
     DEFAULT(0),
-    VERBOSE(1);
+    HIGH(1);
 
     public final int value;
 
-    Verbosity(int value) {
+    Detail(int value) {
         this.value = value;
     }
 
     @Override
-    public @NotNull Verbosity verbosity() {
+    public @NotNull Detail detail() {
         return this;
     }
 }
