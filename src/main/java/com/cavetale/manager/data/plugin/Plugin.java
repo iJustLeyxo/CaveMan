@@ -167,7 +167,11 @@ public enum Plugin implements Provider {
     Plugin(@NotNull String name, @Nullable String uri, @NotNull Category... categories) {
         try {
             this.name = name;
-            this.uri = new URI(uri);
+            if (uri != null) {
+                this.uri = new URI(uri);
+            } else {
+                this.uri = null;
+            }
             this.categories = categories;
         } catch (URISyntaxException e) {
             throw new URIError(uri, e);

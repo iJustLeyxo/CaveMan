@@ -44,18 +44,18 @@ public final class InstallExec extends Exec {
             }
         }
         for (Software s : selected) {
-            Console.out(Style.INFO, "Installing " + s.ref + " server software");
+            Console.out(Style.INFO, "Installing " + s.refs[0] + " server software");
             File file = s.file();
             if (file == null) {
                 if (!Console.out(Style.INFO, Style.WARN, " skipped (unable to install)\n")) {
-                    Console.out(Style.WARN, "Skipped " + s.ref + " server software (unable to install)\n");
+                    Console.out(Style.WARN, "Skipped " + s.refs[0] + " server software (unable to install)\n");
                 }
-                Console.out(Style.WARN, s.ref + " server software uri is not a file\n");
+                Console.out(Style.WARN, s.refs[0] + " server software uri is not a file\n");
                 continue;
             }
             if (file.exists()) {
                 if (!Console.out(Style.INFO, Style.WARN, " skipped (already installed)\n")) {
-                    Console.out(Style.WARN, s.ref + " server software is already installed\n");
+                    Console.out(Style.WARN, s.refs[0] + " server software is already installed\n");
                 }
                 continue;
             }
@@ -63,8 +63,8 @@ public final class InstallExec extends Exec {
                 Download.download(s.uri, file);
                 Console.out(Style.INFO, Style.DONE, " done\n");
             } catch (IOException e) {
-                if (!Console.out(Style.INFO, Style.WARN, " failed\n")) {
-                    Console.out(Style.WARN, "Installing " + s.ref + " server software failed\n");
+                if (!Console.out(Style.INFO, Style.ERR, " failed\n")) {
+                    Console.out(Style.ERR, "Installing " + s.refs[0] + " server software failed\n");
                 }
             }
         }
@@ -105,8 +105,8 @@ public final class InstallExec extends Exec {
                 Download.download(p.uri, file);
                 Console.out(Style.INFO, Style.DONE, " done\n");
             } catch (IOException e) {
-                if (!Console.out(Style.INFO, Style.WARN, " failed\n")) {
-                    Console.out(Style.WARN, "Installing " + p.name + " failed\n");
+                if (!Console.out(Style.INFO, Style.ERR, " failed\n")) {
+                    Console.out(Style.ERR, "Installing " + p.name + " failed\n");
                 }
             }
         }

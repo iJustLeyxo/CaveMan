@@ -10,7 +10,7 @@ import java.util.Set;
 
 public final class SoftwareManager {
     private final @NotNull Tokens tokens;
-    private @NotNull Set<Software> selected = new HashSet<>();
+    private final @NotNull Set<Software> selected = new HashSet<>();
 
     public SoftwareManager(@NotNull Tokens tokens) {
         this.tokens = tokens;

@@ -58,8 +58,8 @@ public final class UnlinkExec extends Exec {
                 Console.out(Style.INFO, Style.DONE, " done\n");
                 continue;
             }
-            if(!Console.out(Style.INFO, Style.WARN, " failed\n")) {
-                Console.out(Style.WARN, "Deleting " + p.name + " failed");
+            if(!Console.out(Style.INFO, Style.ERR, " failed\n")) {
+                Console.out(Style.ERR, "Deleting " + p.name + " failed");
             }
         }
     }

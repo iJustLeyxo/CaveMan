@@ -96,10 +96,4 @@ public final class Console {
         }
         out("\n\n");
     }
-
-    public static <T extends Comparable<? super T>> void list(
-            @Nullable String header, Collection<T> objects, @NotNull Style style, int cols, int colSize
-    ) {
-        list(header, objects, style, style, cols, colSize);
-    }
 }

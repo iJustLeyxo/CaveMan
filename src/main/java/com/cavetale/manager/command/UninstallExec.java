@@ -40,21 +40,26 @@ public final class UninstallExec extends Exec {
         Console.list(selected.size() + " software(s) selected to uninstall",
                 selected, Style.WARN, EscCode.BLUE, 4, 21);
         for (Software s : selected) {
-            Console.out(Style.INFO, "Uninstalling " + s.ref + " server software");
+            Console.out(Style.INFO, "Uninstalling " + s.refs[0] + " server software");
             File file = s.file();
             if (file == null) {
                 if (!Console.out(Style.INFO, Style.ERR, " skipped (unable to uninstall)")) {
-                    Console.out(Style.ERR, "Skipping " + s.ref + " server software (unable to uninstall)");
+                    Console.out(Style.ERR, "Uninstalling " + s.refs[0] + " server software skipped (unable to uninstall)");
                 }
                 continue;
             }
             if (!file.exists()) {
                 if (!Console.out(Style.INFO, Style.WARN, " skipped (not installed)")) {
-                    Console.out(Style.WARN, "Skipping " + s.ref + " server software (not installed)");
+                    Console.out(Style.WARN, "Uninstalling " + s.refs[0] + " server software skipped (not installed)");
                 }
                 continue;
             }
-            file.delete();
+            if (!file.delete()) {
+                if (!Console.out(Style.INFO, Style.ERR, " failed")) {
+                    Console.out(Style.ERR, "Uninstalling " + s.refs[0] + " failed");
+                }
+                continue;
+            }
             Console.out(Style.INFO, Style.DONE, " done\n\n");
         }
         return true;
@@ -100,8 +105,8 @@ public final class UninstallExec extends Exec {
                 Console.out(Style.INFO, Style.DONE, " done\n");
                 continue;
             }
-            if(!Console.out(Style.INFO, Style.WARN, " failed\n")) {
-                Console.out(Style.WARN, "Uninstalling " + p.name + " failed\n");
+            if(!Console.out(Style.INFO, Style.ERR, " failed\n")) {
+                Console.out(Style.ERR, "Uninstalling " + p.name + " failed\n");
             }
         }
         return true;
