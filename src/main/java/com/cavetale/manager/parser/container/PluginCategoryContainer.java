@@ -16,7 +16,7 @@ public final class PluginCategoryContainer extends EmptyContainer {
     public boolean option(@NotNull String option) throws InputException {
         Category category = Category.get(option);
         if (this.categories.contains(category)) {
-            Console.out(Style.INFO, "Ignoring duplicate category \"" + option + "\n");
+            Console.log(Style.INFO, "Ignoring duplicate category \"" + option + "\n");
         } else {
             this.categories.add(category);
         }

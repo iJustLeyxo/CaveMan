@@ -30,7 +30,7 @@ public final class UnlinkExec extends Exec {
             Console.list(selected.size() + " plugins(s) to unlink",
                     selected, Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
         } else {
-            Console.out(Style.INFO, "Nothing selected for unlink\n\n");
+            Console.log(Style.INFO, "Nothing selected for unlink\n\n");
             return;
         }
         File folder = new File("plugins/");
@@ -40,26 +40,26 @@ public final class UnlinkExec extends Exec {
             }
         }
         for (Plugin p : selected) {
-            Console.out(Style.INFO, "Unlinking " + p.name);
+            Console.log(Style.INFO, "Unlinking " + p.name);
             File file = new File(folder, p.name + ".jar");
             if (!file.exists()) {
-                if(!Console.out(Style.INFO, Style.WARN, " skipped (file no longer exists)\n")) {
-                    Console.out(Style.WARN, "Unlinking " + p.name + " skipped (file no longer exists)\n");
+                if(!Console.log(Style.INFO, Style.WARN, " skipped (file no longer exists)\n")) {
+                    Console.log(Style.WARN, "Unlinking " + p.name + " skipped (file no longer exists)\n");
                 }
                 continue;
             }
             if (!Files.isSymbolicLink(file.toPath())) {
-                if(!Console.out(Style.INFO, Style.WARN, " skipped (not a symbolic link)\n")) {
-                    Console.out(Style.WARN, "Unlinking " + p.name + " skipped (not a symbolic link)");
+                if(!Console.log(Style.INFO, Style.WARN, " skipped (not a symbolic link)\n")) {
+                    Console.log(Style.WARN, "Unlinking " + p.name + " skipped (not a symbolic link)");
                 }
                 continue;
             }
             if (file.delete()) {
-                Console.out(Style.INFO, Style.DONE, " done\n");
+                Console.log(Style.INFO, Style.DONE, " done\n");
                 continue;
             }
-            if(!Console.out(Style.INFO, Style.ERR, " failed\n")) {
-                Console.out(Style.ERR, "Deleting " + p.name + " failed");
+            if(!Console.log(Style.INFO, Style.ERR, " failed\n")) {
+                Console.log(Style.ERR, "Deleting " + p.name + " failed");
             }
         }
     }

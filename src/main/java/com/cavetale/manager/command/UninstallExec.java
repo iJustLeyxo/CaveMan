@@ -23,7 +23,7 @@ public final class UninstallExec extends Exec {
     @Override
     public void run() {
         if (!serverSoftware() && !plugins()) {
-            Console.out(Style.INFO, "Nothing selected for uninstall\n\n");
+            Console.log(Style.INFO, "Nothing selected for uninstall\n\n");
         }
     }
 
@@ -35,27 +35,27 @@ public final class UninstallExec extends Exec {
         Console.list(selected.size() + " software(s) selected to uninstall",
                 selected, Style.WARN, XCode.BLUE, 4, 21);
         for (Software s : selected) {
-            Console.out(Style.INFO, "Uninstalling " + s.refs[0] + " server software");
+            Console.log(Style.INFO, "Uninstalling " + s.refs[0] + " server software");
             File file = s.file();
             if (file == null) {
-                if (!Console.out(Style.INFO, Style.ERR, " skipped (unable to uninstall)")) {
-                    Console.out(Style.ERR, "Uninstalling " + s.refs[0] + " server software skipped (unable to uninstall)");
+                if (!Console.log(Style.INFO, Style.ERR, " skipped (unable to uninstall)")) {
+                    Console.log(Style.ERR, "Uninstalling " + s.refs[0] + " server software skipped (unable to uninstall)");
                 }
                 continue;
             }
             if (!file.exists()) {
-                if (!Console.out(Style.INFO, Style.WARN, " skipped (not installed)")) {
-                    Console.out(Style.WARN, "Uninstalling " + s.refs[0] + " server software skipped (not installed)");
+                if (!Console.log(Style.INFO, Style.WARN, " skipped (not installed)")) {
+                    Console.log(Style.WARN, "Uninstalling " + s.refs[0] + " server software skipped (not installed)");
                 }
                 continue;
             }
             if (!file.delete()) {
-                if (!Console.out(Style.INFO, Style.ERR, " failed")) {
-                    Console.out(Style.ERR, "Uninstalling " + s.refs[0] + " failed");
+                if (!Console.log(Style.INFO, Style.ERR, " failed")) {
+                    Console.log(Style.ERR, "Uninstalling " + s.refs[0] + " failed");
                 }
                 continue;
             }
-            Console.out(Style.INFO, Style.DONE, " done\n\n");
+            Console.log(Style.INFO, Style.DONE, " done\n\n");
         }
         return true;
     }
@@ -80,28 +80,28 @@ public final class UninstallExec extends Exec {
             }
         }
         for (Plugin p : selected) {
-            Console.out(Style.INFO, "Uninstalling " + p.name);
+            Console.log(Style.INFO, "Uninstalling " + p.name);
             File file = new File(folder, p.name + ".jar");
             if (!file.exists()) {
-                if (!Console.out(Style.INFO, Style.WARN, " skipped (not installed)\n")) {
-                    Console.out(Style.WARN, "Uninstalling " + p.name + " skipped (not installed)\n");
+                if (!Console.log(Style.INFO, Style.WARN, " skipped (not installed)\n")) {
+                    Console.log(Style.WARN, "Uninstalling " + p.name + " skipped (not installed)\n");
                 }
                 continue;
             }
             if (Files.isSymbolicLink(file.toPath())) {
-                if (!Console.out(Style.INFO, Style.WARN,
+                if (!Console.log(Style.INFO, Style.WARN,
                         " skipped (file is a symbolic link, use " + Command.UNLINK + " to remove)\n")) {
-                    Console.out(Style.WARN, "Uninstalling " + p.name +
+                    Console.log(Style.WARN, "Uninstalling " + p.name +
                             " skipped (file is a symbolic link, use " + Command.UNLINK + " to remove)\n");
                 }
                 continue;
             }
             if (file.delete()) {
-                Console.out(Style.INFO, Style.DONE, " done\n");
+                Console.log(Style.INFO, Style.DONE, " done\n");
                 continue;
             }
-            if(!Console.out(Style.INFO, Style.ERR, " failed\n")) {
-                Console.out(Style.ERR, "Uninstalling " + p.name + " failed\n");
+            if(!Console.log(Style.INFO, Style.ERR, " failed\n")) {
+                Console.log(Style.ERR, "Uninstalling " + p.name + " failed\n");
             }
         }
         return true;

@@ -56,7 +56,7 @@ public final  class ListExec extends Exec {
                 Console.list(selected.size() + " plugins(s) selected",
                         selected, Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
             } else {
-                Console.out(Style.WARN, "No plugins selected\n\n");
+                Console.log(Style.WARN, "No plugins selected\n\n");
             }
         }
     }

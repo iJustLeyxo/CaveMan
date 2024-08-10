@@ -16,7 +16,7 @@ public final class PluginContainer extends EmptyContainer {
     public boolean option(@NotNull String option) throws InputException {
         Plugin plugin = Plugin.get(option);
         if (this.plugins.contains(plugin)) {
-            Console.out(Style.INFO, "Ignoring duplicate plugins \"" + option + "\n");
+            Console.log(Style.INFO, "Ignoring duplicate plugins \"" + option + "\n");
         }
         this.plugins.add(plugin);
         return true;

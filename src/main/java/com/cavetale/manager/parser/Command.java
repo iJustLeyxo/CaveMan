@@ -71,18 +71,18 @@ public enum Command {
     }
 
     public final void run(@NotNull Result result) {
-        Console.out(Style.DEBUG, "Running command " + this.refs[0]);
+        Console.log(Style.DEBUG, "Running command " + this.refs[0]);
         if (result.tokens().flags().containsKey(Flag.HELP)) {
             this.help();
         } else {
             this.exec(result);
         }
         this.exec(result);
-        Console.out(Style.DEBUG, Style.DONE, "Finished running command " + this.refs[0]);
+        Console.log(Style.DEBUG, Style.DONE, "Finished running command " + this.refs[0]);
     }
 
     public void help() {
-        Console.out(Style.HELP, this.refs[0] + ": " + this.info + " | " +
+        Console.log(Style.HELP, this.refs[0] + ": " + this.info + " | " +
                 Objects.requireNonNullElse(this.usage, "") + "\n\n");
     }
 

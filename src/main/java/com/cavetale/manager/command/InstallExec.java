@@ -22,7 +22,7 @@ public final class InstallExec extends Exec {
     @Override
     public void run() {
         if (!serverSoftware() && !plugins()) {
-            Console.out(Style.WARN, "Nothing selected for installation\n\n");
+            Console.log(Style.WARN, "Nothing selected for installation\n\n");
         }
     }
 
@@ -39,27 +39,27 @@ public final class InstallExec extends Exec {
             }
         }
         for (Software s : selected) {
-            Console.out(Style.INFO, "Installing " + s.refs[0] + " server software");
+            Console.log(Style.INFO, "Installing " + s.refs[0] + " server software");
             File file = s.file();
             if (file == null) {
-                if (!Console.out(Style.INFO, Style.WARN, " skipped (unable to install)\n")) {
-                    Console.out(Style.WARN, "Skipped " + s.refs[0] + " server software (unable to install)\n");
+                if (!Console.log(Style.INFO, Style.WARN, " skipped (unable to install)\n")) {
+                    Console.log(Style.WARN, "Skipped " + s.refs[0] + " server software (unable to install)\n");
                 }
-                Console.out(Style.WARN, s.refs[0] + " server software uri is not a file\n");
+                Console.log(Style.WARN, s.refs[0] + " server software uri is not a file\n");
                 continue;
             }
             if (file.exists()) {
-                if (!Console.out(Style.INFO, Style.WARN, " skipped (already installed)\n")) {
-                    Console.out(Style.WARN, s.refs[0] + " server software is already installed\n");
+                if (!Console.log(Style.INFO, Style.WARN, " skipped (already installed)\n")) {
+                    Console.log(Style.WARN, s.refs[0] + " server software is already installed\n");
                 }
                 continue;
             }
             try {
                 Download.download(s.uri, file);
-                Console.out(Style.INFO, Style.DONE, " done\n");
+                Console.log(Style.INFO, Style.DONE, " done\n");
             } catch (IOException e) {
-                if (!Console.out(Style.INFO, Style.ERR, " failed\n")) {
-                    Console.out(Style.ERR, "Installing " + s.refs[0] + " server software failed\n");
+                if (!Console.log(Style.INFO, Style.ERR, " failed\n")) {
+                    Console.log(Style.ERR, "Installing " + s.refs[0] + " server software failed\n");
                 }
             }
         }
@@ -78,34 +78,34 @@ public final class InstallExec extends Exec {
                 return true;
             }
         }
-        Console.out(Style.DEBUG, "Creating plugins directory\n");
+        Console.log(Style.DEBUG, "Creating plugins directory\n");
         File folder = new File("plugins/");
         folder.mkdirs();
         for (Plugin p : selected) {
-            Console.out(Style.INFO, "Installing " + p.name);
+            Console.log(Style.INFO, "Installing " + p.name);
             File file = new File(folder, p.name + ".jar");
             if (file.exists()) {
-                if (!Console.out(Style.INFO, Style.WARN, " skipped (already installed)\n")) {
-                    Console.out(Style.WARN, "Installing " + p.name + " skipped (already installed)\n");
+                if (!Console.log(Style.INFO, Style.WARN, " skipped (already installed)\n")) {
+                    Console.log(Style.WARN, "Installing " + p.name + " skipped (already installed)\n");
                 }
                 continue;
             }
             if (p.uri == null) {
-                if (!Console.out(Style.INFO, Style.WARN, " skipped (no url)\n")) {
-                    Console.out(Style.WARN, "Installing " + p.name + " skipped (no url)\n");
+                if (!Console.log(Style.INFO, Style.WARN, " skipped (no url)\n")) {
+                    Console.log(Style.WARN, "Installing " + p.name + " skipped (no url)\n");
                 }
                 continue;
             }
             try {
                 Download.download(p.uri, file);
-                Console.out(Style.INFO, Style.DONE, " done\n");
+                Console.log(Style.INFO, Style.DONE, " done\n");
             } catch (IOException e) {
-                if (!Console.out(Style.INFO, Style.ERR, " failed\n")) {
-                    Console.out(Style.ERR, "Installing " + p.name + " failed\n");
+                if (!Console.log(Style.INFO, Style.ERR, " failed\n")) {
+                    Console.log(Style.ERR, "Installing " + p.name + " failed\n");
                 }
             }
         }
-        Console.out("\n");
+        Console.log("\n");
         return true;
     }
 }

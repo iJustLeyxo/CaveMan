@@ -11,7 +11,7 @@ public final class Manager {
     public static boolean interactive = true;
 
     public static void main(String[] args) {
-        Console.out("\n");
+        Console.log("\n");
 
         while (interactive) {
             if (args != null && args.length > 0) {
@@ -24,24 +24,24 @@ public final class Manager {
                 boolean changed = result.tokens().analyse();
                 if (result.tokens().commands().isEmpty()) {
                     if (!changed) {
-                        Console.out(Style.WARN, "Nothing to do. Try typing \"help\".\n\n");
+                        Console.log(Style.WARN, "Nothing to do. Try typing \"help\".\n\n");
                     }
                 } else {
-                    Console.out(Style.DEBUG, "Running " + result.tokens().commands().size() + " commands\n");
+                    Console.log(Style.DEBUG, "Running " + result.tokens().commands().size() + " commands\n");
                     for (Command cmd : result.tokens().commands()) {
                         cmd.run(result);
                     }
-                    Console.out(Style.DEBUG, Style.DONE, "Finished running commands\n");
+                    Console.log(Style.DEBUG, Style.DONE, "Finished running commands\n");
                 }
             } catch (InputException e) {
-                Console.out(Style.WARN, e.getMessage() + "\n\n");
+                Console.log(Style.WARN, e.getMessage() + "\n\n");
                 if (!interactive) {
                     System.exit(1);
                 }
             }
             args = null;
         }
-        Console.out(Style.DEBUG, "Exiting\n\n");
+        Console.log(Style.DEBUG, "Exiting\n\n");
         System.exit(0);
     }
 }

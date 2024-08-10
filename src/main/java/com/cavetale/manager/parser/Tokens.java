@@ -15,30 +15,30 @@ public record Tokens (
         @NotNull Map<Flag, EmptyContainer> flags
 ) {
     public boolean analyse() {
-        Console.out(Style.DEBUG, "Analysing tokens\n");
+        Console.log(Style.DEBUG, "Analysing tokens\n");
         boolean changed = false;
         if (this.flags().containsKey(Flag.VERBOSE)) {
             Console.verbosity = Verbosity.VERBOSE;
-            Console.out(Style.INFO, "Verbose mode activated\n");
+            Console.log(Style.INFO, "Verbose mode activated\n");
             changed = true;
         } else if (this.flags().containsKey(Flag.DEFAULT)) {
             Console.verbosity = Verbosity.DEFAULT;
-            Console.out(Style.INFO, "Default verbosity mode activated\n");
+            Console.log(Style.INFO, "Default verbosity mode activated\n");
             changed = true;
         } else if (this.flags().containsKey(Flag.QUIET)) {
             Console.verbosity = Verbosity.QUIET;
-            Console.out(Style.INFO, "Quiet mode activated\n");
+            Console.log(Style.INFO, "Quiet mode activated\n");
             changed = true;
         }
         if (this.flags().containsKey(Flag.INTERACTIVE) && !Manager.interactive) {
             Manager.interactive = true;
-            Console.out(Style.INFO, "Interactive mode activated\n");
+            Console.log(Style.INFO, "Interactive mode activated\n");
             changed = true;
         }
         if (changed) {
-            Console.out(Style.INFO, "\n");
+            Console.log(Style.INFO, "\n");
         }
-        Console.out(Style.DEBUG, Style.DONE, "Finished analysing tokens\n\n");
+        Console.log(Style.DEBUG, Style.DONE, "Finished analysing tokens\n\n");
         return changed;
     }
 }
