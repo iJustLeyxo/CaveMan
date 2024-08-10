@@ -1,6 +1,5 @@
 package com.cavetale.manager.command;
 
-import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
 import org.jetbrains.annotations.NotNull;
 
