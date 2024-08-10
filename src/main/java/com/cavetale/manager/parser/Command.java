@@ -72,8 +72,7 @@ public enum Command {
         } else {
             this.exec(result);
         }
-        this.exec(result);
-        Console.log(Style.DEBUG, Style.DONE, "Finished running command " + this.refs[0]);
+        Console.log(Style.DEBUG, "Finished running command " + this.refs[0] + "\n\n");
     }
 
     public void help() {

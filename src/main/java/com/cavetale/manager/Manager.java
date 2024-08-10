@@ -31,7 +31,7 @@ public final class Manager {
                     for (Command cmd : result.tokens().commands()) {
                         cmd.run(result);
                     }
-                    Console.log(Style.DEBUG, Style.DONE, "Finished running commands\n");
+                    Console.log(Style.DEBUG, "Finished running commands\n");
                 }
             } catch (InputException e) {
                 Console.log(Style.WARN, e.getMessage() + "\n\n");

@@ -51,7 +51,7 @@ public final class Parser {
             }
         }
         Tokens tokens = new Tokens(commands, flags);
-        Console.log(Style.DEBUG, Style.DONE, "Finished parsing\n\n");
+        Console.log(Style.DEBUG, "Finished parsing\n\n");
         return new Result(tokens, new PluginManager(tokens), new SoftwareManager(tokens));
     }
 }

@@ -38,7 +38,7 @@ public record Tokens (
         if (changed) {
             Console.log(Style.INFO, "\n");
         }
-        Console.log(Style.DEBUG, Style.DONE, "Finished analysing tokens\n\n");
+        Console.log(Style.DEBUG, "Finished analysing tokens\n\n");
         return changed;
     }
 }
