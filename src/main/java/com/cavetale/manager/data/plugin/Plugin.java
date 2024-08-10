@@ -194,7 +194,7 @@ public enum Plugin implements Provider {
 
     Plugin(@NotNull String name, @NotNull String path, @NotNull String artifact, @NotNull Category... categories) {
         String uri = "https://cavetale.com/jenkins/job/" + name
-                + "/lastSuccessfulBuild/artifact/" + artifact + ".jar";
+                + "/lastSuccessfulBuild/artifact/" + path + artifact + ".jar";
         try {
             this.name = name;
             this.uri = new URI(uri);

@@ -32,6 +32,7 @@ public final class LinkExec extends Exec {
             Console.out(Style.WARN, "No plugins selected for linking\n\n");
             return;
         }
+        assert path != null;
         Console.list(selected.size() + " plugins(s) selected for linking",
                 selected, Style.WARN, EscCode.BLUE, 4, 21);
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {

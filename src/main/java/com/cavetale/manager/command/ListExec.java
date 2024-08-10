@@ -1,7 +1,7 @@
 package com.cavetale.manager.command;
 
-import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.data.plugin.Category;
+import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.data.server.Software;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;

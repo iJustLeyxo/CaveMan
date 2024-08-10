@@ -4,10 +4,10 @@ import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.data.server.Software;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
+import com.cavetale.manager.util.Download;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.EscCode;
 import com.cavetale.manager.util.console.Style;
-import com.cavetale.manager.util.Download;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
