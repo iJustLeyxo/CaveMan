@@ -25,26 +25,26 @@ public final class HelpExec extends Exec {
                 EscCode.WEIGHT_OFF + "Interactive: java -jar Manager.jar\n" +
                 "Single: java -jar Manager.jar <1+command(s)> <0+flag(s)>\n" + EscCode.BOLD +
                 "\n------------------------------------ Commands ------------------------------------\n");
-        Console.outF(Style.HELP, "%2s %-13s | %-30s | %-30s%n",
+        Console.outF(Style.HELP, "%2s %-13s | %-32s | %-33s%n",
                 "", "Command", "Info", "");
         Console.out(Style.HELP,
                 "----------------------------------------------------------------------------------\n");
         ArrayList<Command> commands = new ArrayList<>(List.of(Command.values()));
         Collections.sort(commands);
         for (Command c : commands) {
-            Console.outF(Style.HELP, "%2s %-13s | %-30s | %-30s%n",
+            Console.outF(Style.HELP, "%2s %-13s | %-32s | %-33s%n",
                     "", c.ref, c.info, "");
         }
         Console.out(Style.HELP,  EscCode.BOLD +
                 "\n------------------------------------- Flags --------------------------------------\n");
-        Console.outF(Style.HELP, "%2s %-13s | %-30s | %-30s%n",
+        Console.outF(Style.HELP, "%2s %-13s | %-32s | %-33s%n",
                 "", "Flag", "Info", "Usage");
         Console.out(Style.HELP,
                 "----------------------------------------------------------------------------------\n");
         ArrayList<Flag> flags = new ArrayList<>(List.of(Flag.values()));
         Collections.sort(flags);
         for (Flag f : flags) {
-            Console.outF(Style.HELP, "%2s %-13s | %-30s | %-30s%n",
+            Console.outF(Style.HELP, "%2s %-13s | %-32s | %-33s%n",
                    "-" + f.shortRef, "--" + f.longRef, f.info,
                     Objects.requireNonNullElse(f.usage, ""));
         }
