@@ -1,8 +1,8 @@
 package com.cavetale.manager.command;
 
+import com.cavetale.manager.data.Plugin;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
-import com.cavetale.manager.data.Plugin;
 import com.cavetale.manager.util.cmd.Cmd;
 import com.cavetale.manager.util.cmd.EscCode;
 import com.cavetale.manager.util.cmd.Style;
