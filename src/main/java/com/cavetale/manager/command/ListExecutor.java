@@ -2,6 +2,7 @@ package com.cavetale.manager.command;
 
 import com.cavetale.manager.data.Plugin;
 import com.cavetale.manager.data.PluginCategory;
+import com.cavetale.manager.data.ServerConfig;
 import com.cavetale.manager.data.ServerSoftware;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
@@ -9,7 +10,6 @@ import com.cavetale.manager.util.cmd.Cmd;
 import com.cavetale.manager.util.cmd.EscCode;
 import com.cavetale.manager.util.cmd.Style;
 import com.cavetale.manager.util.cmd.Verbosity;
-import com.cavetale.setup.Server;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -71,7 +71,7 @@ public final  class ListExecutor extends Executor {
     }
 
     private static void servers() {
-        Cmd.list("Servers", List.of(Server.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
+        Cmd.list("Servers", List.of(ServerConfig.values()), Verbosity.OVERRIDE, EscCode.BLUE, 4, 21);
     }
 
     private static void serverSoftware() {
