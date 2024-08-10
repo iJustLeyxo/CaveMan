@@ -4,54 +4,51 @@ import com.cavetale.manager.command.*;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Style;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
 
 public enum Command {
-    EXIT("Close the application", null, "quit", "q") {
+    EXIT("Close the application", "quit", "q") {
         @Override
         public void exec(@NotNull Result result) {
             new ExitExec(result);
         }
     },
-    HELP("Show usage help", null) {
+    HELP("Show usage help") {
         @Override
         public void exec(@NotNull Result result) {
             new HelpExec(result);
         }
     },
-    INSTALL("Install selected plugins", null) {
+    INSTALL("Install plugins and software") {
         @Override
         public void exec(@NotNull Result result) {
             new InstallExec(result);
         }
     },
-    LINK("Create symbolic links", null) {
+    LINK("Install plugins as links") {
         @Override
         public void exec(@NotNull Result result) {
             new LinkExec(result);
         }
     },
-    LIST("List selected plugins", null) {
+    LIST("List plugins, categories, servers and software") {
         @Override
         public void exec(@NotNull Result result) {
             new ListExec(result);
         }
     },
-    STATUS("Installation status", null) {
+    STATUS("Get installation status") {
         @Override
         public void exec(@NotNull Result result) {
             new StatusExec(result);
         }
     },
-    UNINSTALL("Delete plugins", null) {
+    UNINSTALL("Delete plugins and software") {
         @Override
         public void exec(@NotNull Result result) {
             new UninstallExec(result);
         }
     },
-    UNLINK("Unlink linked plugins", null) {
+    UNLINK("Unlink linked plugins") {
         @Override
         public void exec(@NotNull Result result) {
             new UnlinkExec(result);
@@ -60,13 +57,11 @@ public enum Command {
 
     public final @NotNull String[] refs;
     public final @NotNull String info;
-    public final @Nullable String usage;
 
-    Command(@NotNull String info, @Nullable String usage, @NotNull String... aliases) {
+    Command(@NotNull String info, @NotNull String... aliases) {
         this.refs = new String[aliases.length + 1];
         this.refs[0] = this.name().toLowerCase();
-        System.arraycopy(refs, 0, this.refs, 1, aliases.length);
-        this.usage = usage;
+        System.arraycopy(aliases, 0, this.refs, 1, aliases.length);
         this.info = info;
     }
 
@@ -82,8 +77,7 @@ public enum Command {
     }
 
     public void help() {
-        Console.log(Style.HELP, this.refs[0] + ": " + this.info + " | " +
-                Objects.requireNonNullElse(this.usage, "") + "\n\n");
+        Console.log(Style.HELP, this.refs[0] + ": " + this.info + "\n\n");
     }
 
     public abstract void exec(@NotNull Result result);

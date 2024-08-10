@@ -7,8 +7,7 @@ public enum Verbosity implements VerbosityProvider {
     SILENT(-2),
     QUIET(-1),
     DEFAULT(0),
-    VERBOSE(1),
-    BLOCK(Integer.MAX_VALUE);
+    VERBOSE(1);
 
     public final int value;
 
