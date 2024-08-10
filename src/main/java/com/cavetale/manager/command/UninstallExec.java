@@ -90,9 +90,9 @@ public final class UninstallExec extends Exec {
             }
             if (Files.isSymbolicLink(file.toPath())) {
                 if (!Console.log(Style.INFO, Style.WARN,
-                        " skipped (file is a symbolic link, use " + Command.UNLINK + " to remove)\n")) {
+                        " skipped (symbolic link, use " + Command.UNLINK.refs[0] + " to remove)\n")) {
                     Console.log(Style.WARN, "Uninstalling " + p.name +
-                            " skipped (file is a symbolic link, use " + Command.UNLINK + " to remove)\n");
+                            " skipped (symbolic link, use " + Command.UNLINK.refs[0] + " to remove)\n");
                 }
                 continue;
             }

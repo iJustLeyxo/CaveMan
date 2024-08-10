@@ -32,7 +32,7 @@ public final class InstallExec extends Exec {
             return false;
         }
         Set<Software> selected = this.result.serverSoftware().selected();
-        Console.list(selected.size() + " software(s) selected for installation",
+        Console.list(selected.size() + " server software(s) selected for installation",
                 selected, Verbosity.OVERRIDE, XCode.BLUE, 4, 21);
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
             if (!Console.in("Proceed with server software installation (Y/n)?").equalsIgnoreCase("y")) {

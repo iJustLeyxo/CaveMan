@@ -1,12 +1,13 @@
 package com.cavetale.manager.command;
 
 import com.cavetale.manager.data.plugin.Plugin;
+import com.cavetale.manager.parser.Command;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.XCode;
 import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Verbosity;
+import com.cavetale.manager.util.console.XCode;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -49,8 +50,10 @@ public final class UnlinkExec extends Exec {
                 continue;
             }
             if (!Files.isSymbolicLink(file.toPath())) {
-                if(!Console.log(Style.INFO, Style.WARN, " skipped (not a symbolic link)\n")) {
-                    Console.log(Style.WARN, "Unlinking " + p.name + " skipped (not a symbolic link)");
+                if (!Console.log(Style.INFO, Style.WARN,
+                        " skipped (not a symbolic link, use " + Command.UNINSTALL.refs[0] + " to remove)\n")) {
+                    Console.log(Style.WARN, "Uninstalling " + p.name +
+                            " skipped (not a symbolic link, use " + Command.UNINSTALL.refs[0] + " to remove)\n");
                 }
                 continue;
             }
