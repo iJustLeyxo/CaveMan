@@ -1,6 +1,8 @@
 package com.cavetale.manager.parser;
 
 import com.cavetale.manager.command.*;
+import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.Style;
 import org.jetbrains.annotations.NotNull;
 
 public enum Command {
@@ -62,7 +64,9 @@ public enum Command {
     }
 
     public final void run(@NotNull Result result) {
+        Console.out(Style.LOG, "Running command " + this.ref);
         this.get(result);
+        Console.out(Style.LOG, Style.DONE, "Finished running command " + this.ref);
     }
 
     public abstract @NotNull Exec get(@NotNull Result result);

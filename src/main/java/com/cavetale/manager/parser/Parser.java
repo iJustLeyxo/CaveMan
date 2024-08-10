@@ -14,6 +14,7 @@ import java.util.Set;
 
 public final class Parser {
     public static @NotNull Result parse(String[] args) throws InputException {
+        Console.out(Style.LOG, "Parsing input\n");
         Set<Command> commands = new LinkedHashSet<>();
         Map<Flag, EmptyContainer> flags = new HashMap<>();
         Flag flag = null;
@@ -50,6 +51,7 @@ public final class Parser {
             }
         }
         Tokens tokens = new Tokens(commands, flags);
+        Console.out(Style.LOG, Style.DONE, "Finished parsing\n\n");
         return new Result(tokens, new PluginManager(tokens), new SoftwareManager(tokens));
     }
 }
