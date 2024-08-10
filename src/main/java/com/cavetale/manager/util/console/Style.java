@@ -2,7 +2,7 @@ package com.cavetale.manager.util.console;
 
 import org.jetbrains.annotations.NotNull;
 
-public enum Style implements XCodeProvider, VerbosityProvider {
+public enum Style implements StyleProvider {
     PROMPT(Verbosity.OVERRIDE, XCode.MAGENTA, XCode.BOLD),
     INPUT(Verbosity.OVERRIDE, XCode.WHITE, XCode.BOLD),
     DEBUG(Verbosity.VERBOSE, XCode.GRAY),

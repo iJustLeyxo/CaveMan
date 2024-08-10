@@ -14,7 +14,7 @@ public final class Console {
         return Console.verbosity.value >= verbosity.verbosity().value;
     }
 
-    public static boolean log(@NotNull Style style) {
+    public static boolean log(@NotNull StyleProvider style) {
         if (logs(verbosity)) {
             System.out.print(style);
             return true;
@@ -30,7 +30,7 @@ public final class Console {
         return false;
     }
 
-    public static boolean log(@NotNull Style style, @NotNull String s) {
+    public static boolean log(@NotNull StyleProvider style, @NotNull String s) {
         return log(style, style, s);
     }
 
@@ -47,7 +47,7 @@ public final class Console {
         return false;
     }
 
-    public static boolean logF(@NotNull Style style, @NotNull String format, @NotNull String... strings) {
+    public static boolean logF(@NotNull StyleProvider style, @NotNull String format, @NotNull String... strings) {
         return logF(style, style, format, strings);
     }
 
