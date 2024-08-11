@@ -9,8 +9,12 @@ import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Type;
+import com.cavetale.manager.util.console.XCode;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 public final  class ListExec extends Exec {
@@ -21,10 +25,29 @@ public final  class ListExec extends Exec {
     @Override
     public void run() {
         if (this.result.tokens().flags().containsKey(Flag.ALL)) { // List everything
-            if (this.result.tokens().flags().containsKey(Flag.PLUGIN)) { plugins(); }
-            if (this.result.tokens().flags().containsKey(Flag.CATEGORY)) { categories(); }
-            if (this.result.tokens().flags().containsKey(Flag.SERVER)) { servers(); }
-            if (this.result.tokens().flags().containsKey(Flag.SOFTWARE)) { serverSoftware(); }
+            boolean everything = true;
+            if (this.result.tokens().flags().containsKey(Flag.PLUGIN)) {
+                plugins();
+                everything = false;
+            }
+            if (this.result.tokens().flags().containsKey(Flag.CATEGORY)) {
+                categories();
+                everything = false;
+            }
+            if (this.result.tokens().flags().containsKey(Flag.SERVER)) {
+                servers();
+                everything = false;
+            }
+            if (this.result.tokens().flags().containsKey(Flag.SOFTWARE)) {
+                software();
+                everything = false;
+            }
+            if (everything) {
+                plugins();
+                categories();
+                servers();
+                software();
+            }
         } else { // List respective category if no element of said category is selected
             boolean resolve = true;
             if (this.result.tokens().flags().containsKey(Flag.PLUGIN) &&
@@ -44,7 +67,7 @@ public final  class ListExec extends Exec {
             }
             if (this.result.tokens().flags().containsKey(Flag.SOFTWARE) &&
                     this.result.tokens().flags().get(Flag.SOFTWARE).isEmpty()) {
-                serverSoftware();
+                software();
                 resolve = false;
             }
             if (!resolve) {
@@ -65,6 +88,7 @@ public final  class ListExec extends Exec {
      * List all plugins
      */
     private static void plugins() {
+        Console.sep();
         Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins",
                 4, 21, (Object[]) Plugin.values());
     }
@@ -73,22 +97,41 @@ public final  class ListExec extends Exec {
      * List all categories
      */
     private static void categories() {
-        Console.logL(Type.REQUESTED, Style.CATEGORY, "Categories",
-                4, 21, (Object[]) Category.values());
+        Console.sep();
+        Console.log(Type.REQUESTED, Style.CATEGORY, XCode.BOLD +
+                "-------------------------------------- Categories -------------------------------------\n");
+        Console.logF(Type.REQUESTED, Style.CATEGORY, "%-16s | %-68s\n", "Category", "Info");
+        Console.log(Type.REQUESTED, Style.CATEGORY,
+                "---------------------------------------------------------------------------------------\n");
+        ArrayList<Category> categories = new ArrayList<>(List.of(Category.values()));
+        Collections.sort(categories);
+        for (Category c : categories) {
+            Console.logF(Type.REQUESTED, Style.CATEGORY, "%-16s | %-68s\n", c.ref, c.info);
+        }
     }
 
     /**
      * list all servers
      */
     private static void servers() {
-        Console.logL(Type.REQUESTED, Style.SERVER, "Servers" ,
-                4, 21, (Object[]) Server.values());
+        Console.sep();
+        Console.log(Type.REQUESTED, Style.SERVER, XCode.BOLD +
+                "--------------------------------------- Servers ---------------------------------------\n");
+        Console.logF(Type.REQUESTED, Style.SERVER, "%-16s | %-68s\n", "Server", "Info");
+        Console.log(Type.REQUESTED, Style.SERVER,
+                "---------------------------------------------------------------------------------------\n");
+        ArrayList<Server> servers = new ArrayList<>(List.of(Server.values()));
+        Collections.sort(servers);
+        for (Server s : servers) {
+            Console.logF(Type.REQUESTED, Style.SERVER, "%-16s | %-68s\n", s.ref, s.info);
+        }
     }
 
     /**
      * List all server software
      */
-    private static void serverSoftware() {
+    private static void software() {
+        Console.sep();
         Console.logL(Type.REQUESTED, Style.SOFTWARE, "Server software",
                 4, 21, (Object[]) Software.values());
     }

@@ -21,10 +21,12 @@ public enum Server implements Provider {
     EVENT("Plugins for event softwareManager", Server.BASE, Plugin.WORLDS),
     CLASSIC("Plugins for classic softwareManager", Server.BASE, Category.SURVIVAL, Category.BUILD);
 
+    public final @NotNull String ref;
     public final @NotNull String info;
     public final @NotNull Provider[] providers;
 
     Server(@NotNull String info, @NotNull Provider... providers) {
+        this.ref = this.name().toLowerCase();
         this.info = info;
         this.providers = providers;
     }
@@ -40,7 +42,7 @@ public enum Server implements Provider {
 
     public static @NotNull Server get(@NotNull String ref) throws NotFoundException {
         for (Server s : Server.values()) {
-            if (ref.equalsIgnoreCase(s.name())) return s;
+            if (ref.equalsIgnoreCase(s.ref)) return s;
         }
         throw new NotFoundException(ref);
     }

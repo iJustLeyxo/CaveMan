@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 public enum Type {
     PROMPT(Detail.OVERRIDE, Style.PROMPT),
     REQUESTED(Detail.OVERRIDE, Style.INFO),
-    HELP(Detail.OVERRIDE, Style.HELP),
     DEBUG(Detail.HIGH, Style.DEBUG),
     INFO(Detail.STD, Style.INFO),
     WARN(Detail.LOW, Style.WARN),

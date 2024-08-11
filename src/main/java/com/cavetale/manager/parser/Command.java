@@ -2,6 +2,7 @@ package com.cavetale.manager.parser;
 
 import com.cavetale.manager.command.*;
 import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
@@ -79,7 +80,7 @@ public enum Command {
     }
 
     public void help() {
-        Console.log(Type.HELP, this.refs[0] + ": " + this.info + "\n");
+        Console.log(Type.REQUESTED, Style.HELP, this.refs[0] + ": " + this.info + "\n");
     }
 
     /**

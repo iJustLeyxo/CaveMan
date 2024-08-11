@@ -33,18 +33,30 @@ public final class Console {
     /**
      * Logs a formatted message to console
      * @param type Type of message to log
+     * @param style Style to override the default style of the specified type
+     * @param format Format to use for the message
+     * @param params Params to format
+     * @return {@code true} if the message was logged and not held back due to verbosity
+     */
+    public static boolean logF(@NotNull Type type, @NotNull Style style, @NotNull String format, @NotNull String... params) {
+        if (!Console.logs(type.detail)) {
+            return false;
+        }
+        Console.sep(type);
+        System.out.printf(XCode.RESET + style.toString() + format, (Object[]) params);
+        Console.empty = false;
+        return true;
+    }
+
+    /**
+     * Logs a formatted message to console
+     * @param type Type of message to log
      * @param format Format to use for the message
      * @param params Params to format
      * @return {@code true} if the message was logged and not held back due to verbosity
      */
     public static boolean logF(@NotNull Type type, @NotNull String format, @NotNull String... params) {
-        if (!Console.logs(type.detail)) {
-            return false;
-        }
-        Console.sep(type);
-        System.out.printf(XCode.RESET + type.style.toString() + format, (Object[]) params);
-        Console.empty = false;
-        return true;
+        return Console.logF(type, type.style, format, params);
     }
 
     /**
