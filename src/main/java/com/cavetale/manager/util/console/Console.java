@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 public final class Console {
     public static @NotNull Detail detail = Detail.STD;
-
     private static @Nullable Type type = null;
     private static boolean empty = true;
 

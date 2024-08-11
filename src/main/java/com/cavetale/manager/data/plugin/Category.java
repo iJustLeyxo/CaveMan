@@ -9,17 +9,17 @@ import java.util.Set;
 
 public enum Category implements Provider {
     GLOBAL("Global plugins"),
-    BUILD("Plugins for build serverSoftware"),
+    BUILD("Plugins for build softwareManager"),
     CORE("Essential plugins"),
-    CREATIVE("Plugins for creative serverSoftware"),
+    CREATIVE("Plugins for creative softwareManager"),
     DEPRECATED("Deprecated plugins"),
     EVENT("Plugins for events without a dedicated server"),
-    HOME("Plugins for home serverSoftware"),
-    HUB("Plugins for hub serverSoftware"),
-    MINE("Plugins for mine serverSoftware"),
-    MINI_GAME("minigame", "Plugins for mini game serverSoftware"),
+    HOME("Plugins for home softwareManager"),
+    HUB("Plugins for hub softwareManager"),
+    MINE("Plugins for mine softwareManager"),
+    MINI_GAME("minigame", "Plugins for mini game softwareManager"),
     SEASONAL("Seasonal event plugins"),
-    SURVIVAL("Plugins for survival serverSoftware"),
+    SURVIVAL("Plugins for survival softwareManager"),
     UTIL("Optional utility plugins"),
     WORLD_GEN("worldgen", "World generation plugins");
 

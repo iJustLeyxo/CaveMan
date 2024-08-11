@@ -7,5 +7,5 @@ import org.jetbrains.annotations.NotNull;
 public record Result (
         @NotNull Tokens tokens,
         @NotNull PluginManager pluginManager,
-        @NotNull SoftwareManager serverSoftware
+        @NotNull SoftwareManager softwareManager
 ) { }

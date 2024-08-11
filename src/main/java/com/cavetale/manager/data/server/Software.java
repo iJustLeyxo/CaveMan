@@ -35,6 +35,11 @@ public enum Software {
         return new File(new File(this.uri.getPath()).getName());
     }
 
+    @Override
+    public @NotNull String toString() {
+        return this.refs[0];
+    }
+
     public static final @NotNull Software DEFAULT = PAPER;
 
     public static @NotNull Software get(@NotNull String ref) throws NotFoundException {

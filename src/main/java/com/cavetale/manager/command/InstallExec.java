@@ -31,7 +31,7 @@ public final class InstallExec extends Exec {
         if (!this.result.tokens().flags().containsKey(Flag.SOFTWARE)) {
             return false;
         }
-        Set<Software> selected = this.result.serverSoftware().get(null, true);
+        Set<Software> selected = this.result.softwareManager().get(null, true);
         Console.logL(Type.REQUESTED, Style.INSTALL, selected.size() + " server software(s) selected for installation",
                 4, 21, selected.toArray());
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {

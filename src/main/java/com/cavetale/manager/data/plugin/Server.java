@@ -7,16 +7,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 public enum Server implements Provider {
-    BASE("Plugins for all serverSoftware", Category.CORE, Category.GLOBAL),
-    VOID("Plugins for void serverSoftware", Server.BASE),
-    HUB("Plugins for hub serverSoftware", Server.BASE, Category.SURVIVAL, Category.BUILD, Category.HUB, Plugin.STRUCTURE),
+    BASE("Plugins for all softwareManager", Category.CORE, Category.GLOBAL),
+    VOID("Plugins for void softwareManager", Server.BASE),
+    HUB("Plugins for hub softwareManager", Server.BASE, Category.SURVIVAL, Category.BUILD, Category.HUB, Plugin.STRUCTURE),
     EINS("Plugins for build server one", Server.BASE, Category.SURVIVAL, Category.BUILD, Category.HOME),
     ZWEI("Plugins for build server two", Server.BASE, Category.SURVIVAL, Category.BUILD, Category.HOME),
-    MINE("Plugins for mine serverSoftware", Server.BASE, Category.SURVIVAL, Category.BUILD, Category.MINE),
-    CREATIVE("Plugins for creative serverSoftware", Server.BASE, Category.CREATIVE, Category.BUILD, Plugin.ENEMY, Plugin.FESTIVAL,
+    MINE("Plugins for mine softwareManager", Server.BASE, Category.SURVIVAL, Category.BUILD, Category.MINE),
+    CREATIVE("Plugins for creative softwareManager", Server.BASE, Category.CREATIVE, Category.BUILD, Plugin.ENEMY, Plugin.FESTIVAL,
             Plugin.LINK_PORTAL, Plugin.RACE, Plugin.RAID, Plugin.RESIDENT),
-    EVENT("Plugins for event serverSoftware", Server.BASE, Plugin.WORLDS),
-    CLASSIC("Plugins for classic serverSoftware", Server.BASE, Category.SURVIVAL, Category.BUILD);
+    EVENT("Plugins for event softwareManager", Server.BASE, Plugin.WORLDS),
+    CLASSIC("Plugins for classic softwareManager", Server.BASE, Category.SURVIVAL, Category.BUILD);
 
     public final @NotNull String info;
     public final @NotNull Provider[] providers;

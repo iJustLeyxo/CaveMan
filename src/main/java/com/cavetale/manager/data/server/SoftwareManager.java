@@ -19,6 +19,7 @@ public final class SoftwareManager {
 
     public SoftwareManager(@NotNull Tokens tokens) {
         this.tokens = tokens;
+        this.resolve();
     }
 
     public void resolve() {

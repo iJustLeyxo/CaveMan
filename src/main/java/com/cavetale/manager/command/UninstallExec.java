@@ -30,7 +30,7 @@ public final class UninstallExec extends Exec {
         if (!this.result.tokens().flags().containsKey(Flag.SOFTWARE)) {
             return false;
         }
-        Set<Software> selected = this.result.serverSoftware().get(null, true);
+        Set<Software> selected = this.result.softwareManager().get(null, true);
         Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() + " software(s) selected to uninstall",
                 4, 21, selected.toArray());
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
