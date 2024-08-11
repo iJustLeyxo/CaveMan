@@ -45,7 +45,7 @@ public enum Command {
             new StatusExec(result);
         }
     },
-    UNINSTALL("Delete plugins and software", "remove") {
+    UNINSTALL("Delete plugins, software and files", "remove") {
         @Override
         public void exec(@NotNull Result result) {
             new UninstallExec(result);
