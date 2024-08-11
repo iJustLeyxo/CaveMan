@@ -59,12 +59,6 @@ public final class Console {
         return true;
     }
 
-    public static boolean logL(
-            @NotNull Type type, @NotNull String header,
-            int cols, int colSize, @NotNull Object... objects) {
-        return Console.logL(type, type.style, header, cols, colSize, objects);
-    }
-
     public static boolean log(@NotNull Type type, @NotNull Style style) {
         return Console.log(type, style, "");
     }
