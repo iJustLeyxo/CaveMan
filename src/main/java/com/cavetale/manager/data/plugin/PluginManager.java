@@ -46,20 +46,20 @@ public final class PluginManager {
         File[] files = folder.listFiles();
         if (folder.exists() && files != null) {
             for (File f : files) {
-                String name = f.getName();
-                if (!name.endsWith(".jar")) {
+                String ref = f.getName();
+                if (!ref.endsWith(".jar")) {
                     continue;
                 }
-                name = name.substring(0, name.length() - 4);
+                ref = ref.substring(0, ref.length() - 4);
                 try {
-                    Plugin p = Plugin.get(name);
+                    Plugin p = Plugin.get(ref);
                     this.plugins.put(p, new Details(
                             selected.contains(p),
                             true,
                             Files.isSymbolicLink(f.toPath())
                     ));
                 } catch (Plugin.NotFoundException e) {
-                    this.unknown.add(name);
+                    this.unknown.add(ref);
                 }
             }
         }
@@ -91,7 +91,7 @@ public final class PluginManager {
         return this.unknown;
     }
 
-    public record Details (
+    private record Details (
             @NotNull Boolean selected,
             @NotNull Boolean installed,
             @Nullable Boolean link
