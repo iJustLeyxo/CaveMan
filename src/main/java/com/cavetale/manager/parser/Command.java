@@ -16,13 +16,13 @@ public enum Command {
             new ExitExec(result);
         }
     },
-    HELP("Show usage help") {
+    HELP("Show help") {
         @Override
         public void exec(@NotNull Result result) {
             new HelpExec(result);
         }
     },
-    INSTALL("Install plugins and software", "add") {
+    INSTALL("Install plugins and server software", "add") {
         @Override
         public void exec(@NotNull Result result) {
             new InstallExec(result);
@@ -34,7 +34,7 @@ public enum Command {
             new LinkExec(result);
         }
     },
-    LIST("List plugins, categories, servers and software") {
+    LIST("List plugins, categories, servers and server software") {
         @Override
         public void exec(@NotNull Result result) {
             new ListExec(result);
@@ -46,7 +46,7 @@ public enum Command {
             new StatusExec(result);
         }
     },
-    UNINSTALL("Delete plugins, software and files", "remove") {
+    UNINSTALL("Uninstall plugins, server software and files", "remove", "delete") {
         @Override
         public void exec(@NotNull Result result) {
             new UninstallExec(result);

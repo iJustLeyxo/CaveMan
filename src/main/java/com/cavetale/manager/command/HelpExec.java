@@ -33,8 +33,8 @@ public final class HelpExec extends Exec {
         ArrayList<Command> commands = new ArrayList<>(List.of(Command.values()));
         Collections.sort(commands);
         for (Command c : commands) {
-            Console.logF(Type.REQUESTED, Style.HELP, "%2s %-13s | %-68s\n",
-                    "", c.refs[0], c.info);
+            Console.logF(Type.REQUESTED, Style.HELP, "%-16s | %-68s\n",
+                    c.refs[0], c.info);
         }
         Console.log(Type.REQUESTED, Style.HELP,  XCode.BOLD +
                 "\n--------------------------------------- Flags -----------------------------------------\n");
