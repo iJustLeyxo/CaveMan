@@ -1,27 +1,27 @@
 ### CaveMan
-#### Cavetale installation manager for plugins and server software on test servers
+Cavetale installation manager for plugins and server software on test servers
 
 ##### Usage, commands and flags
 ```
--------------------------------------- Help --------------------------------------
+---------------------------------------- Help -----------------------------------------
 Interactive: java -jar Manager.jar
 Single: java -jar Manager.jar <1+command(s)> <0+flag(s)>
 
------------------------------------- Commands ------------------------------------
+-------------------------------------- Commands ---------------------------------------
    Command       | Info
-----------------------------------------------------------------------------------
-   exit          | Close the application
-   help          | Show usage help
-   install       | Install plugins and software
-   link          | Install plugins by linking
-   list          | List plugins, categories, servers and software
-   status        | View installation status
-   uninstall     | Delete plugins, software and files
-   unlink        | Uninstall linked plugins
+---------------------------------------------------------------------------------------
+exit             | Close the application
+help             | Show help
+install          | Install plugins and server software
+link             | Install plugins by linking
+list             | List plugins, categories, servers and server software
+status           | View installation status
+uninstall        | Uninstall plugins, server software and files
+unlink           | Uninstall linked plugins
 
-------------------------------------- Flags --------------------------------------
+--------------------------------------- Flags -----------------------------------------
    Flag          | Info                             | Usage
-----------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
 -a --all         | Select all                       |
 -c --category    | Specify categor(y/ies)           | -s <categor(y/ies)>
 -d --default     | Normal console output            |
