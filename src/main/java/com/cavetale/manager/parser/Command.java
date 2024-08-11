@@ -36,7 +36,7 @@ public enum Command {
             new ListExec(result);
         }
     },
-    STATUS("Get installation status", "info", "verify", "check") {
+    STATUS("View installation status", "info", "verify", "check") {
         @Override
         public void exec(@NotNull Result result) {
             new StatusExec(result);
