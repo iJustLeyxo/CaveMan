@@ -2,11 +2,11 @@ package com.cavetale.manager.parser;
 
 import com.cavetale.manager.command.*;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.Style;
+import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
 public enum Command {
-    EXIT("Close the application", "quit", "q") {
+    EXIT("Close the application", "quit", "q", "stop") {
         @Override
         public void exec(@NotNull Result result) {
             new ExitExec(result);
@@ -18,13 +18,13 @@ public enum Command {
             new HelpExec(result);
         }
     },
-    INSTALL("Install plugins and software") {
+    INSTALL("Install plugins and software", "add") {
         @Override
         public void exec(@NotNull Result result) {
             new InstallExec(result);
         }
     },
-    LINK("Install plugins as links") {
+    LINK("Install plugins by linking") {
         @Override
         public void exec(@NotNull Result result) {
             new LinkExec(result);
@@ -36,19 +36,19 @@ public enum Command {
             new ListExec(result);
         }
     },
-    STATUS("Get installation status") {
+    STATUS("Get installation status", "info", "verify", "check") {
         @Override
         public void exec(@NotNull Result result) {
             new StatusExec(result);
         }
     },
-    UNINSTALL("Delete plugins and software") {
+    UNINSTALL("Delete plugins and software", "remove") {
         @Override
         public void exec(@NotNull Result result) {
             new UninstallExec(result);
         }
     },
-    UNLINK("Unlink linked plugins") {
+    UNLINK("Uninstall linked plugins") {
         @Override
         public void exec(@NotNull Result result) {
             new UnlinkExec(result);
@@ -66,17 +66,17 @@ public enum Command {
     }
 
     public final void run(@NotNull Result result) {
-        Console.log(Style.DEBUG, "Running command " + this.refs[0] + "\n\n");
+        Console.log(Type.DEBUG, "Running command " + this.refs[0] + "\n");
         if (result.tokens().flags().containsKey(Flag.HELP)) {
             this.help();
         } else {
             this.exec(result);
         }
-        Console.log(Style.DEBUG, "Finished running command " + this.refs[0] + "\n\n");
+        Console.log(Type.DEBUG, "Finished running command " + this.refs[0] + "\n");
     }
 
     public void help() {
-        Console.log(Style.HELP, this.refs[0] + ": " + this.info + "\n\n");
+        Console.log(Type.HELP, this.refs[0] + ": " + this.info + "\n");
     }
 
     public abstract void exec(@NotNull Result result);

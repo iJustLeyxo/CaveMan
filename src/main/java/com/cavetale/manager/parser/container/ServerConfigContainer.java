@@ -3,7 +3,7 @@ package com.cavetale.manager.parser.container;
 import com.cavetale.manager.data.plugin.Server;
 import com.cavetale.manager.parser.InputException;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.Style;
+import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -16,7 +16,7 @@ public final class ServerConfigContainer extends EmptyContainer {
     public boolean option(@NotNull String option) throws InputException {
         Server server = Server.get(option);
         if (this.servers.contains(server)) {
-            Console.log(Style.INFO, "Ignoring duplicate \"" + option + "\n");
+            Console.log(Type.INFO, "Ignoring duplicate \"" + option + "\n");
         } else {
             this.servers.add(server);
         }

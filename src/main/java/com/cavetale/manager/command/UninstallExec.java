@@ -6,9 +6,8 @@ import com.cavetale.manager.parser.Command;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.Detail;
 import com.cavetale.manager.util.console.Style;
-import com.cavetale.manager.util.console.XCode;
+import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -23,7 +22,7 @@ public final class UninstallExec extends Exec {
     @Override
     public void run() {
         if (!serverSoftware() && !plugins()) {
-            Console.log(Style.INFO, "Nothing selected for uninstall\n\n");
+            Console.log(Type.INFO, "Nothing selected for uninstall\n");
         }
     }
 
@@ -32,30 +31,35 @@ public final class UninstallExec extends Exec {
             return false;
         }
         Set<Software> selected = this.result.serverSoftware().selected();
-        Console.list(selected.size() + " software(s) selected to uninstall",
-                selected, Detail.OVERRIDE, XCode.BLUE, 4, 21);
+        Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() + " software(s) selected to uninstall",
+                4, 21, selected.toArray());
+        if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
+            if (!Console.in("Proceed with uninstall (Y/n)?").equalsIgnoreCase("y")) {
+                return true;
+            }
+        }
         for (Software s : selected) {
-            Console.log(Style.INFO, "Uninstalling " + s.refs[0] + " server software");
+            Console.log(Type.INFO, "Uninstalling " + s.refs[0] + " server software");
             File file = s.file();
             if (file == null) {
-                if (!Console.log(Style.INFO, Style.ERR, " skipped (unable to uninstall)")) {
-                    Console.log(Style.ERR, "Uninstalling " + s.refs[0] + " server software skipped (unable to uninstall)");
+                if (!Console.log(Type.INFO, Style.ERR, " skipped (unable to uninstall)")) {
+                    Console.log(Type.ERR, "Uninstalling " + s.refs[0] + " server software skipped (unable to uninstall)");
                 }
                 continue;
             }
             if (!file.exists()) {
-                if (!Console.log(Style.INFO, Style.WARN, " skipped (not installed)")) {
-                    Console.log(Style.WARN, "Uninstalling " + s.refs[0] + " server software skipped (not installed)");
+                if (!Console.log(Type.INFO, Style.WARN, " skipped (not installed)")) {
+                    Console.log(Type.WARN, "Uninstalling " + s.refs[0] + " server software skipped (not installed)");
                 }
                 continue;
             }
             if (!file.delete()) {
-                if (!Console.log(Style.INFO, Style.ERR, " failed")) {
-                    Console.log(Style.ERR, "Uninstalling " + s.refs[0] + " failed");
+                if (!Console.log(Type.INFO, Style.ERR, " failed")) {
+                    Console.log(Type.ERR, "Uninstalling " + s.refs[0] + " failed");
                 }
                 continue;
             }
-            Console.log(Style.INFO, Style.DONE, " done\n\n");
+            Console.log(Type.INFO, Style.DONE, " done\n");
         }
         return true;
     }
@@ -68,8 +72,8 @@ public final class UninstallExec extends Exec {
             selected = this.result.pluginManager().get(null, true, null);
         }
         if (!selected.isEmpty()) {
-            Console.list(selected.size() + " plugins(s) to uninstall",
-                    selected, Detail.OVERRIDE, XCode.YELLOW, 4, 21);
+            Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() + " plugins(s) to uninstall",
+                    4, 21, selected.toArray());
         } else {
             return false;
         }
@@ -80,28 +84,28 @@ public final class UninstallExec extends Exec {
             }
         }
         for (Plugin p : selected) {
-            Console.log(Style.INFO, "Uninstalling " + p.name);
+            Console.log(Type.INFO, "Uninstalling " + p.name);
             File file = new File(folder, p.name + ".jar");
             if (!file.exists()) {
-                if (!Console.log(Style.INFO, Style.WARN, " skipped (not installed)\n")) {
-                    Console.log(Style.WARN, "Uninstalling " + p.name + " skipped (not installed)\n");
+                if (!Console.log(Type.INFO, Style.WARN, " skipped (not installed)\n")) {
+                    Console.log(Type.WARN, "Uninstalling " + p.name + " skipped (not installed)\n");
                 }
                 continue;
             }
             if (Files.isSymbolicLink(file.toPath())) {
-                if (!Console.log(Style.INFO, Style.WARN,
+                if (!Console.log(Type.INFO, Style.WARN,
                         " skipped (symbolic link, use " + Command.UNLINK.refs[0] + " to remove)\n")) {
-                    Console.log(Style.WARN, "Uninstalling " + p.name +
+                    Console.log(Type.WARN, "Uninstalling " + p.name +
                             " skipped (symbolic link, use " + Command.UNLINK.refs[0] + " to remove)\n");
                 }
                 continue;
             }
             if (file.delete()) {
-                Console.log(Style.INFO, Style.DONE, " done\n");
+                Console.log(Type.INFO, Style.DONE, " done\n");
                 continue;
             }
-            if(!Console.log(Style.INFO, Style.ERR, " failed\n")) {
-                Console.log(Style.ERR, "Uninstalling " + p.name + " failed\n");
+            if(!Console.log(Type.INFO, Style.ERR, " failed\n")) {
+                Console.log(Type.ERR, "Uninstalling " + p.name + " failed\n");
             }
         }
         return true;

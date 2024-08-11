@@ -5,9 +5,8 @@ import com.cavetale.manager.parser.Command;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.Detail;
 import com.cavetale.manager.util.console.Style;
-import com.cavetale.manager.util.console.XCode;
+import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -28,10 +27,10 @@ public final class UnlinkExec extends Exec {
             selected = result.pluginManager().get(true, null, true);
         }
         if (!selected.isEmpty()) {
-            Console.list(selected.size() + " plugins(s) to unlink",
-                    selected, Detail.OVERRIDE, XCode.BLUE, 4, 21);
+            Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() + " plugins(s) to unlink",
+                    4, 21, selected.toArray());
         } else {
-            Console.log(Style.INFO, "Nothing selected for unlink\n\n");
+            Console.log(Type.INFO, "Nothing selected for unlink\n");
             return;
         }
         File folder = new File("plugins/");
@@ -41,28 +40,22 @@ public final class UnlinkExec extends Exec {
             }
         }
         for (Plugin p : selected) {
-            Console.log(Style.INFO, "Unlinking " + p.name);
+            Console.log(Type.INFO, "Unlinking " + p.name);
             File file = new File(folder, p.name + ".jar");
-            if (!file.exists()) {
-                if(!Console.log(Style.INFO, Style.WARN, " skipped (file no longer exists)\n")) {
-                    Console.log(Style.WARN, "Unlinking " + p.name + " skipped (file no longer exists)\n");
-                }
-                continue;
-            }
             if (!Files.isSymbolicLink(file.toPath())) {
-                if (!Console.log(Style.INFO, Style.WARN,
+                if (!Console.log(Type.INFO, Style.WARN,
                         " skipped (not a symbolic link, use " + Command.UNINSTALL.refs[0] + " to remove)\n")) {
-                    Console.log(Style.WARN, "Uninstalling " + p.name +
+                    Console.log(Type.WARN, "Uninstalling " + p.name +
                             " skipped (not a symbolic link, use " + Command.UNINSTALL.refs[0] + " to remove)\n");
                 }
                 continue;
             }
             if (file.delete()) {
-                Console.log(Style.INFO, Style.DONE, " done\n");
+                Console.log(Type.INFO, Style.DONE, " done\n");
                 continue;
             }
-            if(!Console.log(Style.INFO, Style.ERR, " failed\n")) {
-                Console.log(Style.ERR, "Deleting " + p.name + " failed");
+            if(!Console.log(Type.INFO, Style.ERR, " failed\n")) {
+                Console.log(Type.ERR, "Deleting " + p.name + " failed");
             }
         }
     }

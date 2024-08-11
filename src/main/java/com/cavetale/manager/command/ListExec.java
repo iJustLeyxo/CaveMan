@@ -2,16 +2,15 @@ package com.cavetale.manager.command;
 
 import com.cavetale.manager.data.plugin.Category;
 import com.cavetale.manager.data.plugin.Plugin;
+import com.cavetale.manager.data.plugin.Server;
 import com.cavetale.manager.data.server.Software;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.Detail;
 import com.cavetale.manager.util.console.Style;
-import com.cavetale.manager.util.console.XCode;
+import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Set;
 
 public final  class ListExec extends Exec {
@@ -53,27 +52,31 @@ public final  class ListExec extends Exec {
             }
             Set<Plugin> selected = this.result.pluginManager().get(null, true, null);
             if (!selected.isEmpty()) {
-                Console.list(selected.size() + " plugins(s) selected",
-                        selected, Detail.OVERRIDE, XCode.BLUE, 4, 21);
+                Console.logL(Type.REQUESTED, Style.PLUGIN, selected.size() + " plugin(s) selected",
+                        4, 21, selected.toArray());
             } else {
-                Console.log(Style.WARN, "No plugins selected\n\n");
+                Console.log(Type.WARN, "No plugins selected\n");
             }
         }
     }
 
     private static void plugins() {
-        Console.list("Plugins", List.of(Plugin.values()), Detail.OVERRIDE, XCode.BLUE, 4, 21);
+        Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins",
+                4, 21, (Object[]) Plugin.values());
     }
 
     private static void categories() {
-        Console.list("Categories", List.of(Category.values()), Detail.OVERRIDE, XCode.BLUE, 4, 21);
+        Console.logL(Type.REQUESTED, Style.CATEGORY, "Categories",
+                4, 21, (Object[]) Category.values());
     }
 
     private static void servers() {
-        Console.list("Servers", List.of(com.cavetale.manager.data.plugin.Server.values()), Detail.OVERRIDE, XCode.BLUE, 4, 21);
+        Console.logL(Type.REQUESTED, Style.SERVER, "Servers" ,
+                4, 21, (Object[]) Server.values());
     }
 
     private static void serverSoftware() {
-        Console.list("Server software", List.of(Software.values()), Detail.OVERRIDE, XCode.BLUE, 4, 21);
+        Console.logL(Type.REQUESTED, Style.SOFTWARE, "Server software",
+                4, 21, (Object[]) Software.values());
     }
 }

@@ -2,36 +2,37 @@ package com.cavetale.manager.util.console;
 
 import org.jetbrains.annotations.NotNull;
 
-public enum Style implements Styled {
-    PROMPT(Detail.OVERRIDE, XCode.MAGENTA, XCode.BOLD),
-    INPUT(Detail.OVERRIDE, XCode.WHITE, XCode.BOLD),
-    DEBUG(Detail.HIGH, XCode.GRAY),
-    INFO(Detail.DEFAULT, XCode.BLUE),
-    DONE(Detail.DEFAULT, XCode.GREEN),
-    HELP(Detail.OVERRIDE, XCode.GREEN),
-    WARN(Detail.LOW, XCode.YELLOW),
-    ERR(Detail.MINIMAL, XCode.RED),
-    OVERRIDE(Detail.OVERRIDE, XCode.RESET);
+public enum Style {
+    PROMPT(XCode.BOLD, XCode.BLUE),
+    INPUT(XCode.BOLD, XCode.WHITE),
+    DEBUG(XCode.GRAY),
+    SELECT(XCode.BLUE),
+    INSTALL(XCode.GREEN),
+    UNINSTALL(XCode.RED),
+    LINK(XCode.MAGENTA),
+    SUPERFLUOUS(XCode.YELLOW),
+    MISSING(XCode.RED),
+    UNKNOWN(XCode.GRAY),
+    PLUGIN(XCode.BLUE),
+    CATEGORY(XCode.GREEN),
+    SERVER(XCode.MAGENTA),
+    SOFTWARE(XCode.YELLOW),
+    INFO(XCode.WHITE),
+    DONE(XCode.GREEN),
+    HELP(XCode.GREEN),
+    WARN(XCode.BOLD, XCode.YELLOW),
+    ERR(XCode.BOLD, XCode.RED);
 
-    private final @NotNull Detail detail;
-    private final @NotNull String codes;
+    public final @NotNull String xCodes;
 
-    Style(@NotNull Detail detail, @NotNull XCode... codes) {
-        this.detail = detail;
+    Style(@NotNull XCode... codes) {
         StringBuilder s = new StringBuilder();
         for (XCode c : codes) {
             s.append(c);
         }
-        this.codes = s.toString();
+        this.xCodes = s.toString();
     }
 
     @Override
-    public @NotNull String toString() {
-        return this.codes;
-    }
-
-    @Override
-    public @NotNull Detail detail() {
-        return this.detail;
-    }
+    public @NotNull String toString() { return this.xCodes; }
 }

@@ -5,13 +5,13 @@ import com.cavetale.manager.parser.InputException;
 import com.cavetale.manager.parser.Parser;
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.Style;
+import com.cavetale.manager.util.console.Type;
 
 public final class Manager {
     public static boolean interactive = true;
 
     public static void main(String[] args) {
-        Console.log("\n");
+        System.out.println();
 
         while (interactive) {
             if (args != null && args.length > 0) {
@@ -24,24 +24,25 @@ public final class Manager {
                 boolean changed = result.tokens().analyse();
                 if (result.tokens().commands().isEmpty()) {
                     if (!changed) {
-                        Console.log(Style.WARN, "Nothing to do. Try typing \"help\".\n\n");
+                        Console.log(Type.WARN, "Nothing to do. Try typing \"help\".\n");
                     }
                 } else {
-                    Console.log(Style.DEBUG, "Running " + result.tokens().commands().size() + " commands\n\n");
+                    Console.log(Type.DEBUG, "Running " + result.tokens().commands().size() + " commands\n");
                     for (Command cmd : result.tokens().commands()) {
                         cmd.run(result);
                     }
-                    Console.log(Style.DEBUG, "Finished running commands\n\n");
+                    Console.log(Type.DEBUG, "Finished running commands\n");
                 }
             } catch (InputException e) {
-                Console.log(Style.WARN, e.getMessage() + "\n\n");
+                Console.log(Type.ERR, e.getMessage() + "\n");
                 if (!interactive) {
                     System.exit(1);
                 }
             }
             args = null;
         }
-        Console.log(Style.DEBUG, "Exiting\n\n");
+        Console.log(Type.DEBUG, "Exiting\n");
+        Console.sep();
         System.exit(0);
     }
 }

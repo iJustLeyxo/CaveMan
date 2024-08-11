@@ -3,7 +3,7 @@ package com.cavetale.manager.parser.container;
 import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.parser.InputException;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.Style;
+import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -16,7 +16,7 @@ public final class PluginContainer extends EmptyContainer {
     public boolean option(@NotNull String option) throws InputException {
         Plugin plugin = Plugin.get(option);
         if (this.plugins.contains(plugin)) {
-            Console.log(Style.INFO, "Ignoring duplicate plugins \"" + option + "\n");
+            Console.log(Type.INFO, "Ignoring duplicate plugins \"" + option + "\n");
         }
         this.plugins.add(plugin);
         return true;

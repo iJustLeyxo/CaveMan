@@ -2,7 +2,7 @@ package com.cavetale.manager.command;
 
 import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.Style;
+import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
 public final class ExitExec extends Exec {
@@ -12,7 +12,8 @@ public final class ExitExec extends Exec {
 
     @Override
     public void run() {
-        Console.log(Style.DEBUG, "Exiting\n\n");
+        Console.log(Type.DEBUG, "Exiting\n");
+        Console.sep();
         System.exit(0);
     }
 }

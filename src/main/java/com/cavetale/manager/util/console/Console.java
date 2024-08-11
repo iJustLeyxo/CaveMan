@@ -3,88 +3,103 @@ package com.cavetale.manager.util.console;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.Arrays;
 
 public final class Console {
-    public static Detail detail = Detail.DEFAULT;
+    public static @NotNull Detail detail = Detail.STD;
 
-    public static boolean logs(@NotNull Detailed detailed) {
-        return Console.detail.value >= detailed.detail().value;
-    }
+    private static @Nullable Type type = null;
+    private static boolean empty = true;
 
-    public static boolean log(@NotNull Styled styled) {
-        if (logs(detail)) {
-            System.out.print(styled);
-            return true;
+    public static boolean log(@NotNull Type type, @NotNull Style style, @NotNull String msg) {
+        if (!Console.logs(type.detail)) {
+            return false;
         }
-        return false;
+        Console.sep(type);
+        System.out.print(XCode.RESET + style.toString() + msg);
+        Console.empty = false;
+        return true;
     }
 
-    public static boolean log(@NotNull Detailed detailed, @NotNull XCoded xcoded, @NotNull String s) {
-        if (logs(detailed)) {
-            System.out.print(xcoded + s + XCode.RESET);
-            return true;
+    public static boolean logF(@NotNull Type type, @NotNull String format, @NotNull String... params) {
+        if (!Console.logs(type.detail)) {
+            return false;
         }
-        return false;
+        Console.sep(type);
+        System.out.printf(XCode.RESET + type.style.toString() + format, (Object[]) params);
+        Console.empty = false;
+        return true;
     }
 
-    public static boolean log(@NotNull Styled styled, @NotNull String s) {
-        return log(styled, styled, s);
-    }
-
-    public static boolean log(@NotNull String s) {
-        return log(Style.OVERRIDE, s);
-    }
-
-    public static boolean logF(@NotNull Styled styled, @NotNull String format, @NotNull String... contents) {
-        if (logs(detail)) {
-            System.out.printf(styled + format + XCode.RESET, (Object[]) contents);
-            return true;
+    public static boolean logL(
+            @NotNull Type type, @NotNull Style style, @NotNull String header,
+            int cols, int colSize, @NotNull Object... objects) {
+        if (!Console.logs(type.detail)) {
+            return false;
         }
-        return false;
-    }
-
-    public static String[] in() {
-        log(Detail.OVERRIDE, Style.PROMPT, "> ");
-        log(Style.INPUT);
-        String[] args = System.console().readLine().split(" ");
-        log("\n");
-        return args;
-    }
-
-    public static String in(@NotNull String s) {
-        log(Style.PROMPT + s + " " + Style.INPUT);
-        String arg = System.console().readLine();
-        log("\n");
-        return arg;
-    }
-
-    public static <T extends Comparable<? super T>> void list(
-            @Nullable String header, Collection<T> objects,
-            @NotNull Detailed verbosity, @NotNull XCoded style, int cols, int colSize
-    ) {
-        if (!logs(verbosity.detail())) {
-            return;
-        }
-        LinkedList<T> list = new LinkedList<>(objects);
-        Collections.sort(list);
-        if (header != null) {
-            log(verbosity, style, XCode.BOLD + header + "\n");
-        }
-        log(verbosity, style, "-".repeat(cols * colSize + cols - 1) + "\n");
-        int i = 0;
-        for (T o : list) {
-            log(verbosity, style, o.toString() + " ".repeat(Math.max(colSize - o.toString().length(), 0)));
-            if (i < cols - 1) {
-                log(" ");
-                i++;
+        StringBuilder b = new StringBuilder(XCode.BOLD + header + "\n" +
+                "-".repeat(cols * colSize + cols - 1) + "\n" + XCode.WEIGHT_OFF);
+        Arrays.sort(objects);
+        int i = 1;
+        for (Object o : objects) {
+            b.append(o).append(" ".repeat(Math.max(0, colSize - o.toString().length())));
+            if (i >= cols) {
+                b.append("\n");
+                i = 1;
             } else {
-                log("\n");
-                i = 0;
+                b.append(" ");
+                i++;
             }
         }
-        log("\n\n");
+        String s = b.toString();
+        if (!s.endsWith("\n")) {
+            s += "\n";
+        }
+        Console.log(type, style, s);
+        return true;
+    }
+
+    public static boolean logL(
+            @NotNull Type type, @NotNull String header,
+            int cols, int colSize, @NotNull Object... objects) {
+        return Console.logL(type, type.style, header, cols, colSize, objects);
+    }
+
+    public static boolean log(@NotNull Type type, @NotNull Style style) {
+        return Console.log(type, style, "");
+    }
+
+    public static boolean log(@NotNull Type type, @NotNull String msg) {
+        return Console.log(type, type.style, msg);
+    }
+
+    public static boolean logs(@NotNull Detail detail) {
+        return Console.detail.val >= detail.val;
+    }
+
+    private static void sep(@Nullable Type type) {
+        if (Console.type != type || null == type) {
+            if (!Console.empty) {
+                System.out.println();
+            }
+            Console.type = type;
+            Console.empty = true;
+        }
+    }
+
+    public static void sep() {
+        Console.sep(null);
+    }
+
+    public static @NotNull String[] in() {
+        Console.log(Type.PROMPT, "> ");
+        Console.log(Type.PROMPT, Style.INPUT);
+        return System.console().readLine().split(" ");
+    }
+
+    public static @NotNull String in(@NotNull String prompt) {
+        Console.log(Type.PROMPT, prompt + " ");
+        Console.log(Type.PROMPT, Style.INPUT);
+        return System.console().readLine();
     }
 }

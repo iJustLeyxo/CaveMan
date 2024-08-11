@@ -5,6 +5,7 @@ import com.cavetale.manager.data.server.SoftwareManager;
 import com.cavetale.manager.parser.container.EmptyContainer;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Style;
+import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import java.util.Set;
 
 public final class Parser {
     public static @NotNull Result parse(String[] args) throws InputException {
-        Console.log(Style.DEBUG, "Parsing input\n");
+        Console.log(Type.DEBUG, "Parsing input");
         Set<Command> commands = new LinkedHashSet<>();
         Map<Flag, EmptyContainer> flags = new HashMap<>();
         Flag flag = null;
@@ -44,14 +45,14 @@ public final class Parser {
                 if (flag == null) {
                     Command cmd = Command.get(arg);
                     if (commands.contains(cmd)) {
-                        Console.log(Style.INFO, "Ignoring duplicate command \"" + arg + "\n");
+                        Console.log(Type.INFO, "Ignoring duplicate command \"" + arg + "\n");
                     }
                     commands.add(cmd);
                 }
             }
         }
         Tokens tokens = new Tokens(commands, flags);
-        Console.log(Style.DEBUG, "Finished parsing\n\n");
+        Console.log(Type.DEBUG, Style.DONE, " done\n");
         return new Result(tokens, new PluginManager(tokens), new SoftwareManager(tokens));
     }
 }

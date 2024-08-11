@@ -5,7 +5,7 @@ import com.cavetale.manager.parser.container.EmptyContainer;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Detail;
 import com.cavetale.manager.util.console.Style;
-import com.cavetale.manager.util.console.XCode;
+import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -16,13 +16,13 @@ public record Tokens (
         @NotNull Map<Flag, EmptyContainer> flags
 ) {
     public boolean analyse() {
-        Console.log(Style.DEBUG, "Analysing tokens");
+        Console.log(Type.DEBUG, "Analysing tokens");
         StringBuilder s = new StringBuilder();
         if (this.flags().containsKey(Flag.VERBOSE)) {
             Console.detail = Detail.HIGH;
             s.append("Verbose mode activated\n");
         } else if (this.flags().containsKey(Flag.DEFAULT)) {
-            Console.detail = Detail.DEFAULT;
+            Console.detail = Detail.STD;
             s.append("Default verbosity mode activated\n");
         } else if (this.flags().containsKey(Flag.QUIET)) {
             Console.detail = Detail.LOW;
@@ -32,11 +32,12 @@ public record Tokens (
             Manager.interactive = true;
             s.append("Interactive mode activated\n");
         }
-        Console.log(Style.DEBUG, XCode.GREEN + " done\n\n");
         if (!s.isEmpty()) {
-            Console.log(Style.INFO, s + "\n");
+            Console.log(Type.INFO, s.toString());
+            Console.log(Type.DEBUG, "Finished analysing tokens\n");
             return true;
         }
+        Console.log(Type.DEBUG, Style.DONE, " done\n");
         return false;
     }
 }

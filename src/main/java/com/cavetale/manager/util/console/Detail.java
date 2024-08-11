@@ -1,22 +1,15 @@
 package com.cavetale.manager.util.console;
 
-import org.jetbrains.annotations.NotNull;
-
-public enum Detail implements Detailed {
+public enum Detail {
     OVERRIDE(Integer.MIN_VALUE),
-    MINIMAL(-2),
+    MIN(-2),
     LOW(-1),
-    DEFAULT(0),
+    STD(0),
     HIGH(1);
 
-    public final int value;
+    public final int val;
 
-    Detail(int value) {
-        this.value = value;
-    }
-
-    @Override
-    public @NotNull Detail detail() {
-        return this;
+    Detail(int val) {
+        this.val = val;
     }
 }
