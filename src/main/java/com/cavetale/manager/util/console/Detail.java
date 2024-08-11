@@ -1,6 +1,12 @@
 package com.cavetale.manager.util.console;
 
+/**
+ * Console output detail level
+ */
 public enum Detail {
+    /**
+     * Override detail management and force console output
+     */
     OVERRIDE(Integer.MIN_VALUE),
     MIN(-2),
     LOW(-1),

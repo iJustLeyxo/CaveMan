@@ -4,12 +4,15 @@ import com.cavetale.manager.parser.container.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Flags, used to specify flag properties
+ */
 public enum Flag {
     ALL("Select all"),
     CATEGORY("Specify categor(y/ies)", "-s <categor(y/ies)>") {
         @Override
         public @NotNull EmptyContainer container() {
-            return new PluginCategoryContainer();
+            return new CategoryContainer();
         }
     },
     DEFAULT("Normal console output"),
@@ -32,13 +35,13 @@ public enum Flag {
     SERVER('s', "Specify server(s)", "-s <server(s)>") {
         @Override
         public @NotNull EmptyContainer container() {
-            return new ServerConfigContainer();
+            return new ServerContainer();
         }
     },
     SOFTWARE('S', "Specify server software") {
         @Override
         public @NotNull EmptyContainer container() {
-            return new ServerSoftwareContainer();
+            return new SoftwareContainer();
         }
     },
     VERBOSE("Detailed console output");
@@ -75,6 +78,10 @@ public enum Flag {
         this.usage = usage;
     }
 
+    /**
+     * Gets the flag container of the respective flag
+     * @return a flag container, by default an empty container
+     */
     public @NotNull EmptyContainer container() {
         return new EmptyContainer();
     }

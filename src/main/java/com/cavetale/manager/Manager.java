@@ -7,13 +7,16 @@ import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Type;
 
+/**
+ * Cavetale installation manager, used to manage plugins and server software for testing servers
+ */
 public final class Manager {
     public static boolean interactive = true;
 
     public static void main(String[] args) {
         System.out.println();
 
-        while (interactive) {
+        while (interactive) { // Cycle of inputs respective command executions
             if (args != null && args.length > 0) {
                 interactive = false;
             } else {

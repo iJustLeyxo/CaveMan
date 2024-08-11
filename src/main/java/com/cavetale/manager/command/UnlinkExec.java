@@ -20,6 +20,7 @@ public final class UnlinkExec extends Exec {
 
     @Override
     public void run() {
+        // Check inputs
         Set<Plugin> selected;
         if (!result.tokens().flags().containsKey(Flag.ALL)) {
             selected = result.pluginManager().get(null, true, null);
@@ -39,13 +40,14 @@ public final class UnlinkExec extends Exec {
                 return;
             }
         }
+        // Unlink plugins
         for (Plugin p : selected) {
-            Console.log(Type.INFO, "Unlinking " + p.name);
-            File file = new File(folder, p.name + ".jar");
+            Console.log(Type.INFO, "Unlinking " + p.ref);
+            File file = new File(folder, p.ref + ".jar");
             if (!Files.isSymbolicLink(file.toPath())) {
                 if (!Console.log(Type.INFO, Style.WARN,
                         " skipped (not a symbolic link, use " + Command.UNINSTALL.refs[0] + " to remove)\n")) {
-                    Console.log(Type.WARN, "Uninstalling " + p.name +
+                    Console.log(Type.WARN, "Uninstalling " + p.ref +
                             " skipped (not a symbolic link, use " + Command.UNINSTALL.refs[0] + " to remove)\n");
                 }
                 continue;
@@ -55,7 +57,7 @@ public final class UnlinkExec extends Exec {
                 continue;
             }
             if(!Console.log(Type.INFO, Style.ERR, " failed\n")) {
-                Console.log(Type.ERR, "Deleting " + p.name + " failed");
+                Console.log(Type.ERR, "Deleting " + p.ref + " failed");
             }
         }
     }

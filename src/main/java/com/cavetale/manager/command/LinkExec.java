@@ -21,6 +21,7 @@ public final class LinkExec extends Exec {
 
     @Override
     public void run() {
+        // Check inputs
         if (!this.result.tokens().flags().containsKey(Flag.PATH) ||
                 this.result.tokens().flags().get(Flag.PATH).isEmpty()) {
             Console.log(Type.WARN, "No path specified for linking\n");
@@ -43,13 +44,14 @@ public final class LinkExec extends Exec {
         Console.log(Type.DEBUG, "Creating plugins directory\n");
         File folder = new File("plugins/");
         folder.mkdirs();
+        // Link files
         for (Plugin p : selected) {
-            Console.log(Type.INFO, "Linking " + p.name);
-            File link = new File(new File("plugins"), p.name + ".jar");
-            File original = new File(new File(path), p.name + ".jar");
+            Console.log(Type.INFO, "Linking " + p.ref);
+            File link = new File(new File("plugins"), p.ref + ".jar");
+            File original = new File(new File(path), p.ref + ".jar");
             if (link.exists()) {
                 if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
-                    Console.log(Type.WARN, "Linking " + p.name + " skipped (already installed)\n");
+                    Console.log(Type.WARN, "Linking " + p.ref + " skipped (already installed)\n");
                 }
                 continue;
             }
@@ -58,7 +60,7 @@ public final class LinkExec extends Exec {
                 Console.log(Type.INFO, Style.DONE, " done\n");
             } catch (IOException e) {
                 if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
-                    Console.log(Type.ERR, "Linking " + p.name + " failed\n");
+                    Console.log(Type.ERR, "Linking " + p.ref + " failed\n");
                 }
             }
         }

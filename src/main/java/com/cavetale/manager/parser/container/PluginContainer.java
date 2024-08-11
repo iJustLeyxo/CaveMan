@@ -9,6 +9,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Plugin container, used to store plugins from a plugin flag
+ */
 public final class PluginContainer extends EmptyContainer {
     private final @NotNull Set<Plugin> plugins = new HashSet<>();
 

@@ -7,7 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class ServerSoftwareContainer extends EmptyContainer {
+/**
+ * Software container, used to store software from a software flag
+ */
+public final class SoftwareContainer extends EmptyContainer {
     private final @NotNull Set<Software> software = new HashSet<>();
 
     @Override

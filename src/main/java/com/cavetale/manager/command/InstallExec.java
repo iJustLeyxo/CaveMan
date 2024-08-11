@@ -27,7 +27,12 @@ public final class InstallExec extends Exec {
         }
     }
 
+    /**
+     * Install server software
+     * @return {@code true} if any software is selected
+     */
     private boolean serverSoftware() {
+        // Check inputs
         if (!this.result.tokens().flags().containsKey(Flag.SOFTWARE)) {
             return false;
         }
@@ -39,6 +44,7 @@ public final class InstallExec extends Exec {
                 return true;
             }
         }
+        // Install software
         for (Software s : selected) {
             Console.log(Type.INFO, "Installing " + s.refs[0] + " server software");
             File file = s.file();
@@ -68,7 +74,12 @@ public final class InstallExec extends Exec {
         return true;
     }
 
+    /**
+     * Install plugins
+     * @return {@code true} if any plugins are selected
+     */
     private boolean plugins() {
+        // Check inputs
         Set<Plugin> selected = this.result.pluginManager().get(null, true, null);
         if (selected.isEmpty()) {
             return false;
@@ -83,18 +94,19 @@ public final class InstallExec extends Exec {
         Console.log(Type.DEBUG, "Creating plugins directory\n");
         File folder = new File("plugins/");
         folder.mkdirs();
+        // Install plugins
         for (Plugin p : selected) {
-            Console.log(Type.INFO, "Installing " + p.name);
-            File file = new File(folder, p.name + ".jar");
+            Console.log(Type.INFO, "Installing " + p.ref);
+            File file = new File(folder, p.ref + ".jar");
             if (file.exists() || Files.isSymbolicLink(file.toPath())) {
                 if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
-                    Console.log(Type.WARN, "Installing " + p.name + " skipped (already installed)\n");
+                    Console.log(Type.WARN, "Installing " + p.ref + " skipped (already installed)\n");
                 }
                 continue;
             }
             if (p.uri == null) {
                 if (!Console.log(Type.INFO, Style.WARN, " skipped (no url)\n")) {
-                    Console.log(Type.WARN, "Installing " + p.name + " skipped (no url)\n");
+                    Console.log(Type.WARN, "Installing " + p.ref + " skipped (no url)\n");
                 }
                 continue;
             }
@@ -103,7 +115,7 @@ public final class InstallExec extends Exec {
                 Console.log(Type.INFO, Style.DONE, " done\n");
             } catch (IOException e) {
                 if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
-                    Console.log(Type.ERR, "Installing " + p.name + " failed\n");
+                    Console.log(Type.ERR, "Installing " + p.ref + " failed\n");
                 }
             }
         }

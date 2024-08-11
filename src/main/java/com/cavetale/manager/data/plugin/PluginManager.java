@@ -2,9 +2,9 @@ package com.cavetale.manager.data.plugin;
 
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Tokens;
-import com.cavetale.manager.parser.container.PluginCategoryContainer;
+import com.cavetale.manager.parser.container.CategoryContainer;
 import com.cavetale.manager.parser.container.PluginContainer;
-import com.cavetale.manager.parser.container.ServerConfigContainer;
+import com.cavetale.manager.parser.container.ServerContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,6 +15,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Plugin manager, used to analyse installed and selected plugins
+ */
 public final class PluginManager {
     private final @NotNull Tokens tokens;
     private final @NotNull Map<Plugin, Details> plugins = new HashMap<>();
@@ -25,23 +28,28 @@ public final class PluginManager {
         this.resolve();
     }
 
+    /**
+     * Resolve installed and selected plugins
+     */
     private void resolve() {
         this.plugins.clear();
         this.unknown.clear();
+        // Resolve selected plugins
         Set<Plugin> selected = new HashSet<>();
         if (this.tokens.flags().containsKey(Flag.PLUGIN)) {
             selected.addAll(((PluginContainer) this.tokens.flags().get(Flag.PLUGIN)).get());
         }
         if (this.tokens.flags().containsKey(Flag.CATEGORY)) {
-            for (Category category : ((PluginCategoryContainer) this.tokens.flags().get(Flag.CATEGORY)).get()) {
+            for (Category category : ((CategoryContainer) this.tokens.flags().get(Flag.CATEGORY)).get()) {
                 selected.addAll(category.plugins());
             }
         }
         if (this.tokens.flags().containsKey(Flag.SERVER)) {
-            for (Server server : ((ServerConfigContainer) this.tokens.flags().get(Flag.SERVER)).get()) {
+            for (Server server : ((ServerContainer) this.tokens.flags().get(Flag.SERVER)).get()) {
                 selected.addAll(server.plugins());
             }
         }
+        // Resolve installed plugins
         File folder = new File("plugins/");
         File[] files = folder.listFiles();
         if (folder.exists() && files != null) {
@@ -63,6 +71,7 @@ public final class PluginManager {
                 }
             }
         }
+        // Resolve registered plugins
         for (Plugin p : Plugin.values()) {
             if (this.plugins.containsKey(p)) {
                 continue;

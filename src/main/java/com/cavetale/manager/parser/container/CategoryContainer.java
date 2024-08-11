@@ -9,7 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class PluginCategoryContainer extends EmptyContainer {
+/**
+ * Category container, used to store categories from a category flag
+ */
+public final class CategoryContainer extends EmptyContainer {
     private final @NotNull Set<Category> categories = new HashSet<>();
 
     @Override

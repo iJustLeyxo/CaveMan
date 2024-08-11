@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Plugin categories, used to group plugins by purpose / usage
+ */
 public enum Category implements Provider {
     GLOBAL("Global plugins"),
     BUILD("Plugins for build softwareManager"),

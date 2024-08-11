@@ -5,6 +5,9 @@ import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Commands, used to specify command properties
+ */
 public enum Command {
     EXIT("Close the application", "quit", "q", "stop") {
         @Override
@@ -79,6 +82,10 @@ public enum Command {
         Console.log(Type.HELP, this.refs[0] + ": " + this.info + "\n");
     }
 
+    /**
+     * Execute the command executor of the respective command
+     * @param result Parser result to execute
+     */
     public abstract void exec(@NotNull Result result);
 
     public static @NotNull Command get(@NotNull String ref) throws NotFoundException {

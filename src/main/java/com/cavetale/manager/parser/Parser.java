@@ -14,6 +14,12 @@ import java.util.Map;
 import java.util.Set;
 
 public final class Parser {
+    /**
+     * Parses input arguments
+     * @param args Arguments to parse
+     * @return A parsing result
+     * @throws InputException When an invalid input was found
+     */
     public static @NotNull Result parse(String[] args) throws InputException {
         Console.log(Type.DEBUG, "Parsing input");
         Set<Command> commands = new LinkedHashSet<>();

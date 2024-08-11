@@ -27,6 +27,10 @@ public final class UninstallExec extends Exec {
         }
     }
 
+    /**
+     * Uninstall path
+     * @return {@code true} if a path is selected
+     */
     private boolean path() {
         if (!this.result.tokens().flags().containsKey(Flag.PATH)) {
             return false;
@@ -59,7 +63,12 @@ public final class UninstallExec extends Exec {
         return true;
     }
 
+    /**
+     * Uninstall server software
+     * @return {@code true} if any software is selected
+     */
     private boolean serverSoftware() {
+        // Check inputs
         if (!this.result.tokens().flags().containsKey(Flag.SOFTWARE)) {
             return false;
         }
@@ -71,6 +80,7 @@ public final class UninstallExec extends Exec {
                 return true;
             }
         }
+        // Uninstall server software
         for (Software s : selected) {
             Console.log(Type.INFO, "Uninstalling " + s.refs[0] + " server software\n");
             File file = s.file();
@@ -97,7 +107,12 @@ public final class UninstallExec extends Exec {
         return true;
     }
 
+    /**
+     * Uninstall plugins
+     * @return {@code true} if any plugins are selected
+     */
     private boolean plugins() {
+        // Check inputs
         Set<Plugin> selected;
         if (this.result.tokens().flags().containsKey(Flag.ALL)) {
             selected = this.result.pluginManager().get(true, null, null);
@@ -116,19 +131,20 @@ public final class UninstallExec extends Exec {
                 return true;
             }
         }
+        // Uninstall plugins
         for (Plugin p : selected) {
-            Console.log(Type.INFO, "Uninstalling " + p.name);
-            File file = new File(folder, p.name + ".jar");
+            Console.log(Type.INFO, "Uninstalling " + p.ref);
+            File file = new File(folder, p.ref + ".jar");
             if (!file.exists()) {
                 if (!Console.log(Type.INFO, Style.WARN, " skipped (not installed)\n")) {
-                    Console.log(Type.WARN, "Uninstalling " + p.name + " skipped (not installed)\n");
+                    Console.log(Type.WARN, "Uninstalling " + p.ref + " skipped (not installed)\n");
                 }
                 continue;
             }
             if (Files.isSymbolicLink(file.toPath())) {
                 if (!Console.log(Type.INFO, Style.WARN,
                         " skipped (symbolic link, use " + Command.UNLINK.refs[0] + " to remove)\n")) {
-                    Console.log(Type.WARN, "Uninstalling " + p.name +
+                    Console.log(Type.WARN, "Uninstalling " + p.ref +
                             " skipped (symbolic link, use " + Command.UNLINK.refs[0] + " to remove)\n");
                 }
                 continue;
@@ -138,7 +154,7 @@ public final class UninstallExec extends Exec {
                 continue;
             }
             if(!Console.log(Type.INFO, Style.ERR, " failed\n")) {
-                Console.log(Type.ERR, "Uninstalling " + p.name + " failed\n");
+                Console.log(Type.ERR, "Uninstalling " + p.ref + " failed\n");
             }
         }
         return true;

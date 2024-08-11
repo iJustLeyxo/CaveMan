@@ -9,6 +9,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Set;
 
+/**
+ * List of available plugins
+ */
 public enum Plugin implements Provider {
     ADVICE_ANIMALS("AdviceAnimals", "com.winthier.adviceanimals", "adviceanimals", "0.1-SNAPSHOT", Category.DEPRECATED),
     AFK("AFK", "com.cavetale.afk", "afk", "0.1-SNAPSHOT", Category.GLOBAL),
@@ -154,19 +157,19 @@ public enum Plugin implements Provider {
     WORLD_MARKER("WorldMarker", "com.cavetale.worldmarker", "worldmarker", "0.1-SNAPSHOT", Category.CORE),
     XMAS("Xmas", "com.cavetale.xmas", "xmas", "0.1-SNAPSHOT", Category.SEASONAL);
 
-    public final @NotNull String name;
+    public final @NotNull String ref;
     public final @Nullable URI uri;
     public final @NotNull Category[] categories;
 
-    Plugin(@NotNull String name, @Nullable URI uri, @NotNull Category... categories) {
-        this.name = name;
+    Plugin(@NotNull String ref, @Nullable URI uri, @NotNull Category... categories) {
+        this.ref = ref;
         this.uri = uri;
         this.categories = categories;
     }
 
-    Plugin(@NotNull String name, @Nullable String uri, @NotNull Category... categories) {
+    Plugin(@NotNull String ref, @Nullable String uri, @NotNull Category... categories) {
         try {
-            this.name = name;
+            this.ref = ref;
             if (uri != null) {
                 this.uri = new URI(uri);
             } else {
@@ -178,13 +181,13 @@ public enum Plugin implements Provider {
         }
     }
 
-    Plugin(@NotNull String name, @NotNull String groupId, @NotNull String artifactId, @NotNull String version, @NotNull Category... categories) {
-        String uri = "https://cavetale.com/jenkins/job/" + name
+    Plugin(@NotNull String ref, @NotNull String groupId, @NotNull String artifactId, @NotNull String version, @NotNull Category... categories) {
+        String uri = "https://cavetale.com/jenkins/job/" + ref
                 + "/lastSuccessfulBuild/" + groupId + "$" + artifactId
                 + "/artifact/" + groupId + "/" + artifactId + "/" + version
                 + "/" + artifactId + "-" + version + ".jar";
         try {
-            this.name = name;
+            this.ref = ref;
             this.uri = new URI(uri);
             this.categories = categories;
         } catch (URISyntaxException e) {
@@ -192,11 +195,11 @@ public enum Plugin implements Provider {
         }
     }
 
-    Plugin(@NotNull String name, @NotNull String path, @NotNull String artifact, @NotNull Category... categories) {
-        String uri = "https://cavetale.com/jenkins/job/" + name
+    Plugin(@NotNull String ref, @NotNull String path, @NotNull String artifact, @NotNull Category... categories) {
+        String uri = "https://cavetale.com/jenkins/job/" + ref
                 + "/lastSuccessfulBuild/artifact/" + path + artifact + ".jar";
         try {
-            this.name = name;
+            this.ref = ref;
             this.uri = new URI(uri);
             this.categories = categories;
         } catch (URISyntaxException e) {
@@ -211,12 +214,12 @@ public enum Plugin implements Provider {
 
     @Override
     public @NotNull String toString() {
-        return this.name;
+        return this.ref;
     }
 
     public static Plugin get(String ref) throws NotFoundException {
         for (Plugin p : Plugin.values()) {
-            if (ref.equalsIgnoreCase(p.name)) return p;
+            if (ref.equalsIgnoreCase(p.ref)) return p;
         }
         throw new NotFoundException(ref);
     }
@@ -229,7 +232,7 @@ public enum Plugin implements Provider {
 
     public final class URIError extends DataError {
         public URIError(@NotNull String uri, @NotNull Throwable cause) {
-            super("Faulty url \n" + uri + "\n in plugin " + name + ": " + cause.getMessage(), cause);
+            super("Faulty url \n" + uri + "\n in plugin " + ref + ": " + cause.getMessage(), cause);
         }
     }
 }

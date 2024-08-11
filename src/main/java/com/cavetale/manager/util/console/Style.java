@@ -2,6 +2,9 @@ package com.cavetale.manager.util.console;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Console output styles, used to manage color, weight, etc. of console outputs
+ */
 public enum Style {
     PROMPT(XCode.BOLD, XCode.BLUE),
     INPUT(XCode.BOLD, XCode.WHITE),

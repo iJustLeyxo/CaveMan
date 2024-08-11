@@ -6,6 +6,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Servers, used to group plugins by installed server
+ */
 public enum Server implements Provider {
     BASE("Plugins for all softwareManager", Category.CORE, Category.GLOBAL),
     VOID("Plugins for void softwareManager", Server.BASE),

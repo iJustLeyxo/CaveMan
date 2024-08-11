@@ -20,12 +20,12 @@ public final  class ListExec extends Exec {
 
     @Override
     public void run() {
-        if (this.result.tokens().flags().containsKey(Flag.ALL)) {
+        if (this.result.tokens().flags().containsKey(Flag.ALL)) { // List everything
             if (this.result.tokens().flags().containsKey(Flag.PLUGIN)) { plugins(); }
             if (this.result.tokens().flags().containsKey(Flag.CATEGORY)) { categories(); }
             if (this.result.tokens().flags().containsKey(Flag.SERVER)) { servers(); }
             if (this.result.tokens().flags().containsKey(Flag.SOFTWARE)) { serverSoftware(); }
-        } else {
+        } else { // List respective category if no element of said category is selected
             boolean resolve = true;
             if (this.result.tokens().flags().containsKey(Flag.PLUGIN) &&
                     this.result.tokens().flags().get(Flag.PLUGIN).isEmpty()) {
@@ -50,6 +50,7 @@ public final  class ListExec extends Exec {
             if (!resolve) {
                 return;
             }
+            // List selected elements of category if any are specified
             Set<Plugin> selected = this.result.pluginManager().get(null, true, null);
             if (!selected.isEmpty()) {
                 Console.logL(Type.REQUESTED, Style.PLUGIN, selected.size() + " plugin(s) selected",
@@ -60,21 +61,33 @@ public final  class ListExec extends Exec {
         }
     }
 
+    /**
+     * List all plugins
+     */
     private static void plugins() {
         Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins",
                 4, 21, (Object[]) Plugin.values());
     }
 
+    /**
+     * List all categories
+     */
     private static void categories() {
         Console.logL(Type.REQUESTED, Style.CATEGORY, "Categories",
                 4, 21, (Object[]) Category.values());
     }
 
+    /**
+     * list all servers
+     */
     private static void servers() {
         Console.logL(Type.REQUESTED, Style.SERVER, "Servers" ,
                 4, 21, (Object[]) Server.values());
     }
 
+    /**
+     * List all server software
+     */
     private static void serverSoftware() {
         Console.logL(Type.REQUESTED, Style.SOFTWARE, "Server software",
                 4, 21, (Object[]) Software.values());

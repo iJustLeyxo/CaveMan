@@ -3,6 +3,9 @@ package com.cavetale.manager.parser.container;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Path container, used to store a path from a path flag
+ */
 public final class PathContainer extends EmptyContainer {
     private @Nullable String path = null;
 

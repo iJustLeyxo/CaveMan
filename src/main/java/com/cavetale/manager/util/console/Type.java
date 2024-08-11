@@ -2,6 +2,9 @@ package com.cavetale.manager.util.console;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Console output type, used to manage basic styles and separation between different output types
+ */
 public enum Type {
     PROMPT(Detail.OVERRIDE, Style.PROMPT),
     REQUESTED(Detail.OVERRIDE, Style.INFO),

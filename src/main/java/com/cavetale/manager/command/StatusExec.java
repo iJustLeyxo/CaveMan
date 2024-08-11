@@ -18,9 +18,9 @@ public final class StatusExec extends Exec {
     @Override
     public void run() {
         Set<Plugin> plugins = this.result.pluginManager().get(null, true, null);
-        Set<Software> softwares = this.result.softwareManager().get(null, true);
-        if (!plugins.isEmpty() || !softwares.isEmpty()) {
-            if (!plugins.isEmpty()) {
+        Set<Software> software = this.result.softwareManager().get(null, true);
+        if (!plugins.isEmpty() || !software.isEmpty()) { // Compare selected elements to installed elements
+            if (!plugins.isEmpty()) { // Compare selected to installed plugins
                 Console.sep();
                 Console.logL(Type.REQUESTED, Style.SELECT, plugins.size() + " plugins(s) selected",
                         4, 21, plugins.toArray());
@@ -49,30 +49,30 @@ public final class StatusExec extends Exec {
                             4, 21, plugins.toArray());
                 }
             }
-            if (!softwares.isEmpty()) {
+            if (!software.isEmpty()) { // Compare selected to installed software
                 Console.sep();
-                Console.logL(Type.REQUESTED, Style.SELECT, softwares.size() + " software(s) selected",
-                        4, 21, softwares.toArray());
-                softwares = this.result.softwareManager().get(true, true);
-                if (!softwares.isEmpty()) {
+                Console.logL(Type.REQUESTED, Style.SELECT, software.size() + " software(s) selected",
+                        4, 21, software.toArray());
+                software = this.result.softwareManager().get(true, true);
+                if (!software.isEmpty()) {
                     Console.sep();
-                    Console.logL(Type.REQUESTED, Style.INSTALL, softwares.size() + " software(s) installed",
-                            4, 21, softwares.toArray());
+                    Console.logL(Type.REQUESTED, Style.INSTALL, software.size() + " software(s) installed",
+                            4, 21, software.toArray());
                 }
-                softwares = this.result.softwareManager().get(true, false);
-                if (!softwares.isEmpty()) {
+                software = this.result.softwareManager().get(true, false);
+                if (!software.isEmpty()) {
                     Console.sep();
-                    Console.logL(Type.REQUESTED, Style.SUPERFLUOUS, softwares.size() + " software(s) superfluous",
-                            4, 21, softwares.toArray());
+                    Console.logL(Type.REQUESTED, Style.SUPERFLUOUS, software.size() + " software(s) superfluous",
+                            4, 21, software.toArray());
                 }
-                softwares = this.result.softwareManager().get(false, true);
-                if (!softwares.isEmpty()) {
+                software = this.result.softwareManager().get(false, true);
+                if (!software.isEmpty()) {
                     Console.sep();
-                    Console.logL(Type.REQUESTED, Style.MISSING, softwares.size() + " software(s) missing",
-                            4, 21, softwares.toArray());
+                    Console.logL(Type.REQUESTED, Style.MISSING, software.size() + " software(s) missing",
+                            4, 21, software.toArray());
                 }
             }
-        } else {
+        } else { // Get installed elements if none have been selected for comparison
             Set<Plugin> unlinked = this.result.pluginManager().get(true, null, false);
             Set<Plugin> linked = this.result.pluginManager().get(true, null, true);
             Set<Software> installed = this.result.softwareManager().get(true, null);
@@ -96,6 +96,7 @@ public final class StatusExec extends Exec {
                 Console.log(Type.REQUESTED, Style.INFO, "Nothing installed\n");
             }
         }
+        // Always output unknown elements
         Set<String> unknown = this.result.pluginManager().unknown();
         if (!unknown.isEmpty()) {
             Console.sep();
