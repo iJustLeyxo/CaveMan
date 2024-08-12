@@ -76,8 +76,7 @@ public final  class ListExec extends Exec {
             // List selected elements of category if any are specified
             Set<Plugin> selected = this.result.pluginManager().get(null, true, null);
             if (!selected.isEmpty()) {
-                Console.logL(Type.REQUESTED, Style.PLUGIN, selected.size() + " plugin(s) selected",
-                        4, 21, selected.toArray());
+                Console.logL(Type.REQUESTED, Style.PLUGIN, selected.size() + " plugin(s) selected", 4, 21, selected.toArray());
             } else {
                 Console.log(Type.WARN, "No plugins selected\n");
             }
@@ -89,8 +88,7 @@ public final  class ListExec extends Exec {
      */
     private static void plugins() {
         Console.sep();
-        Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins",
-                4, 21, (Object[]) Plugin.values());
+        Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins", 4, 21, (Object[]) Plugin.values());
     }
 
     /**
@@ -98,11 +96,9 @@ public final  class ListExec extends Exec {
      */
     private static void categories() {
         Console.sep();
-        Console.log(Type.REQUESTED, Style.CATEGORY, XCode.BOLD +
-                "-------------------------------------- Categories -------------------------------------\n");
+        Console.log(Type.REQUESTED, Style.CATEGORY, XCode.BOLD + "-------------------------------------- Categories -------------------------------------\n");
         Console.logF(Type.REQUESTED, Style.CATEGORY, "%-16s | %-68s\n", "Category", "Info");
-        Console.log(Type.REQUESTED, Style.CATEGORY,
-                "---------------------------------------------------------------------------------------\n");
+        Console.log(Type.REQUESTED, Style.CATEGORY, "---------------------------------------------------------------------------------------\n");
         ArrayList<Category> categories = new ArrayList<>(List.of(Category.values()));
         Collections.sort(categories);
         for (Category c : categories) {
@@ -115,11 +111,9 @@ public final  class ListExec extends Exec {
      */
     private static void servers() {
         Console.sep();
-        Console.log(Type.REQUESTED, Style.SERVER, XCode.BOLD +
-                "--------------------------------------- Servers ---------------------------------------\n");
+        Console.log(Type.REQUESTED, Style.SERVER, XCode.BOLD + "--------------------------------------- Servers ---------------------------------------\n");
         Console.logF(Type.REQUESTED, Style.SERVER, "%-16s | %-68s\n", "Server", "Info");
-        Console.log(Type.REQUESTED, Style.SERVER,
-                "---------------------------------------------------------------------------------------\n");
+        Console.log(Type.REQUESTED, Style.SERVER, "---------------------------------------------------------------------------------------\n");
         ArrayList<Server> servers = new ArrayList<>(List.of(Server.values()));
         Collections.sort(servers);
         for (Server s : servers) {
@@ -132,7 +126,6 @@ public final  class ListExec extends Exec {
      */
     private static void software() {
         Console.sep();
-        Console.logL(Type.REQUESTED, Style.SOFTWARE, "Server software",
-                4, 21, (Object[]) Software.values());
+        Console.logL(Type.REQUESTED, Style.SOFTWARE, "Server software", 4, 21, (Object[]) Software.values());
     }
 }

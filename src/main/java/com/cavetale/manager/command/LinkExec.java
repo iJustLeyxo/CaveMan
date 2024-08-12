@@ -22,8 +22,7 @@ public final class LinkExec extends Exec {
     @Override
     public void run() {
         // Check inputs
-        if (!this.result.tokens().flags().containsKey(Flag.PATH) ||
-                this.result.tokens().flags().get(Flag.PATH).isEmpty()) {
+        if (!this.result.tokens().flags().containsKey(Flag.PATH) || this.result.tokens().flags().get(Flag.PATH).isEmpty()) {
             Console.log(Type.WARN, "No path specified for linking\n");
             return;
         }
@@ -34,8 +33,7 @@ public final class LinkExec extends Exec {
             return;
         }
         assert path != null;
-        Console.logL(Type.REQUESTED, Style.LINK, selected.size() + " plugins(s) selected for linking",
-                4, 21, selected);
+        Console.logL(Type.REQUESTED, Style.LINK, selected.size() + " plugins(s) selected for linking", 4, 21, selected);
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
             if (!Console.in("Proceed with linking (Y/n)?").equalsIgnoreCase("y")) {
                 return;

@@ -61,11 +61,7 @@ public final class PluginManager {
                 ref = ref.substring(0, ref.length() - 4);
                 try {
                     Plugin p = Plugin.get(ref);
-                    this.plugins.put(p, new Details(
-                            selected.contains(p),
-                            true,
-                            Files.isSymbolicLink(f.toPath())
-                    ));
+                    this.plugins.put(p, new Details(selected.contains(p), true, Files.isSymbolicLink(f.toPath())));
                 } catch (Plugin.NotFoundException e) {
                     this.unknown.add(ref);
                 }
@@ -76,20 +72,14 @@ public final class PluginManager {
             if (this.plugins.containsKey(p)) {
                 continue;
             }
-            this.plugins.put(p, new Details(
-                    selected.contains(p),
-                    false,
-                    null
-            ));
+            this.plugins.put(p, new Details(selected.contains(p), false, null));
         }
     }
 
     public @NotNull Set<Plugin> get(@Nullable Boolean installed, @Nullable Boolean selected, @Nullable Boolean link) {
         Set<Plugin> plugins = new HashSet<>();
         for (Map.Entry<Plugin, Details> p : this.plugins.entrySet()) {
-            if ((installed == null || installed == p.getValue().installed) &&
-                    (selected == null || selected == p.getValue().selected) &&
-                    (link == null || link == p.getValue().link)) {
+            if ((installed == null || installed == p.getValue().installed) && (selected == null || selected == p.getValue().selected) && (link == null || link == p.getValue().link)) {
                 plugins.add(p.getKey());
             }
         }
@@ -100,9 +90,7 @@ public final class PluginManager {
         return this.unknown;
     }
 
-    private record Details (
-            @NotNull Boolean selected,
-            @NotNull Boolean installed,
-            @Nullable Boolean link
-    ) { }
+    private record Details (@NotNull Boolean selected, @NotNull Boolean installed, @Nullable Boolean link) {
+
+    }
 }

@@ -64,18 +64,14 @@ public final class SoftwareManager {
             if (this.software.containsKey(s)) {
                 continue;
             }
-            this.software.put(s, new Details(
-                    selected.contains(s),
-                    false
-            ));
+            this.software.put(s, new Details(selected.contains(s), false));
         }
     }
 
     public Set<Software> get(@Nullable Boolean installed, @Nullable Boolean selected) {
         Set<Software> software = new HashSet<>();
         for (Map.Entry<Software, Details> s : this.software.entrySet()) {
-            if ((installed == null || installed == s.getValue().installed) &&
-                    (selected == null || selected == s.getValue().selected)) {
+            if ((installed == null || installed == s.getValue().installed) && (selected == null || selected == s.getValue().selected)) {
                 software.add(s.getKey());
             }
         }
@@ -86,8 +82,7 @@ public final class SoftwareManager {
         return this.unknown;
     }
 
-    private record Details(
-            @NotNull Boolean selected,
-            @NotNull Boolean installed
-    ) { }
+    private record Details(@NotNull Boolean selected, @NotNull Boolean installed) {
+
+    }
 }

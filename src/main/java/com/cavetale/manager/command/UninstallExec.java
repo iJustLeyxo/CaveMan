@@ -73,8 +73,7 @@ public final class UninstallExec extends Exec {
             return false;
         }
         Set<Software> selected = this.result.softwareManager().get(null, true);
-        Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() + " software(s) selected to uninstall",
-                4, 21, selected.toArray());
+        Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() + " software(s) selected to uninstall", 4, 21, selected.toArray());
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
             if (!Console.in("Proceed with uninstall (Y/n)?").equalsIgnoreCase("y")) {
                 return true;
@@ -120,8 +119,7 @@ public final class UninstallExec extends Exec {
             selected = this.result.pluginManager().get(null, true, null);
         }
         if (!selected.isEmpty()) {
-            Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() + " plugins(s) to uninstall",
-                    4, 21, selected.toArray());
+            Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() + " plugins(s) to uninstall", 4, 21, selected.toArray());
         } else {
             return false;
         }
@@ -142,10 +140,8 @@ public final class UninstallExec extends Exec {
                 continue;
             }
             if (Files.isSymbolicLink(file.toPath())) {
-                if (!Console.log(Type.INFO, Style.WARN,
-                        " skipped (symbolic link, use " + Command.UNLINK.refs[0] + " to remove)\n")) {
-                    Console.log(Type.WARN, "Uninstalling " + p.ref +
-                            " skipped (symbolic link, use " + Command.UNLINK.refs[0] + " to remove)\n");
+                if (!Console.log(Type.INFO, Style.WARN, " skipped (symbolic link, use " + Command.UNLINK.refs[0] + " to remove)\n")) {
+                    Console.log(Type.WARN, "Uninstalling " + p.ref + " skipped (symbolic link, use " + Command.UNLINK.refs[0] + " to remove)\n");
                 }
                 continue;
             }

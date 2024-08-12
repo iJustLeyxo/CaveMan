@@ -29,6 +29,7 @@ public final class InstallExec extends Exec {
 
     /**
      * Install server software
+     *
      * @return {@code true} if any software is selected
      */
     private boolean serverSoftware() {
@@ -37,8 +38,7 @@ public final class InstallExec extends Exec {
             return false;
         }
         Set<Software> selected = this.result.softwareManager().get(null, true);
-        Console.logL(Type.REQUESTED, Style.INSTALL, selected.size() + " server software(s) selected for installation",
-                4, 21, selected.toArray());
+        Console.logL(Type.REQUESTED, Style.INSTALL, selected.size() + " server software(s) selected for installation", 4, 21, selected.toArray());
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
             if (!Console.in("Proceed with server software installation (Y/n)?").equalsIgnoreCase("y")) {
                 return true;
@@ -76,6 +76,7 @@ public final class InstallExec extends Exec {
 
     /**
      * Install plugins
+     *
      * @return {@code true} if any plugins are selected
      */
     private boolean plugins() {
@@ -84,8 +85,7 @@ public final class InstallExec extends Exec {
         if (selected.isEmpty()) {
             return false;
         }
-        Console.logL(Type.REQUESTED, Style.INSTALL, selected.size() + " plugins(s) selected for installation",
-                4, 21, selected.toArray());
+        Console.logL(Type.REQUESTED, Style.INSTALL, selected.size() + " plugins(s) selected for installation", 4, 21, selected.toArray());
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
             if (!Console.in("Proceed with plugin installation (Y/n)?").equalsIgnoreCase("y")) {
                 return true;

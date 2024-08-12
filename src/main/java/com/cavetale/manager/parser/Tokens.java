@@ -16,10 +16,7 @@ import java.util.Set;
  * @param commands Detected commands
  * @param flags Detected flags and flag options / arguments
  */
-public record Tokens (
-        @NotNull Set<Command> commands,
-        @NotNull Map<Flag, EmptyContainer> flags
-) {
+public record Tokens (@NotNull Set<Command> commands, @NotNull Map<Flag, EmptyContainer> flags) {
     /**
      * Analyse the parsed tokens for some basic flags
      * @return {@code true} if something of significance has been found

@@ -68,14 +68,11 @@ public final class Console {
      * @param colSize Size of the columns of the list
      * @return {@code true} if the message was logged and not held back due to verbosity
      */
-    public static boolean logL(
-            @NotNull Type type, @NotNull Style style, @NotNull String header,
-            int cols, int colSize, @NotNull Object... objects) {
+    public static boolean logL(@NotNull Type type, @NotNull Style style, @NotNull String header, int cols, int colSize, @NotNull Object... objects) {
         if (!Console.logs(type.detail)) {
             return false;
         }
-        StringBuilder b = new StringBuilder(XCode.BOLD + header + "\n" +
-                "-".repeat(cols * colSize + cols - 1) + "\n" + XCode.WEIGHT_OFF);
+        StringBuilder b = new StringBuilder(XCode.BOLD + header + "\n" + "-".repeat(cols * colSize + cols - 1) + "\n" + XCode.WEIGHT_OFF);
         Arrays.sort(objects);
         int i = 1;
         for (Object o : objects) {

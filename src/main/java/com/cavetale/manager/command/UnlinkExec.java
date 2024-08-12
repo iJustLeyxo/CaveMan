@@ -28,8 +28,7 @@ public final class UnlinkExec extends Exec {
             selected = result.pluginManager().get(true, null, true);
         }
         if (!selected.isEmpty()) {
-            Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() + " plugins(s) to unlink",
-                    4, 21, selected.toArray());
+            Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() + " plugins(s) to unlink", 4, 21, selected.toArray());
         } else {
             Console.log(Type.INFO, "Nothing selected for unlink\n");
             return;
@@ -45,10 +44,8 @@ public final class UnlinkExec extends Exec {
             Console.log(Type.INFO, "Unlinking " + p.ref);
             File file = new File(folder, p.ref + ".jar");
             if (!Files.isSymbolicLink(file.toPath())) {
-                if (!Console.log(Type.INFO, Style.WARN,
-                        " skipped (not a symbolic link, use " + Command.UNINSTALL.refs[0] + " to remove)\n")) {
-                    Console.log(Type.WARN, "Uninstalling " + p.ref +
-                            " skipped (not a symbolic link, use " + Command.UNINSTALL.refs[0] + " to remove)\n");
+                if (!Console.log(Type.INFO, Style.WARN, " skipped (not a symbolic link, use " + Command.UNINSTALL.refs[0] + " to remove)\n")) {
+                    Console.log(Type.WARN, "Uninstalling " + p.ref + " skipped (not a symbolic link, use " + Command.UNINSTALL.refs[0] + " to remove)\n");
                 }
                 continue;
             }
