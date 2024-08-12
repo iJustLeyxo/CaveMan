@@ -38,9 +38,11 @@ public final class InstallExec extends Exec {
             return false;
         }
         Set<Software> selected = this.result.softwareManager().get(null, true);
-        Console.logL(Type.REQUESTED, Style.INSTALL, selected.size() + " server software(s) selected for installation", 4, 21, selected.toArray());
+        Console.logL(Type.REQUESTED, Style.INSTALL, selected.size() +
+                " server software(s) selected for installation", 4, 21, selected.toArray());
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
-            if (!Console.in("Proceed with server software installation (Y/n)?").equalsIgnoreCase("y")) {
+            if (!Console.in("Proceed with server software installation (Y/n)?")
+                    .equalsIgnoreCase("y")) {
                 return true;
             }
         }
@@ -50,7 +52,8 @@ public final class InstallExec extends Exec {
             File file = s.file();
             if (file == null) {
                 if (!Console.log(Type.INFO, Style.WARN, " skipped (unable to install)\n")) {
-                    Console.log(Type.WARN, "Skipped " + s.refs[0] + " server software (unable to install)\n");
+                    Console.log(Type.WARN, "Skipped " + s.refs[0] +
+                            " server software (unable to install)\n");
                 }
                 Console.log(Type.WARN, s.refs[0] + " server software uri is not a file\n");
                 continue;
@@ -85,7 +88,8 @@ public final class InstallExec extends Exec {
         if (selected.isEmpty()) {
             return false;
         }
-        Console.logL(Type.REQUESTED, Style.INSTALL, selected.size() + " plugins(s) selected for installation", 4, 21, selected.toArray());
+        Console.logL(Type.REQUESTED, Style.INSTALL, selected.size() +
+                " plugins(s) selected for installation", 4, 21, selected.toArray());
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
             if (!Console.in("Proceed with plugin installation (Y/n)?").equalsIgnoreCase("y")) {
                 return true;

@@ -13,7 +13,8 @@ import java.net.URISyntaxException;
  * Server software, used to register downloadable server software
  */
 public enum Software {
-    PAPER("https://api.papermc.io/v2/projects/paper/versions/1.21/builds/127/downloads/paper-1.21-127.jar", "Paper", "PaperMC"),
+    PAPER("https://api.papermc.io/v2/projects/paper/versions/1.21/builds/127/downloads/paper-1.21-127.jar",
+            "Paper", "PaperMC"),
     SPIGOT("https://download.getbukkit.org/spigot/spigot-1.21.jar", "Spigot", "SpigotMC"),
     BUKKIT("https://download.getbukkit.org/craftbukkit/craftbukkit-1.21.jar", "Bukkit", "Craftbukkit");
 

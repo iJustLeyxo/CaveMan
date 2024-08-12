@@ -10,6 +10,9 @@ import org.jetbrains.annotations.NotNull;
  * @param pluginManager Plugin manager for the resulting tokens
  * @param softwareManager Software manager for the resulting tokens
  */
-public record Result (@NotNull Tokens tokens, @NotNull PluginManager pluginManager, @NotNull SoftwareManager softwareManager) {
+public record Result (
+        @NotNull Tokens tokens,
+        @NotNull PluginManager pluginManager,
+        @NotNull SoftwareManager softwareManager) {
 
 }

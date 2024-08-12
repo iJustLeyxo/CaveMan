@@ -49,7 +49,8 @@ public final class UninstallExec extends Exec {
         File file = new File(selected);
         if (!file.exists()) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (not installed)\n")) {
-                Console.log(Type.WARN, "Uninstalling " + selected + " server software skipped (not installed)\n");
+                Console.log(Type.WARN, "Uninstalling " + selected +
+                        " server software skipped (not installed)\n");
             }
             return true;
         }
@@ -73,7 +74,8 @@ public final class UninstallExec extends Exec {
             return false;
         }
         Set<Software> selected = this.result.softwareManager().get(null, true);
-        Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() + " software(s) selected to uninstall", 4, 21, selected.toArray());
+        Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() +
+                " software(s) selected to uninstall", 4, 21, selected.toArray());
         if (!this.result.tokens().flags().containsKey(Flag.FORCE)) {
             if (!Console.in("Proceed with uninstall (Y/n)?").equalsIgnoreCase("y")) {
                 return true;
@@ -85,13 +87,15 @@ public final class UninstallExec extends Exec {
             File file = s.file();
             if (file == null) {
                 if (!Console.log(Type.INFO, Style.ERR, " skipped (unable to uninstall)\n")) {
-                    Console.log(Type.ERR, "Uninstalling " + s.refs[0] + " server software skipped (unable to uninstall)\n");
+                    Console.log(Type.ERR, "Uninstalling " + s.refs[0] +
+                            " server software skipped (unable to uninstall)\n");
                 }
                 continue;
             }
             if (!file.exists()) {
                 if (!Console.log(Type.INFO, Style.WARN, " skipped (not installed)\n")) {
-                    Console.log(Type.WARN, "Uninstalling " + s.refs[0] + " server software skipped (not installed)\n");
+                    Console.log(Type.WARN, "Uninstalling " + s.refs[0] +
+                            " server software skipped (not installed)\n");
                 }
                 continue;
             }
@@ -119,7 +123,8 @@ public final class UninstallExec extends Exec {
             selected = this.result.pluginManager().get(null, true, null);
         }
         if (!selected.isEmpty()) {
-            Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() + " plugins(s) to uninstall", 4, 21, selected.toArray());
+            Console.logL(Type.REQUESTED, Style.UNINSTALL, selected.size() +
+                    " plugins(s) to uninstall", 4, 21, selected.toArray());
         } else {
             return false;
         }
@@ -140,8 +145,10 @@ public final class UninstallExec extends Exec {
                 continue;
             }
             if (Files.isSymbolicLink(file.toPath())) {
-                if (!Console.log(Type.INFO, Style.WARN, " skipped (symbolic link, use " + Command.UNLINK.refs[0] + " to remove)\n")) {
-                    Console.log(Type.WARN, "Uninstalling " + p.ref + " skipped (symbolic link, use " + Command.UNLINK.refs[0] + " to remove)\n");
+                if (!Console.log(Type.INFO, Style.WARN, " skipped (symbolic link, use " +
+                        Command.UNLINK.refs[0] + " to remove)\n")) {
+                    Console.log(Type.WARN, "Uninstalling " + p.ref + " skipped (symbolic link, use " +
+                            Command.UNLINK.refs[0] + " to remove)\n");
                 }
                 continue;
             }

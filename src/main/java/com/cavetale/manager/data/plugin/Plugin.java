@@ -181,11 +181,11 @@ public enum Plugin implements Provider {
         }
     }
 
-    Plugin(@NotNull String ref, @NotNull String groupId, @NotNull String artifactId, @NotNull String version, @NotNull Category... categories) {
-        String uri = "https://cavetale.com/jenkins/job/" + ref
-                + "/lastSuccessfulBuild/" + groupId + "$" + artifactId
-                + "/artifact/" + groupId + "/" + artifactId + "/" + version
-                + "/" + artifactId + "-" + version + ".jar";
+    Plugin(@NotNull String ref, @NotNull String groupId, @NotNull String artifactId,
+           @NotNull String version, @NotNull Category... categories) {
+        String uri = "https://cavetale.com/jenkins/job/" + ref + "/lastSuccessfulBuild/" + groupId +
+                "$" + artifactId + "/artifact/" + groupId + "/" + artifactId + "/" + version + "/" +
+                artifactId + "-" + version + ".jar";
         try {
             this.ref = ref;
             this.uri = new URI(uri);
@@ -195,8 +195,10 @@ public enum Plugin implements Provider {
         }
     }
 
-    Plugin(@NotNull String ref, @NotNull String path, @NotNull String artifact, @NotNull Category... categories) {
-        String uri = "https://cavetale.com/jenkins/job/" + ref + "/lastSuccessfulBuild/artifact/" + path + artifact + ".jar";
+    Plugin(@NotNull String ref, @NotNull String path, @NotNull String artifact,
+           @NotNull Category... categories) {
+        String uri = "https://cavetale.com/jenkins/job/" + ref + "/lastSuccessfulBuild/artifact/" +
+                path + artifact + ".jar";
         try {
             this.ref = ref;
             this.uri = new URI(uri);

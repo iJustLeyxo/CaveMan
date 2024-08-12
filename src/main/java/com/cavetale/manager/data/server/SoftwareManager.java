@@ -71,7 +71,8 @@ public final class SoftwareManager {
     public Set<Software> get(@Nullable Boolean installed, @Nullable Boolean selected) {
         Set<Software> software = new HashSet<>();
         for (Map.Entry<Software, Details> s : this.software.entrySet()) {
-            if ((installed == null || installed == s.getValue().installed) && (selected == null || selected == s.getValue().selected)) {
+            if ((installed == null || installed == s.getValue().installed) &&
+                    (selected == null || selected == s.getValue().selected)) {
                 software.add(s.getKey());
             }
         }
