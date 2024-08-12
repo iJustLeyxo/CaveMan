@@ -49,17 +49,6 @@ public final class Console {
     }
 
     /**
-     * Logs a formatted message to console
-     * @param type Type of message to log
-     * @param format Format to use for the message
-     * @param params Params to format
-     * @return {@code true} if the message was logged and not held back due to verbosity
-     */
-    public static boolean logF(@NotNull Type type, @NotNull String format, @NotNull String... params) {
-        return Console.logF(type, type.style, format, params);
-    }
-
-    /**
      * Logs a list to console
      * @param type Type of message to log
      * @param style Style to override the default style of the specified type
