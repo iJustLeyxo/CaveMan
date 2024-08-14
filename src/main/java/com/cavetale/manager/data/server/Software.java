@@ -43,9 +43,7 @@ public enum Software {
     public @NotNull String toString() {
         return this.refs[0];
     }
-
-    public static final @NotNull Software DEFAULT = PAPER;
-
+    
     public static @NotNull Software get(@NotNull String ref) throws NotFoundException {
         for (Software s : values()) {
             for (String r : s.refs) {

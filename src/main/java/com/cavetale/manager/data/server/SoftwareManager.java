@@ -35,9 +35,6 @@ public final class SoftwareManager {
         if (this.tokens.flags().containsKey(Flag.SOFTWARE)) {
             selected.addAll(((SoftwareContainer) this.tokens.flags().get(Flag.SOFTWARE)).get());
         }
-        if (selected.isEmpty()) {
-            selected.add(Software.DEFAULT);
-        }
         // Resolve installed software
         File folder = new File("");
         File[] files = folder.listFiles();
