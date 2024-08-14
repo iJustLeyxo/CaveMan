@@ -22,7 +22,7 @@ public final class InstallExec extends Exec {
 
     @Override
     public void run() {
-        if (!serverSoftware() && !plugins()) {
+        if (!serverSoftware() & !plugins()) {
             Console.log(Type.WARN, "Nothing selected for installation\n");
         }
     }

@@ -22,7 +22,7 @@ public final class UninstallExec extends Exec {
 
     @Override
     public void run() {
-        if (!serverSoftware() && !plugins() && !path()) {
+        if (!serverSoftware() & !plugins() & !path()) {
             Console.log(Type.INFO, "Nothing selected for uninstall\n");
         }
     }
