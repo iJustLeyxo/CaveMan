@@ -15,7 +15,7 @@ import java.util.Set;
 public enum Plugin implements Provider {
     ADVICE_ANIMALS("AdviceAnimals", "com.winthier.adviceanimals", "adviceanimals", "0.1-SNAPSHOT", Category.DEPRECATED),
     AFK("AFK", "com.cavetale.afk", "afk", "0.1-SNAPSHOT", Category.GLOBAL),
-    ANTI_POPUP("AntiPopup", "https://github.com/KaspianDev/AntiPopup/releases/download/5487999/AntiPopup-4.3.jar", Category.GLOBAL),
+    ANTI_POPUP("AntiPopup", "https://github.com/KaspianDev/AntiPopup/releases/download/b7a08d9/AntiPopup-9.2.jar", Category.GLOBAL),
     AREA("Area", "com.cavetale.area", "area", "0.1-SNAPSHOT", Category.GLOBAL),
     ARMOR_STAND_EDITOR("ArmorStandEditor", "io.github.rypofalem.armorstandeditor", "armorstandeditor", "1.17-25", Category.GLOBAL),
     AUCTION("Auction", "com.cavetale.auction", "auction", "0.1-SNAPSHOT", Category.GLOBAL),
@@ -152,7 +152,7 @@ public enum Plugin implements Provider {
     WATCHMAN("Watchman", "com.cavetale.watchman", "watchman", "0.1-SNAPSHOT", Category.BUILD),
     WIN_TAG("WinTag", "com.cavetale.wintag", "wintag", "0.1-SNAPSHOT", Category.BUILD),
     WORLDS("Worlds", "com.winthier.worlds", "worlds", "0.1-SNAPSHOT", Category.GLOBAL),
-    WORLD_EDIT("WorldEdit", "worldedit-bukkit/build/libs/", "worldedit-bukkit-7.3.0-SNAPSHOT-dist", Category.GLOBAL),
+    WORLD_EDIT("WorldEdit", "https://dev.bukkit.org/projects/worldedit/files/5613179/download", Category.GLOBAL),
     WORLD_GUARD("WorldGuard", "worldguard-bukkit/build/libs/", "worldguard-bukkit-7.0.6-SNAPSHOT-dist", Category.DEPRECATED),
     WORLD_MARKER("WorldMarker", "com.cavetale.worldmarker", "worldmarker", "0.1-SNAPSHOT", Category.CORE),
     XMAS("Xmas", "com.cavetale.xmas", "xmas", "0.1-SNAPSHOT", Category.SEASONAL);
