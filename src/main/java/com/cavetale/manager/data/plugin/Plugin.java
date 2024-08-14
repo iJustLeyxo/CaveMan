@@ -90,7 +90,7 @@ public enum Plugin implements Provider {
     NEO_PAINTING_SWITCH("neoPaintingSwitch", (URI) null, Category.DEPRECATED),
     NO_CHEAT_PLUS("NoCheatPlus", "fr.neatmonster", "nocheatplus-parent", "1.1-SNAPSHOT", Category.DEPRECATED),
     NU_VOTIFIER("NuVotifier", (URI) null, Category.HUB),
-    OPEN_INV("OpenInv", "com.lishid", "openinvassembly", "4.1.6-SNAPSHOT", Category.GLOBAL),
+    OPEN_INV("OpenInv", "https://github.com/Jikoo/OpenInv/releases/download/5.1.1/OpenInv.jar", Category.GLOBAL),
     OVERBOARD("Overboard", "com.cavetale.overboard", "overboard", "0.1-SNAPSHOT", Category.MINI_GAME),
     PERM("Perm", "com.winthier.perm", "perm", "0.1-SNAPSHOT", Category.CORE),
     PHOTOS("Photos", "com.winthier.photos", "photos", "0.1-SNAPSHOT", Category.BUILD),
