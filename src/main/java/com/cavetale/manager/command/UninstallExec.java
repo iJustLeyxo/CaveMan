@@ -83,7 +83,7 @@ public final class UninstallExec extends Exec {
         }
         // Uninstall server software
         for (Software s : selected) {
-            Console.log(Type.INFO, "Uninstalling " + s.refs[0] + " server software\n");
+            Console.log(Type.INFO, "Uninstalling " + s.refs[0] + " server software");
             File file = s.file();
             if (file == null) {
                 if (!Console.log(Type.INFO, Style.ERR, " skipped (unable to uninstall)\n")) {
