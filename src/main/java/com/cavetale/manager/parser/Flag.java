@@ -38,7 +38,7 @@ public enum Flag {
             return new ServerContainer();
         }
     },
-    SOFTWARE('S', "Specify server software") {
+    SOFTWARE('S', "Specify server software", "-S <software(s)>") {
         @Override
         public @NotNull EmptyContainer container() {
             return new SoftwareContainer();
