@@ -1,13 +1,10 @@
-package com.cavetale.manager.command;
+package com.cavetale.manager.parser;
 
 import com.cavetale.manager.Manager;
 import com.cavetale.manager.data.plugin.Category;
 import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.data.plugin.Server;
 import com.cavetale.manager.data.server.Software;
-import com.cavetale.manager.parser.Flag;
-import com.cavetale.manager.parser.InputException;
-import com.cavetale.manager.parser.Result;
 import com.cavetale.manager.parser.container.PathContainer;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Style;
