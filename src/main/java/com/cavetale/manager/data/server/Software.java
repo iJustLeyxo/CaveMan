@@ -25,8 +25,6 @@ public enum Software {
 
     // TODO: add custom install and update logic
 
-    // TODO: Broaden software detection (versions, minecraft version, etc.)
-
     public final @NotNull String[] refs;
     public final @Nullable URI uri;
 
@@ -48,7 +46,7 @@ public enum Software {
         return new File(new File(this.uri.getPath()).getName());
     }
 
-    public void install() {
+    public void install() { // TODO: Save versions during installation
         Console.log(Type.INFO, "Installing " + this.refs[0] + " server software");
         File file = this.file(); // TODO: Fix this.file() functionality
         if (file == null) {
