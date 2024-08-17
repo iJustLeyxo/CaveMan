@@ -186,7 +186,7 @@ public enum Command {
     public abstract void run(@NotNull Result result);
 
     public void help(@NotNull Result result) {
-
+        // TODO: Add back help logic
     }
 
     public static @NotNull Command get(@NotNull String ref) throws NotFoundException {

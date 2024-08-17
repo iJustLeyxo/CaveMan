@@ -1,6 +1,5 @@
 package com.cavetale.manager.data.plugin;
 
-import com.cavetale.manager.data.server.Software;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Tokens;
 import com.cavetale.manager.parser.container.CategoryContainer;
