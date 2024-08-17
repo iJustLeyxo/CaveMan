@@ -176,19 +176,13 @@ public enum Plugin implements Provider {
 
     public void install() {
         Console.log(Type.INFO, "Installing " + this.name());
-        File folder = new File("plugins/");
-        folder.mkdir();
-        File file = new File(folder, this.name() + "-" + this.source.version + ".jar");
-        String name;
-        for (File f : folder.listFiles()) {
-            name = f.getName();
-            if (name.toLowerCase().startsWith(this.name().toLowerCase()) && name.endsWith(".jar")) {
-                if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
-                    Console.log(Type.WARN, "Installing " + this.name() + " skipped (already installed)\n");
-                }
-                return;
+        if (this.isInstalled()) {
+            if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
+                Console.log(Type.WARN, "Installing " + this.name() + " skipped (already installed)\n");
             }
+            return;
         }
+        File file = new File("plugins/" + this.name() + "-" + this.source.version + ".jar");
         try {
             Download.download(this.source.uri, file);
             Console.log(Type.INFO, Style.DONE, " done\n");
@@ -201,16 +195,32 @@ public enum Plugin implements Provider {
 
     public void link(@NotNull String path) {
         Console.log(Type.INFO, "Linking " + this.name());
-        File original = new File(path + this.name() + ".jar"); // TODO: Find matching original
-        File link = new File("plugins/" + original.getName());
-        if (link.exists()) { // TODO: Better existence check
+        File origin = null;
+        File originFolder = new File(path);
+        originFolder.mkdir();
+        String name;
+        for (File f : originFolder.listFiles()) {
+            name = f.getName();
+            if (name.toLowerCase().startsWith(this.name().toLowerCase()) && name.endsWith(".jar")) {
+                origin = f;
+            }
+        }
+        if (origin == null) {
+            if (!Console.log(Type.INFO, Style.WARN, " failed (origin not found)\n")) {
+                Console.log(Type.WARN, "Linking " + this.name() + " failed (origin not found)\n");
+            }
+            return;
+        }
+        if (this.isInstalled()) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
                 Console.log(Type.WARN, "Linking " + this.name() + " skipped (already installed)\n");
             }
             return;
         }
+        File folder = new File("plugins/");
+        File link = new File(folder, origin.getName());
         try {
-            Files.createSymbolicLink(link.toPath(), original.toPath());
+            Files.createSymbolicLink(link.toPath(), origin.toPath());
             Console.log(Type.INFO, Style.DONE, " done\n");
         } catch (IOException e) {
             if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
@@ -222,30 +232,34 @@ public enum Plugin implements Provider {
     // TODO: add update method
 
     public void uninstall() {
-        File file = new File("plugins/" + this.name() + ".jar"); // TODO: Remove all installations
-        boolean link = Files.isSymbolicLink(file.toPath());
-        if (link) {
-            Console.log(Type.INFO, Style.LINK, "Unlinking " + this.name());
-        } else {
-            Console.log(Type.INFO, "Uninstalling" + this.name());
-        }
-        if (!file.exists()) { // TODO: Better existence check
-            if (!Console.log(Type.INFO, Style.WARN, " skipped (not installed)\n")) {
-                Console.log(Type.WARN, "Uninstalling " + this.name() + " skipped (not installed)\n");
-            }
-            return;
-        }
-        if (file.delete()) {
-            Console.log(Type.INFO, Style.DONE, " done\n");
-            return;
-        }
-        if(!Console.log(Type.INFO, Style.ERR, " failed\n")) {
-            if (link) {
-                Console.log(Type.ERR, "Unlinking " + this.name() + " failed\n");
-            } else {
+        File folder = new File("plugins/");
+        folder.mkdir();
+        String name;
+        for (File f : folder.listFiles()) {
+            name = f.getName();
+            if (name.toLowerCase().startsWith(this.name().toLowerCase()) && name.toLowerCase().endsWith(".jar")) {
+                Console.log(Type.INFO, "Uninstalling " + name);
+                if (f.delete()) {
+                    Console.log(Type.INFO, Style.DONE, " done\n");
+                    continue;
+                }
                 Console.log(Type.ERR, "Uninstalling " + this.name() + " failed\n");
             }
         }
+    }
+
+    public boolean isInstalled() { // TODO: Get index
+        File folder = new File("plugins/");
+        folder.mkdir();
+        File file = new File(folder, this.name() + "-" + this.source.version + ".jar");
+        String name;
+        for (File f : folder.listFiles()) {
+            name = f.getName();
+            if (name.toLowerCase().startsWith(this.name().toLowerCase()) && name.toLowerCase().endsWith(".jar")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -260,7 +274,8 @@ public enum Plugin implements Provider {
 
     public static Plugin get(String ref) throws NotFoundException {
         for (Plugin p : Plugin.values()) {
-            if (ref.startsWith(p.name())) return p;
+            if (ref.toLowerCase().startsWith(p.name().toLowerCase()) &&
+                    ref.toLowerCase().endsWith(".jar")) return p;
         }
         throw new NotFoundException(ref);
     }

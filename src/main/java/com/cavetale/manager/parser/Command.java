@@ -31,7 +31,7 @@ public enum Command {
     INSTALL("Install plugins and server software", "add") {
         @Override
         public void run(@NotNull Result result) {
-            Set<Plugin> plugins = result.pluginManager().get(null, true, null);
+            Set<Plugin> plugins = result.plugins().get(null, true);
             Set<Software> software = result.softwareManager().get(null, true);
             if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
@@ -55,7 +55,7 @@ public enum Command {
         @Override
         public
         void run(@NotNull Result result) {
-            Set<Plugin> plugins = result.pluginManager().get(null, true, null);
+            Set<Plugin> plugins = result.plugins().get(null, true);
             if (!result.tokens().flags().containsKey(Flag.PATH) ||
                     result.tokens().flags().get(Flag.PATH).isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "No path specified\n");
@@ -105,7 +105,7 @@ public enum Command {
                     Software.list();
                 }
             } else { // List selected plugins
-                Set<Plugin> selected = result.pluginManager().get(null, true, null);
+                Set<Plugin> selected = result.plugins().get(null, true);
                 if (!selected.isEmpty()) {
                     Console.logL(Type.REQUESTED, Style.PLUGIN, selected.size() +
                             " plugin(s) selected", 4, 21, selected.toArray());
@@ -120,7 +120,7 @@ public enum Command {
         @Override
         public
         void run(@NotNull Result result) {
-            result.pluginManager().summarize();
+            result.plugins().summarize();
             result.softwareManager().summarize();
         }
     },
@@ -130,9 +130,9 @@ public enum Command {
         public void run(@NotNull Result result) {
             Set<Plugin> plugins;
             if (result.tokens().flags().containsKey(Flag.ALL)) {
-                plugins = result.pluginManager().get(true, null, null);
+                plugins = result.plugins().get(true, null);
             } else {
-                plugins = result.pluginManager().get(null, true, null);
+                plugins = result.plugins().get(null, true);
             }
             Set<Software> software = result.softwareManager().get(null, true);
             if (plugins.isEmpty() && software.isEmpty()) {
@@ -156,7 +156,7 @@ public enum Command {
     UPDATE("Update plugins and software", "upgrade") {
         @Override
         public void run(@NotNull Result result) {
-            Set<Plugin> plugins = result.pluginManager().get(null, true, null);
+            Set<Plugin> plugins = result.plugins().get(null, true);
             Set<Software> software = result.softwareManager().get(null, true);
             if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
