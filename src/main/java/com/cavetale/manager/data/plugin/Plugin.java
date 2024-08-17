@@ -248,7 +248,7 @@ public enum Plugin implements Provider {
         }
     }
 
-    public boolean isInstalled() { // TODO: Get index
+    public boolean isInstalled() { // TODO: Get from indexer instead
         File folder = new File("plugins/");
         folder.mkdir();
         File file = new File(folder, this.name() + "-" + this.source.version + ".jar");
