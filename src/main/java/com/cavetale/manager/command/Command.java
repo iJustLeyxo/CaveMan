@@ -192,7 +192,7 @@ public enum Command {
     public abstract void run(@NotNull Result result);
 
     public void help(@NotNull Result result) {
-        // TODO: Add back help logic
+        Console.log(Type.REQUESTED, Style.HELP, this.refs[0] + ": " + this.info);
     }
 
     public static @NotNull Command get(@NotNull String ref) throws NotFoundException {

@@ -40,6 +40,10 @@ public final class Manager {
                 } else {
                     Console.log(Type.DEBUG, "Running " + result.tokens().commands().size() + " commands\n");
                     for (Command cmd : result.tokens().commands()) {
+                        if (result.tokens().flags().containsKey(Flag.HELP)) {
+                            cmd.help(result);
+                            continue;
+                        }
                         cmd.run(result);
                     }
                     Console.log(Type.DEBUG, "Finished running commands\n");
