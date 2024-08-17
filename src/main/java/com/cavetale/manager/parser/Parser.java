@@ -1,5 +1,6 @@
 package com.cavetale.manager.parser;
 
+import com.cavetale.manager.command.Command;
 import com.cavetale.manager.data.plugin.PluginManager;
 import com.cavetale.manager.data.server.SoftwareManager;
 import com.cavetale.manager.parser.container.EmptyContainer;

@@ -1,6 +1,7 @@
 package com.cavetale.manager.parser;
 
 import com.cavetale.manager.Manager;
+import com.cavetale.manager.command.Command;
 import com.cavetale.manager.parser.container.EmptyContainer;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Detail;

@@ -25,10 +25,12 @@ public final class SoftwareManager {
         this.resolve();
     }
 
+    // TODO: Merge software and plugin manager
+
     /**
      * Resolve installed and selected software
      */
-    public void resolve() {
+    public void resolve() { // TODO: Update resolver logic
         this.software.clear();
         // Resolve selected software
         Set<Software> selected = new HashSet<>();

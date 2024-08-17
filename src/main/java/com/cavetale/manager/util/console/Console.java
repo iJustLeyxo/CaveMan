@@ -152,4 +152,8 @@ public final class Console {
         Console.log(Type.PROMPT, Style.INPUT);
         return System.console().readLine();
     }
+
+    public static boolean confirm(@NotNull String string) {
+        return Console.in(string + " (Y/n)?").equalsIgnoreCase("y");
+    }
 }

@@ -2,11 +2,18 @@ package com.cavetale.manager.data.plugin;
 
 import com.cavetale.manager.data.DataError;
 import com.cavetale.manager.parser.InputException;
+import com.cavetale.manager.util.Download;
+import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.Style;
+import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.Set;
 
 /**
@@ -208,6 +215,87 @@ public enum Plugin implements Provider {
         }
     }
 
+    public void install() { // TODO :Folder creation
+        Console.log(Type.INFO, "Installing " + this.ref);
+        File file = new File("plugins/", this.ref + ".jar");
+        if (file.exists()) {
+            if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
+                Console.log(Type.WARN, "Installing " + this.ref + " skipped (already installed)\n");
+            }
+            return;
+        }
+        if (this.uri == null) { // TODO: Get rid of no uri plugins
+            if (!Console.log(Type.INFO, Style.WARN, " skipped (no uri)\n")) {
+                Console.log(Type.WARN, "Installing " + this.ref + " skipped (no uri)\n");
+            }
+            return;
+        }
+        try {
+            Download.download(this.uri, file);
+            Console.log(Type.INFO, Style.DONE, " done\n");
+        } catch (IOException e) {
+            if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
+                Console.log(Type.ERR, "Installing " + this.ref + " failed\n");
+            }
+        }
+    }
+
+    public void link(@NotNull String path) {
+        Console.log(Type.INFO, "Linking " + this.ref);
+        File link = new File(new File("plugins"), this.ref + ".jar");
+        File original = new File(new File(path), this.ref + ".jar");
+        if (link.exists()) {
+            if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
+                Console.log(Type.WARN, "Linking " + this.ref + " skipped (already installed)\n");
+            }
+            return;
+        }
+        try {
+            Files.createSymbolicLink(link.toPath(), original.toPath());
+            Console.log(Type.INFO, Style.DONE, " done\n");
+        } catch (IOException e) {
+            if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
+                Console.log(Type.ERR, "Linking " + this.ref + " failed\n");
+            }
+        }
+    }
+
+    public void uninstall() { // TODO: Merge uninstall and unlink
+        Console.log(Type.INFO, "Uninstalling " + this.ref);
+        File file = new File("plugins/" + this.ref + ".jar");
+        if (!file.exists()) {
+            if (!Console.log(Type.INFO, Style.WARN, " skipped (not installed)\n")) {
+                Console.log(Type.WARN, "Uninstalling " + this.ref + " skipped (not installed)\n");
+            }
+            return;
+        }
+        if (file.delete()) {
+            Console.log(Type.INFO, Style.DONE, " done\n");
+            return;
+        }
+        if(!Console.log(Type.INFO, Style.ERR, " failed\n")) {
+            Console.log(Type.ERR, "Uninstalling " + this.ref + " failed\n");
+        }
+    }
+
+    public void unlink() {
+        Console.log(Type.INFO, "Unlinking " + this.ref);
+        File file = new File("plugins/" + this.ref + ".jar");
+        if (!Files.isSymbolicLink(file.toPath())) {
+            if (!Console.log(Type.INFO, Style.WARN, " skipped (not a symbolic link)\n")) {
+                Console.log(Type.WARN, "Uninstalling " + this.ref + " skipped (not a symbolic link)\n");
+            }
+            return;
+        }
+        if (file.delete()) {
+            Console.log(Type.INFO, Style.DONE, " done\n");
+            return;
+        }
+        if(!Console.log(Type.INFO, Style.ERR, " failed\n")) {
+            Console.log(Type.ERR, "Deleting " + this.ref + " failed");
+        }
+    }
+
     @Override
     public Set<Plugin> plugins() {
         return Set.of(this);
@@ -223,6 +311,10 @@ public enum Plugin implements Provider {
             if (ref.equalsIgnoreCase(p.ref)) return p;
         }
         throw new NotFoundException(ref);
+    }
+
+    public static void list() {
+        Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins", 4, 21, (Object[]) Plugin.values());
     }
 
     public static class NotFoundException extends InputException {

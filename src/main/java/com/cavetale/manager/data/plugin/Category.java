@@ -1,11 +1,13 @@
 package com.cavetale.manager.data.plugin;
 
 import com.cavetale.manager.parser.InputException;
+import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.Style;
+import com.cavetale.manager.util.console.Type;
+import com.cavetale.manager.util.console.XCode;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Plugin categories, used to group plugins by purpose / usage
@@ -62,6 +64,20 @@ public enum Category implements Provider {
             }
         }
         throw new NotFoundException(ref);
+    }
+
+    public static void list() {
+        Console.log(Type.REQUESTED, Style.CATEGORY, XCode.BOLD +
+                "-------------------------------------- " +
+                "Categories -------------------------------------\n");
+        Console.logF(Type.REQUESTED, Style.CATEGORY, "%-16s | %-68s\n", "Category", "Info");
+        Console.log(Type.REQUESTED, Style.CATEGORY, "--------------------------------------------" +
+                "-------------------------------------------\n");
+        ArrayList<Category> categories = new ArrayList<>(List.of(Category.values()));
+        Collections.sort(categories);
+        for (Category c : categories) {
+            Console.logF(Type.REQUESTED, Style.CATEGORY, "%-16s | %-68s\n", c.ref, c.info);
+        }
     }
 
     public static final class NotFoundException extends InputException {

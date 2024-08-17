@@ -83,7 +83,7 @@ public final class PluginManager {
         for (Map.Entry<Plugin, Details> p : this.plugins.entrySet()) {
             if ((installed == null || installed == p.getValue().installed) &&
                     (selected == null || selected == p.getValue().selected) &&
-                    (link == null || link == p.getValue().link)) {
+                    (link == null || null == p.getValue().link || link == p.getValue().link)) {
                 plugins.add(p.getKey());
             }
         }
