@@ -34,7 +34,7 @@ public final class PluginManager {
     /**
      * Resolve installed and selected plugins
      */
-    private void resolve() {
+    private void resolve() { // TODO: Update resolver logic to work with new plugin and software detection
         this.plugins.clear();
         this.unknown.clear();
         // Resolve selected plugins

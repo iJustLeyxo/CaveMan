@@ -31,7 +31,7 @@ public final class SoftwareManager {
     /**
      * Resolve installed and selected software
      */
-    public void resolve() { // TODO: Update resolver logic
+    public void resolve() { // TODO: Update resolver logic to work with new plugin and software detection
         this.software.clear();
         // Resolve selected software
         Set<Software> selected = new HashSet<>();
