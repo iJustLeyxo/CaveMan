@@ -131,138 +131,45 @@ public enum Command {
         @Override
         public
         void run(@NotNull Result result) {
-            Set<Plugin> plugins = result.pluginManager().get(null, true, null);
-            Set<Software> software = result.softwareManager().get(null, true);
-            // Compare selected elements to installed elements
-            if (!plugins.isEmpty() || !software.isEmpty()) { // TODO: Extract to plugin and software manager
-                if (!plugins.isEmpty()) { // Compare selected to installed plugins
-                    Console.sep();
-                    Console.logL(Type.REQUESTED, Style.SELECT, plugins.size() +
-                            " plugins(s) selected", 4, 21, plugins.toArray());
-                    plugins = result.pluginManager().get(true, true, false);
-                    if (!plugins.isEmpty()) {
-                        Console.sep();
-                        Console.logL(Type.REQUESTED, Style.INSTALL, plugins.size() +
-                                " plugins(s) installed (not linked)", 4, 21, plugins.toArray());
-                    }
-                    plugins = result.pluginManager().get(true, true, true);
-                    if (!plugins.isEmpty()) {
-                        Console.sep();
-                        Console.logL(Type.REQUESTED, Style.LINK, plugins.size() +
-                                " plugins(s) installed (linked)", 4, 21, plugins.toArray());
-                    }
-                    plugins = result.pluginManager().get(true, false, null);
-                    if (!plugins.isEmpty()) {
-                        Console.sep();
-                        Console.logL(Type.REQUESTED, Style.SUPERFLUOUS, plugins.size() +
-                                " plugins(s) superfluous", 4, 21, plugins.toArray());
-                    }
-                    plugins = result.pluginManager().get(false, true, null);
-                    if (!plugins.isEmpty()) {
-                        Console.sep();
-                        Console.logL(Type.REQUESTED, Style.MISSING, plugins.size() +
-                                " plugins(s) missing", 4, 21, plugins.toArray());
-                    }
-                }
-                if (!software.isEmpty()) { // Compare selected to installed software
-                    Console.sep();
-                    Console.logL(Type.REQUESTED, Style.SELECT, software.size() +
-                            " software(s) selected", 4, 21, software.toArray());
-                    software = result.softwareManager().get(true, true);
-                    if (!software.isEmpty()) {
-                        Console.sep();
-                        Console.logL(Type.REQUESTED, Style.INSTALL, software.size() +
-                                " software(s) installed", 4, 21, software.toArray());
-                    }
-                    software = result.softwareManager().get(true, false);
-                    if (!software.isEmpty()) {
-                        Console.sep();
-                        Console.logL(Type.REQUESTED, Style.SUPERFLUOUS, software.size() +
-                                " software(s) superfluous", 4, 21, software.toArray());
-                    }
-                    software = result.softwareManager().get(false, true);
-                    if (!software.isEmpty()) {
-                        Console.sep();
-                        Console.logL(Type.REQUESTED, Style.MISSING, software.size() +
-                                " software(s) missing", 4, 21, software.toArray());
-                    }
-                }
-            } else { // Get installed elements if none have been selected for comparison
-                Set<Plugin> unlinked = result.pluginManager().get(true, null, false);
-                Set<Plugin> linked = result.pluginManager().get(true, null, true);
-                Set<Software> installed = result.softwareManager().get(true, null);
-                if (!unlinked.isEmpty() || !linked.isEmpty() || !installed.isEmpty()) {
-                    if (!unlinked.isEmpty()) {
-                        Console.sep();
-                        Console.logL(Type.REQUESTED, Style.INSTALL, unlinked.size() +
-                                " plugins(s) installed (not linked)", 4, 21, unlinked.toArray());
-                    }
-                    if (!linked.isEmpty()) {
-                        Console.sep();
-                        Console.logL(Type.REQUESTED, Style.LINK, linked.size() +
-                                " plugins(s) installed (linked)", 4, 21, linked.toArray());
-                    }
-                    if (!installed.isEmpty()) {
-                        Console.sep();
-                        Console.logL(Type.REQUESTED, Style.SOFTWARE, installed.size() +
-                                " software(s) installed", 4, 21, linked.toArray());
-                    }
-                } else {
-                    Console.log(Type.REQUESTED, Style.INFO, "Nothing installed\n");
-                }
-            }
-            // Always output unknown elements
-            Set<String> unknown = result.pluginManager().unknown();
-            if (!unknown.isEmpty()) {
-                Console.sep();
-                Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
-                        " plugins(s) unknown", 4, 21, unknown.toArray());
-            }
-            unknown = result.softwareManager().unknown();
-            if (!unknown.isEmpty()) {
-                Console.sep();
-                Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
-                        " software(s) unknown", 4, 21, unknown.toArray());
-            }
+            result.pluginManager().summarize();
+            result.softwareManager().summarize();
         }
     },
 
     UNINSTALL("Uninstall plugins, server software and files", "remove", "delete") {
         @Override // TODO: Make work with -a flag
         public void run(@NotNull Result result) {
-            Set<Plugin> unlinked = result.pluginManager().get(null, true, false);
-            Set<Plugin> linked = result.pluginManager().get(null, true, true);
+            Set<Plugin> plugins = result.pluginManager().get(null, true, null);
             Set<Software> software = result.softwareManager().get(null, true);
-            if (unlinked.isEmpty() && linked.isEmpty() && software.isEmpty()) {
+            if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
             }
-            if (!unlinked.isEmpty()) {
-                Console.logL(Type.REQUESTED, Style.INSTALL, unlinked.size() +
-                        " plugin(s) installed", 4, 21, unlinked.toArray());
-            }
-            if (!linked.isEmpty()) {
-                Console.logL(Type.REQUESTED, Style.LINK, linked.size() +
-                        " plugin(s) linked", 4, 21, linked.toArray());
+            if (!plugins.isEmpty()) {
+                Console.logL(Type.REQUESTED, Style.UNINSTALL, plugins.size() +
+                        " plugin(s) installed", 4, 21, plugins.toArray());
             }
             if (!software.isEmpty()) {
                 Console.sep();
-                Console.logL(Type.REQUESTED, Style.INSTALL, software.size() +
+                Console.logL(Type.REQUESTED, Style.UNINSTALL, software.size() +
                         " software(s) selected", 4, 21, software.toArray());
             }
             if (!Console.confirm("Continue removal")) {
                 return;
             }
-            for (Plugin p : unlinked) {
+            for (Plugin p : plugins) {
                 p.uninstall();
-            }
-            for (Plugin l : linked) {
-                l.unlink();
             }
             for (Software s : software) {
                 s.uninstall();
             }
-            // TODO: FIle removal?
+        }
+    },
+
+    UPDATE("Update plugins and software", "upgrade") {
+        @Override
+        public void run(@NotNull Result result) {
+            // TODO: add update logic
         }
     };
 

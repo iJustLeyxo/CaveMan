@@ -55,13 +55,15 @@ public final class Manager {
         Manager.exit();
     }
 
+    // TODO: Add resource pack download
+
     public static void exit() {
         Console.log(Type.DEBUG, "Exiting\n");
         Console.sep();
         System.exit(0);
     }
 
-    public static void help() { // TODO: Update help logic
+    public static void help() {
         Console.log(Type.REQUESTED, Style.HELP, XCode.BOLD +
                 "---------------------------------------- " +
                 "Help -----------------------------------------\n" + XCode.WEIGHT_OFF +

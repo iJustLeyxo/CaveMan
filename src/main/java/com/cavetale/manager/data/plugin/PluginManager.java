@@ -1,10 +1,14 @@
 package com.cavetale.manager.data.plugin;
 
+import com.cavetale.manager.data.server.Software;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Tokens;
 import com.cavetale.manager.parser.container.CategoryContainer;
 import com.cavetale.manager.parser.container.PluginContainer;
 import com.cavetale.manager.parser.container.ServerContainer;
+import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.Style;
+import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -92,6 +96,69 @@ public final class PluginManager {
 
     public @NotNull Set<String> unknown() {
         return this.unknown;
+    }
+
+    public void summarize() {
+        Set<Plugin> selected = this.get(null, true, null);
+        Set<Plugin> installed = this.get(true, null, null);
+        if (!selected.isEmpty()) {
+            this.summarizeSelected(selected);
+        } else if (!installed.isEmpty()) {
+            this.summarizeInstalled();
+        } else {
+            Console.log(Type.REQUESTED, Style.INFO, "Nothing selected, nothing installed\n");
+        }
+        Set<String> unknown = this.unknown();
+        if (!unknown.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
+                    " plugins(s) unknown", 4, 21, unknown.toArray());
+        }
+    }
+
+    private void summarizeSelected(@NotNull Set<Plugin> plugins) {
+        Console.sep();
+        Console.logL(Type.REQUESTED, Style.SELECT, plugins.size() +
+                " plugins(s) selected", 4, 21, plugins.toArray());
+        plugins = this.get(true, true, false);
+        if (!plugins.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.INSTALL, plugins.size() +
+                    " plugins(s) installed (not linked)", 4, 21, plugins.toArray());
+        }
+        plugins = this.get(true, true, true);
+        if (!plugins.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.LINK, plugins.size() +
+                    " plugins(s) installed (linked)", 4, 21, plugins.toArray());
+        }
+        plugins = this.get(true, false, null);
+        if (!plugins.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.SUPERFLUOUS, plugins.size() +
+                    " plugins(s) superfluous", 4, 21, plugins.toArray());
+        }
+        plugins = this.get(false, true, null);
+        if (!plugins.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.MISSING, plugins.size() +
+                    " plugins(s) missing", 4, 21, plugins.toArray());
+        }
+    }
+
+    private void summarizeInstalled() {
+        Set<Plugin> unlinked = this.get(true, null, false);
+        Set<Plugin> linked = this.get(true, null, true);
+        if (!unlinked.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.INSTALL, unlinked.size() +
+                    " plugins(s) installed (not linked)", 4, 21, unlinked.toArray());
+        }
+        if (!linked.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.LINK, linked.size() +
+                    " plugins(s) installed (linked)", 4, 21, linked.toArray());
+        }
     }
 
     private record Details (

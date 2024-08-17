@@ -215,7 +215,7 @@ public enum Plugin implements Provider {
         }
     }
 
-    public void install() { // TODO :Folder creation
+    public void install() {
         Console.log(Type.INFO, "Installing " + this.ref);
         File file = new File("plugins/", this.ref + ".jar");
         if (file.exists()) {
@@ -260,9 +260,16 @@ public enum Plugin implements Provider {
         }
     }
 
-    public void uninstall() { // TODO: Merge uninstall and unlink
-        Console.log(Type.INFO, "Uninstalling " + this.ref);
+    // TODO: Broaden plugin detection (versions, minecraft version, etc.)
+
+    public void uninstall() {
         File file = new File("plugins/" + this.ref + ".jar");
+        boolean link = Files.isSymbolicLink(file.toPath());
+        if (link) {
+            Console.log(Type.INFO, Style.LINK, "Unlinking " + this.ref);
+        } else {
+            Console.log(Type.INFO, "Uninstalling" + this.ref);
+        }
         if (!file.exists()) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (not installed)\n")) {
                 Console.log(Type.WARN, "Uninstalling " + this.ref + " skipped (not installed)\n");
@@ -274,25 +281,11 @@ public enum Plugin implements Provider {
             return;
         }
         if(!Console.log(Type.INFO, Style.ERR, " failed\n")) {
-            Console.log(Type.ERR, "Uninstalling " + this.ref + " failed\n");
-        }
-    }
-
-    public void unlink() {
-        Console.log(Type.INFO, "Unlinking " + this.ref);
-        File file = new File("plugins/" + this.ref + ".jar");
-        if (!Files.isSymbolicLink(file.toPath())) {
-            if (!Console.log(Type.INFO, Style.WARN, " skipped (not a symbolic link)\n")) {
-                Console.log(Type.WARN, "Uninstalling " + this.ref + " skipped (not a symbolic link)\n");
+            if (link) {
+                Console.log(Type.ERR, "Unlinking " + this.ref + " failed\n");
+            } else {
+                Console.log(Type.ERR, "Uninstalling " + this.ref + " failed\n");
             }
-            return;
-        }
-        if (file.delete()) {
-            Console.log(Type.INFO, Style.DONE, " done\n");
-            return;
-        }
-        if(!Console.log(Type.INFO, Style.ERR, " failed\n")) {
-            Console.log(Type.ERR, "Deleting " + this.ref + " failed");
         }
     }
 

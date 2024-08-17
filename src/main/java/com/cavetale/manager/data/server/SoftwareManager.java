@@ -1,8 +1,12 @@
 package com.cavetale.manager.data.server;
 
+import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.parser.Flag;
 import com.cavetale.manager.parser.Tokens;
 import com.cavetale.manager.parser.container.SoftwareContainer;
+import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.Style;
+import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,8 +28,6 @@ public final class SoftwareManager {
         this.tokens = tokens;
         this.resolve();
     }
-
-    // TODO: Merge software and plugin manager
 
     /**
      * Resolve installed and selected software
@@ -80,6 +82,54 @@ public final class SoftwareManager {
 
     public Set<String> unknown() {
         return this.unknown;
+    }
+
+    public void summarize() {
+        Set<Software> selected = this.get(null, true);
+        Set<Software> installed = this.get(true, null);
+        if (!selected.isEmpty()) {
+            this.summarizeSelected(selected); // Compare selected to installed software
+        } else if (!installed.isEmpty()) {
+            this.summarizeInstalled(installed); // Show installed software if nothing is selected
+        } else {
+            Console.log(Type.REQUESTED, Style.INFO, "Nothing selected, nothing installed\n");
+        }
+        Set<String> unknown = this.unknown(); // Always show unknown software
+        if (!unknown.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
+                    " software(s) unknown", 4, 21, unknown.toArray());
+        }
+    }
+
+    private void summarizeSelected(@NotNull Set<Software> software) {
+        Console.sep();
+        Console.logL(Type.REQUESTED, Style.SELECT, software.size() +
+                " software(s) selected", 4, 21, software.toArray());
+        software = this.get(true, true);
+        if (!software.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.INSTALL, software.size() +
+                    " software(s) installed", 4, 21, software.toArray());
+        }
+        software = this.get(true, false);
+        if (!software.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.SUPERFLUOUS, software.size() +
+                    " software(s) superfluous", 4, 21, software.toArray());
+        }
+        software = this.get(false, true);
+        if (!software.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.MISSING, software.size() +
+                    " software(s) missing", 4, 21, software.toArray());
+        }
+    }
+
+    private void summarizeInstalled(@NotNull Set<Software> installed) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.SOFTWARE, installed.size() +
+                    " software(s) installed", 4, 21, installed.toArray());
     }
 
     private record Details(@NotNull Boolean selected, @NotNull Boolean installed) {
