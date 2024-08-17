@@ -111,9 +111,7 @@ public enum Software {
     public static @NotNull Software get(@NotNull String ref) throws NotFoundException {
         for (Software s : values()) {
             for (String r : s.refs) {
-                if (r.equalsIgnoreCase(ref)) {
-                    return s;
-                }
+                if (ref.startsWith(r)) return s;
             }
         }
         throw new NotFoundException(ref);

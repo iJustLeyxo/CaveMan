@@ -303,7 +303,7 @@ public enum Plugin implements Provider {
 
     public static Plugin get(String ref) throws NotFoundException {
         for (Plugin p : Plugin.values()) {
-            if (ref.equalsIgnoreCase(p.ref)) return p;
+            if (ref.startsWith(p.ref)) return p;
         }
         throw new NotFoundException(ref);
     }
