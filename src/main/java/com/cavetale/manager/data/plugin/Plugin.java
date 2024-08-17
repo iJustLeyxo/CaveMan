@@ -260,6 +260,8 @@ public enum Plugin implements Provider {
         }
     }
 
+    // TODO: add update method
+
     // TODO: Broaden plugin detection (versions, minecraft version, etc.)
 
     public void uninstall() {

@@ -75,6 +75,8 @@ public enum Software {
         }
     }
 
+    // TODO: Add update method
+
     public void uninstall() {
         Console.log(Type.INFO, "Uninstalling " + this.refs[0] + " server software");
         File file = this.file();
