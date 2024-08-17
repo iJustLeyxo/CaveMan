@@ -40,15 +40,8 @@ public enum Command {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
             }
-            if (!plugins.isEmpty()) {
-                Console.logL(Type.REQUESTED, Style.INSTALL, plugins.size() +
-                        " plugin(s) selected", 4, 21, plugins.toArray());
-            }
-            if (!software.isEmpty()) {
-                Console.sep();
-                Console.logL(Type.REQUESTED, Style.INSTALL, software.size() +
-                        " software(s) selected", 4, 21, software.toArray());
-            }
+            Console.log(Type.REQUESTED, Style.INSTALL,
+                    plugins.size() + " plugins and " + software.size() + " software to install");
             if (!Console.confirm("Continue installation")) {
                 return;
             }
@@ -77,8 +70,7 @@ public enum Command {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
             }
-            Console.logL(Type.REQUESTED, Style.INSTALL, plugins.size() +
-                    " plugin(s) selected", 4, 21, plugins.toArray());
+            Console.log(Type.REQUESTED, Style.LINK, plugins.size() + " plugins to link");
             if (!Console.confirm("Continue linking")) {
                 return;
             }
@@ -137,23 +129,21 @@ public enum Command {
     },
 
     UNINSTALL("Uninstall plugins, server software and files", "remove", "delete") {
-        @Override // TODO: Make work with -a flag
+        @Override
         public void run(@NotNull Result result) {
-            Set<Plugin> plugins = result.pluginManager().get(null, true, null);
+            Set<Plugin> plugins;
+            if (result.tokens().flags().containsKey(Flag.ALL)) {
+                plugins = result.pluginManager().get(true, null, null);
+            } else {
+                plugins = result.pluginManager().get(null, true, null);
+            }
             Set<Software> software = result.softwareManager().get(null, true);
             if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
             }
-            if (!plugins.isEmpty()) {
-                Console.logL(Type.REQUESTED, Style.UNINSTALL, plugins.size() +
-                        " plugin(s) installed", 4, 21, plugins.toArray());
-            }
-            if (!software.isEmpty()) {
-                Console.sep();
-                Console.logL(Type.REQUESTED, Style.UNINSTALL, software.size() +
-                        " software(s) selected", 4, 21, software.toArray());
-            }
+            Console.log(Type.REQUESTED, Style.UPDATE,
+                    plugins.size() + " plugins and " + software.size() + " software to uninstall");
             if (!Console.confirm("Continue removal")) {
                 return;
             }
@@ -169,7 +159,23 @@ public enum Command {
     UPDATE("Update plugins and software", "upgrade") {
         @Override
         public void run(@NotNull Result result) {
-            // TODO: add update logic
+            Set<Plugin> plugins = result.pluginManager().get(null, true, null);
+            Set<Software> software = result.softwareManager().get(null, true);
+            if (plugins.isEmpty() && software.isEmpty()) {
+                Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
+                return;
+            }
+            Console.log(Type.REQUESTED, Style.UPDATE,
+                    plugins.size() + " plugins and " + software.size() + " software to update");
+            if (!Console.confirm("Continue update")) {
+                return;
+            }
+            for (Plugin p : plugins) {
+                // TODO: Update plugins
+            }
+            for (Software s  : software) {
+                // TODO: Update soware
+            }
         }
     };
 

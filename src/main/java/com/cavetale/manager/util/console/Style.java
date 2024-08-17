@@ -11,6 +11,7 @@ public enum Style {
     DEBUG(XCode.GRAY),
     SELECT(XCode.BLUE),
     INSTALL(XCode.GREEN),
+    UPDATE(XCode.GREEN),
     UNINSTALL(XCode.RED),
     LINK(XCode.MAGENTA),
     SUPERFLUOUS(XCode.YELLOW),
