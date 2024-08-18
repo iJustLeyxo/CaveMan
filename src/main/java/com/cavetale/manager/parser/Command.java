@@ -31,8 +31,8 @@ public enum Command {
     INSTALL("Install plugins and server software", "add") {
         @Override
         public void run(@NotNull Result result) {
-            Set<Plugin> plugins = result.plugIndexer().get(null, true);
-            Set<Software> software = result.softwareIndexer().get(null, true);
+            Set<Plugin> plugins = result.plugIndexer().getAll(null, true);
+            Set<Software> software = result.softwareIndexer().getAll(null, true);
             if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
@@ -42,7 +42,7 @@ public enum Command {
             if (!Console.confirm("Continue installation")) {
                 return;
             }
-            Set<Plugin> installed = result.plugIndexer().get(true, null); // TODO: Move to plugins
+            Set<Plugin> installed = result.plugIndexer().getAll(true, null); // TODO: Move to plugins
             for (Plugin p : plugins) {
                 p.install(installed);
             }
@@ -56,7 +56,7 @@ public enum Command {
         @Override
         public
         void run(@NotNull Result result) {
-            Set<Plugin> plugins = result.plugIndexer().get(null, true);
+            Set<Plugin> plugins = result.plugIndexer().getAll(null, true);
             if (!result.tokens().flags().containsKey(Flag.PATH) ||
                     result.tokens().flags().get(Flag.PATH).isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "No path specified\n");
@@ -72,7 +72,7 @@ public enum Command {
             if (!Console.confirm("Continue linking")) {
                 return;
             }
-            Set<Plugin> installed = result.plugIndexer().get(true, null); // TODO: Move to plugins
+            Set<Plugin> installed = result.plugIndexer().getAll(true, null); // TODO: Move to plugins
             for (Plugin p : plugins) {
                 p.link(path, installed);
             }
@@ -107,7 +107,7 @@ public enum Command {
                     Software.list();
                 }
             } else { // List selected plugins
-                Set<Plugin> selected = result.plugIndexer().get(null, true);
+                Set<Plugin> selected = result.plugIndexer().getAll(null, true);
                 if (!selected.isEmpty()) {
                     Console.logL(Type.REQUESTED, Style.PLUGIN, selected.size() +
                             " plugin(s) selected", 4, 21, selected.toArray());
@@ -132,11 +132,11 @@ public enum Command {
         public void run(@NotNull Result result) {
             Set<Plugin> plugins;
             if (result.tokens().flags().containsKey(Flag.ALL)) {
-                plugins = result.plugIndexer().get(true, null);
+                plugins = result.plugIndexer().getAll(true, null);
             } else {
-                plugins = result.plugIndexer().get(null, true);
+                plugins = result.plugIndexer().getAll(null, true);
             }
-            Set<Software> software = result.softwareIndexer().get(null, true);
+            Set<Software> software = result.softwareIndexer().getAll(null, true);
             if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
@@ -158,8 +158,8 @@ public enum Command {
     UPDATE("Update plugins and software", "upgrade") {
         @Override
         public void run(@NotNull Result result) {
-            Set<Plugin> plugins = result.plugIndexer().get(null, true);
-            Set<Software> software = result.softwareIndexer().get(null, true);
+            Set<Plugin> plugins = result.plugIndexer().getAll(null, true);
+            Set<Software> software = result.softwareIndexer().getAll(null, true);
             if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;

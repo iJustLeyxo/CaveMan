@@ -22,13 +22,13 @@ public final class PlugIndexer {
 
     private record Index(
             @Nullable Boolean isSelected,
-            @NotNull List<File> installs
+            @NotNull Set<File> installs
     ) { }
     
     public PlugIndexer(@NotNull Tokens tokens) {
         Set<Plugin> selected = this.gatherSelected(tokens);
-        Map<Plugin, List<File>> installs = this.gatherInstalled();
-        for (Map.Entry<Plugin, List<File>> e : installs.entrySet()) {
+        Map<Plugin, Set<File>> installs = this.gatherInstalls();
+        for (Map.Entry<Plugin, Set<File>> e : installs.entrySet()) {
             this.index.put(e.getKey(), new Index(selected.contains(e.getKey()), e.getValue()));
         }
     }
@@ -51,21 +51,20 @@ public final class PlugIndexer {
         return selected;
     }
 
-    private Map<Plugin, List<File>> gatherInstalled() {
-        Map<Plugin, List<File>> installs = new HashMap<>();
+    private Map<Plugin, Set<File>> gatherInstalls() {
+        Map<Plugin, Set<File>> installs = new HashMap<>();
         File folder = new File("plugins/");
         File[] files = folder.listFiles();
         if (files == null) {
             return installs;
         }
-        installs.put(null, new LinkedList<>());
+        installs.put(null, new HashSet<>());
         for (Plugin p : Plugin.values()) {
-            installs.put(p, new LinkedList<>());
+            installs.put(p, new HashSet<>());
         }
         for (File f : files) {
-            String name = f.getName();
             try {
-                Plugin p = Plugin.get(name);
+                Plugin p = Plugin.get(f.getName());
                 installs.get(p).add(f);
             } catch (Plugin.NotFoundException e) {
                 installs.get(null).add(f);
@@ -74,25 +73,25 @@ public final class PlugIndexer {
         return installs;
     }
 
-    public @NotNull Set<Plugin> get(@Nullable Boolean installed, @Nullable Boolean selected) {
+    public @NotNull Set<Plugin> getAll(@Nullable Boolean installed, @Nullable Boolean selected) {
         Set<Plugin> plugins = new HashSet<>();
         for (Map.Entry<Plugin, Index> e : this.index.entrySet()) {
             Index i = e.getValue();
-            if ((installed == null || !i.installs.isEmpty() == installed) &&
-                    (selected == null || i.isSelected == selected)) {
+            if ((installed == null || installed == !i.installs.isEmpty()) &&
+                    (selected == null || selected == i.isSelected)) {
                 plugins.add(e.getKey());
             }
         }
         return plugins;
     }
 
-    public @NotNull List<File> unknownInstalls() {
-        return new LinkedList<>(this.index.get(null).installs);
+    public @NotNull Set<File> unknownInstalls() {
+        return new HashSet<>(this.index.get(null).installs);
     }
 
     public void summarize() {
-        Set<Plugin> selected = this.get(null, true);
-        Set<Plugin> installed = this.get(true, null);
+        Set<Plugin> selected = this.getAll(null, true);
+        Set<Plugin> installed = this.getAll(true, null);
         if (!selected.isEmpty()) {
             this.summarizeSelected(selected);
         } else if (!installed.isEmpty()) {
@@ -100,7 +99,7 @@ public final class PlugIndexer {
         } else {
             Console.log(Type.REQUESTED, Style.INFO, "Nothing selected, nothing installed\n");
         }
-        List<File> unknown = this.unknownInstalls();
+        Set<File> unknown = this.unknownInstalls();
         if (!unknown.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
@@ -112,19 +111,19 @@ public final class PlugIndexer {
         Console.sep();
         Console.logL(Type.REQUESTED, Style.SELECT, plugins.size() +
                 " plugins(s) selected", 4, 21, plugins.toArray());
-        plugins = this.get(true, true);
+        plugins = this.getAll(true, true);
         if (!plugins.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.INSTALL, plugins.size() +
                     " plugins(s) installed", 4, 21, plugins.toArray());
         }
-        plugins = this.get(true, false);
+        plugins = this.getAll(true, false);
         if (!plugins.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.SUPERFLUOUS, plugins.size() +
                     " plugins(s) superfluous", 4, 21, plugins.toArray());
         }
-        plugins = this.get(false, true);
+        plugins = this.getAll(false, true);
         if (!plugins.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.MISSING, plugins.size() +
@@ -133,7 +132,7 @@ public final class PlugIndexer {
     }
 
     private void summarizeInstalled() {
-        Set<Plugin> installed = this.get(true, null);
+        Set<Plugin> installed = this.getAll(true, null);
         if (!installed.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.INSTALL, installed.size() +

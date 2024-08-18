@@ -10,82 +10,79 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Server software manager, used to analyse installed and selected plugins
  */
 public final class SoftwareIndexer {
-    private final @NotNull Tokens tokens;
-    private final @NotNull Map<Software, Details> software = new HashMap<>();
-    private final @NotNull Set<String> unknown = new HashSet<>();
+    private final @NotNull Map<Software, Index> index = new HashMap<>();
+
+    private record Index(
+            @Nullable Boolean isSelected,
+            @NotNull Set<File> installs
+    ) { }
 
     public SoftwareIndexer(@NotNull Tokens tokens) {
-        this.tokens = tokens;
-        this.resolve();
+        Set<Software> selected = this.gatherSelected(tokens);
+        Map<Software, Set<File>> installs = this.gatherInstalls();
+        for (Map.Entry<Software, Set<File>> e : installs.entrySet()) {
+            this.index.put(e.getKey(), new Index(selected.contains(e.getKey()), e.getValue()));
+        }
     }
 
     /**
      * Resolve installed and selected software
      */
-    public void resolve() { // TODO: Update resolver logic to work with new plugin and software detection
-        this.software.clear();
-        // Resolve selected software
+    public Set<Software> gatherSelected(@NotNull Tokens tokens) {
         Set<Software> selected = new HashSet<>();
-        if (this.tokens.flags().containsKey(Flag.SOFTWARE)) {
-            selected.addAll(((SoftwareContainer) this.tokens.flags().get(Flag.SOFTWARE)).get());
+        if (tokens.flags().containsKey(Flag.SOFTWARE)) {
+            selected.addAll(((SoftwareContainer) tokens.flags().get(Flag.SOFTWARE)).get());
         }
-        // Resolve installed software
-        File folder = new File("");
-        File[] files = folder.listFiles();
-        if (folder.exists() && files != null) {
-            for (File f : files) {
-                String ref = f.getName();
-                if (!ref.endsWith(".jar") || ref.equals("CaveMan.jar")) {
-                    continue;
-                }
-                ref = ref.substring(0, ref.length() - 4);
-                try {
-                    Software s = Software.get(ref);
-                    this.software.put(s, new Details(
-                            selected.contains(s),
-                            true
-                    ));
-                } catch (Software.NotFoundException e) {
-                    this.unknown.add(ref);
-                }
-            }
-        }
-        // Resolve registered software
-        for (Software s : Software.values()) {
-            if (this.software.containsKey(s)) {
-                continue;
-            }
-            this.software.put(s, new Details(selected.contains(s), false));
-        }
+        return selected;
     }
 
-    public Set<Software> get(@Nullable Boolean installed, @Nullable Boolean selected) {
+    public Map<Software, Set<File>> gatherInstalls() {
+        Map<Software, Set<File>> installs = new HashMap<>();
+        File folder = new File("");
+        File[] files = folder.listFiles();
+        if (files == null) {
+            return installs;
+        }
+        installs.put(null, new HashSet<>());
+        for (Software s : Software.values()) {
+            installs.put(s, new HashSet<>());
+        }
+        for (File f : files) {
+            try {
+                Software s = Software.get(f.getName());
+                installs.get(s).add(f);
+            } catch (Software.NotFoundException e) {
+                installs.get(null).add(f);
+            }
+        }
+        return installs;
+    }
+
+    public Set<Software> getAll(@Nullable Boolean installed, @Nullable Boolean selected) {
         Set<Software> software = new HashSet<>();
-        for (Map.Entry<Software, Details> s : this.software.entrySet()) {
-            if ((installed == null || installed == s.getValue().installed) &&
-                    (selected == null || selected == s.getValue().selected)) {
-                software.add(s.getKey());
+        for (Map.Entry<Software, Index> e : this.index.entrySet()) {
+            Index i = e.getValue();
+            if ((installed == null || installed == !i.installs.isEmpty()) &&
+                    (selected == null || selected == i.isSelected)) {
+                software.add(e.getKey());
             }
         }
         return software;
     }
 
-    public Set<String> unknown() {
-        return this.unknown;
+    public @NotNull Set<File> unknownInstalls() {
+        return new HashSet<>(this.index.get(null).installs);
     }
 
     public void summarize() {
-        Set<Software> selected = this.get(null, true);
-        Set<Software> installed = this.get(true, null);
+        Set<Software> selected = this.getAll(null, true);
+        Set<Software> installed = this.getAll(true, null);
         if (!selected.isEmpty()) {
             this.summarizeSelected(selected); // Compare selected to installed software
         } else if (!installed.isEmpty()) {
@@ -93,7 +90,7 @@ public final class SoftwareIndexer {
         } else {
             Console.log(Type.REQUESTED, Style.INFO, "Nothing selected, nothing installed\n");
         }
-        Set<String> unknown = this.unknown(); // Always show unknown software
+        Set<File> unknown = this.unknownInstalls(); // Always show unknown software
         if (!unknown.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
@@ -105,19 +102,19 @@ public final class SoftwareIndexer {
         Console.sep();
         Console.logL(Type.REQUESTED, Style.SELECT, software.size() +
                 " software(s) selected", 4, 21, software.toArray());
-        software = this.get(true, true);
+        software = this.getAll(true, true);
         if (!software.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.INSTALL, software.size() +
                     " software(s) installed", 4, 21, software.toArray());
         }
-        software = this.get(true, false);
+        software = this.getAll(true, false);
         if (!software.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.SUPERFLUOUS, software.size() +
                     " software(s) superfluous", 4, 21, software.toArray());
         }
-        software = this.get(false, true);
+        software = this.getAll(false, true);
         if (!software.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.MISSING, software.size() +
