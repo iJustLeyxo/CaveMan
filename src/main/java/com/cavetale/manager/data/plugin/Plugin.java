@@ -2,7 +2,7 @@ package com.cavetale.manager.data.plugin;
 
 import com.cavetale.manager.data.DataError;
 import com.cavetale.manager.parser.InputException;
-import com.cavetale.manager.util.Download;
+import com.cavetale.manager.util.Util;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Type;
@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.util.Set;
 
@@ -22,7 +21,7 @@ public enum Plugin implements Provider {
     // TODO: Adventure
     AdviceAnimals("com.winthier.adviceanimals", "0.1-SNAPSHOT", Category.DEPRECATED),
     AFK("com.cavetale.afk", "0.1-SNAPSHOT", Category.GLOBAL),
-    AntiPopup(Plugin.uri("https://github.com/KaspianDev/AntiPopup/releases/download/b7a08d9/AntiPopup-9.2.jar"), "9.2", Category.GLOBAL),
+    AntiPopup(Util.uriOf("https://github.com/KaspianDev/AntiPopup/releases/download/b7a08d9/AntiPopup-9.2.jar"), "9.2", Category.GLOBAL),
     Area("com.cavetale.area", "0.1-SNAPSHOT", Category.GLOBAL),
     ArmorStandEditor("io.github.rypofalem.armorstandeditor", "1.17-25", Category.GLOBAL),
     Auction("com.cavetale.auction", "0.1-SNAPSHOT", Category.GLOBAL),
@@ -90,7 +89,7 @@ public enum Plugin implements Provider {
     Money("com.cavetale.money", "0.1-SNAPSHOT", Category.CORE),
     Mytems("com.cavetale.mytems", "0.1-SNAPSHOT", Category.CORE),
     // TODO: NBTDump
-    OpenInv(Plugin.uri("https://github.com/Jikoo/OpenInv/releases/download/5.1.1/OpenInv.jar"), "5.1.1", Category.GLOBAL),
+    OpenInv(Util.uriOf("https://github.com/Jikoo/OpenInv/releases/download/5.1.1/OpenInv.jar"), "5.1.1", Category.GLOBAL),
     Overboard("com.cavetale.overboard", "0.1-SNAPSHOT", Category.MINI_GAME),
     Perm("com.winthier.perm", "0.1-SNAPSHOT", Category.CORE),
     Photos("com.winthier.photos", "0.1-SNAPSHOT", Category.BUILD),
@@ -150,7 +149,7 @@ public enum Plugin implements Provider {
     // TODO: Waterfall
     // TODO: Windicator
     WinTag("com.cavetale.wintag", "0.1-SNAPSHOT", Category.BUILD),
-    WorldEdit(Plugin.uri("https://dev.bukkit.org/projects/worldedit/files/5613179/download"), "7.3.6", Category.GLOBAL),
+    WorldEdit(Util.uriOf("https://dev.bukkit.org/projects/worldedit/files/5613179/download"), "7.3.6", Category.GLOBAL),
     WorldMarker("com.cavetale.worldmarker", "0.1-SNAPSHOT", Category.CORE),
     Worlds("com.winthier.worlds", "0.1-SNAPSHOT", Category.GLOBAL),
     Xmas("com.cavetale.xmas", "0.1-SNAPSHOT", Category.SEASONAL);
@@ -184,7 +183,7 @@ public enum Plugin implements Provider {
         }
         File file = new File("plugins/" + this.name() + "-" + this.source.version + ".jar");
         try {
-            Download.download(this.source.uri, file);
+            Util.download(this.source.uri, file);
             Console.log(Type.INFO, Style.DONE, " done\n");
         } catch (IOException e) {
             if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
@@ -270,13 +269,7 @@ public enum Plugin implements Provider {
         Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins", 4, 21, (Object[]) Plugin.values());
     }
 
-    public static @NotNull URI uri(@NotNull String uri) { // TODO: Move uri function to utils
-        try {
-            return new URI(uri);
-        } catch (URISyntaxException e) {
-            throw new URIError(uri, e);
-        }
-    }
+
 
     private static abstract class Source {
         public final @NotNull String version;
@@ -290,7 +283,7 @@ public enum Plugin implements Provider {
 
     public static class Jenkins extends Source {
         public Jenkins(@NotNull String jobId, @NotNull String groupId, @NotNull String artifactId, @NotNull String version) {
-            super(version, Plugin.uri("https://cavetale.com/jenkins/job/" + jobId +
+            super(version, Util.uriOf("https://cavetale.com/jenkins/job/" + jobId +
                     "/lastSuccessfulBuild/" + groupId + "$" + artifactId + "/artifact/" + groupId +
                     "/" + artifactId + "/" + version + "/" + artifactId + "-" + version + ".jar"));
         }

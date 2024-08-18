@@ -2,7 +2,7 @@ package com.cavetale.manager.data.server;
 
 import com.cavetale.manager.data.DataError;
 import com.cavetale.manager.parser.InputException;
-import com.cavetale.manager.util.Download;
+import com.cavetale.manager.util.Util;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Type;
@@ -64,7 +64,7 @@ public enum Software {
             return;
         }
         try {
-            Download.download(this.uri, file);
+            Util.download(this.uri, file);
             Console.log(Type.INFO, Style.DONE, " done\n");
         } catch (IOException e) {
             if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
