@@ -23,7 +23,7 @@ public enum Software {
     SPIGOT("https://download.getbukkit.org/spigot/spigot-1.21.jar", "Spigot", "SpigotMC"),
     BUKKIT("https://download.getbukkit.org/craftbukkit/craftbukkit-1.21.jar", "Bukkit", "Craftbukkit");
 
-    // TODO: add custom install and update logic
+    // TODO: Add individual install and update logic
 
     public final @NotNull String[] refs;
     public final @Nullable URI uri;

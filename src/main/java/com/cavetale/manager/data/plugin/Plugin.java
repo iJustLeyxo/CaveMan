@@ -228,7 +228,7 @@ public enum Plugin implements Provider {
         }
     }
 
-    // TODO: add update method
+    // TODO: Add update method
 
     public void uninstall() {
         File folder = new File("plugins/");
