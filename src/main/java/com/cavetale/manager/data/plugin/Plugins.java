@@ -20,7 +20,6 @@ import java.util.*;
  */
 public final class Plugins {
     private final @NotNull List<Index> index;
-    // TODO: use null key for unknown installations
     
     public Plugins(@NotNull Tokens tokens) {
         this.index = new LinkedList<>();
