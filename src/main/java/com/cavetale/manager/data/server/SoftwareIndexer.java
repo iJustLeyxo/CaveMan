@@ -127,8 +127,4 @@ public final class SoftwareIndexer {
             Console.logL(Type.REQUESTED, Style.SOFTWARE, installed.size() +
                     " software(s) installed", 4, 21, installed.toArray());
     }
-
-    private record Details(@NotNull Boolean selected, @NotNull Boolean installed) {
-
-    }
 }
