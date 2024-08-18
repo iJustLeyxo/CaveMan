@@ -42,7 +42,7 @@ public enum Command {
             if (!Console.confirm("Continue installation")) {
                 return;
             }
-            Set<Plugin> installed = result.plugIndexer().getAll(true, null); // TODO: Move to plugins
+            Set<Plugin> installed = result.plugIndexer().getAll(true, null);
             for (Plugin p : plugins) {
                 p.install(installed);
             }
@@ -72,7 +72,7 @@ public enum Command {
             if (!Console.confirm("Continue linking")) {
                 return;
             }
-            Set<Plugin> installed = result.plugIndexer().getAll(true, null); // TODO: Move to plugins
+            Set<Plugin> installed = result.plugIndexer().getAll(true, null);
             for (Plugin p : plugins) {
                 p.link(path, installed);
             }
