@@ -64,6 +64,7 @@ public final class SoftwareIndexer {
         return installs;
     }
 
+    // TODO: Implement one time indexer
     public Set<Software> getAll(@Nullable Boolean installed, @Nullable Boolean selected) {
         Set<Software> software = new HashSet<>();
         for (Map.Entry<Software, Index> e : this.index.entrySet()) {

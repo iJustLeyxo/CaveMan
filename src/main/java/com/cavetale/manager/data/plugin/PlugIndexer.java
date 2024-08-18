@@ -73,6 +73,7 @@ public final class PlugIndexer {
         return installs;
     }
 
+    // TODO: Implement one time indexer
     public @NotNull Set<Plugin> getAll(@Nullable Boolean installed, @Nullable Boolean selected) {
         Set<Plugin> plugins = new HashSet<>();
         for (Map.Entry<Plugin, Index> e : this.index.entrySet()) {
