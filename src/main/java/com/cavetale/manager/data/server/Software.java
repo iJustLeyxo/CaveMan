@@ -1,6 +1,7 @@
 package com.cavetale.manager.data.server;
 
 import com.cavetale.manager.data.DataError;
+import com.cavetale.manager.data.Source;
 import com.cavetale.manager.parser.InputException;
 import com.cavetale.manager.util.Util;
 import com.cavetale.manager.util.console.Console;
@@ -18,30 +19,24 @@ import java.net.URISyntaxException;
  * Server software, used to register downloadable server software
  */
 public enum Software {
-    PAPER("https://api.papermc.io/v2/projects/paper/versions/1.21/builds/127/downloads/paper-1.21-127.jar",
-            "Paper", "PaperMC"),
-    SPIGOT("https://download.getbukkit.org/spigot/spigot-1.21.jar", "Spigot", "SpigotMC"),
-    BUKKIT("https://download.getbukkit.org/craftbukkit/craftbukkit-1.21.jar", "Bukkit", "Craftbukkit");
+    PAPER("https://api.papermc.io/v2/projects/paper/versions/1.21/builds/127/downloads/paper-1.21-127.jar", "127",
+            "Paper", "PaperMC");
 
     // TODO: Add individual install and update logic
 
     public final @NotNull String[] refs;
-    public final @Nullable URI uri;
+    public final @NotNull Source source;
 
-    Software(@NotNull String uri, @NotNull String ref, @NotNull String... aliases) {
+    Software(@NotNull String uri, @NotNull String version, @NotNull String ref, @NotNull String... aliases) {
         this.refs = new String[aliases.length + 1];
         this.refs[0] = ref;
         System.arraycopy(aliases, 0, this.refs, 1, aliases.length);
-        try {
-            this.uri = new URI(uri);
-        } catch (URISyntaxException e) {
-            throw new URIError(uri, e);
-        }
+        this.source = new Source.Other(Util.uriOf(uri), version);
     }
 
     public void install() {
         Console.log(Type.INFO, "Installing " + this.refs[0] + " server software");
-        File file = new File(this.refs[0] + "-" + "ver" + ".jar"); // TODO: Save versions during installation
+        File file = new File(this.refs[0] + "-" + source.version + ".jar");
         if (file.exists()) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
                 Console.log(Type.WARN, this.refs[0] + " server software is already installed\n");
@@ -49,7 +44,7 @@ public enum Software {
             return;
         }
         try {
-            Util.download(this.uri, file);
+            Util.download(this.source.uri, file);
             Console.log(Type.INFO, Style.DONE, " done\n");
         } catch (IOException e) {
             if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {

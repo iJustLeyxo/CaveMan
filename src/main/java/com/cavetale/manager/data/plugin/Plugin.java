@@ -1,6 +1,7 @@
 package com.cavetale.manager.data.plugin;
 
 import com.cavetale.manager.data.DataError;
+import com.cavetale.manager.data.Source;
 import com.cavetale.manager.parser.InputException;
 import com.cavetale.manager.util.Util;
 import com.cavetale.manager.util.console.Console;
@@ -158,18 +159,18 @@ public enum Plugin implements Provider {
     public final @NotNull Category[] categories;
 
     Plugin(@NotNull URI uri, @NotNull String version, @NotNull Category... categories) {
-        this.source = new Other(uri, version);
+        this.source = new Source.Other(uri, version);
         this.categories = categories;
     }
 
     Plugin(@NotNull String groupId, @NotNull String version, @NotNull Category... categories) {
-        this.source = new Jenkins(this.name(), groupId, this.name().toLowerCase(), version);
+        this.source = new Source.Jenkins(this.name(), groupId, this.name().toLowerCase(), version);
         this.categories = categories;
     }
 
     Plugin(@NotNull String groupId, @NotNull String artifactId, @NotNull String version,
            @NotNull Category... categories) {
-        this.source = new Jenkins(this.name(), groupId, artifactId, version);
+        this.source = new Source.Jenkins(this.name(), groupId, artifactId, version);
         this.categories = categories;
     }
 
@@ -268,32 +269,6 @@ public enum Plugin implements Provider {
 
     public static void list() {
         Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins", 4, 21, (Object[]) Plugin.values());
-    }
-
-
-
-    private static abstract class Source {
-        public final @NotNull String version;
-        public final @NotNull URI uri;
-
-        public Source(@NotNull String version, @NotNull URI uri) {
-            this.version = version;
-            this.uri = uri;
-        }
-    }
-
-    public static class Jenkins extends Source {
-        public Jenkins(@NotNull String jobId, @NotNull String groupId, @NotNull String artifactId, @NotNull String version) {
-            super(version, Util.uriOf("https://cavetale.com/jenkins/job/" + jobId +
-                    "/lastSuccessfulBuild/" + groupId + "$" + artifactId + "/artifact/" + groupId +
-                    "/" + artifactId + "/" + version + "/" + artifactId + "-" + version + ".jar"));
-        }
-    }
-
-    public static class Other extends Source {
-        public Other(@NotNull URI uri, @NotNull String version) {
-            super(version, uri);
-        }
     }
 
     public static class NotFoundException extends InputException {
