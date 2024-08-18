@@ -232,9 +232,10 @@ public enum Plugin implements Provider {
 
     public void uninstall() {
         File folder = new File("plugins/");
-        folder.mkdir();
+        File[] files = folder.listFiles();
+        if (files == null) return;
         String name;
-        for (File f : folder.listFiles()) {
+        for (File f : files) {
             name = f.getName();
             if (name.toLowerCase().startsWith(this.name().toLowerCase()) && name.toLowerCase().endsWith(".jar")) {
                 Console.log(Type.INFO, "Uninstalling " + name);

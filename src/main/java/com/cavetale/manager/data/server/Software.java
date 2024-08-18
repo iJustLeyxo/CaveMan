@@ -39,24 +39,9 @@ public enum Software {
         }
     }
 
-    public @Nullable File file() {
-        if (this.uri == null) {
-            return null;
-        }
-        return new File(new File(this.uri.getPath()).getName());
-    }
-
-    public void install() { // TODO: Save versions during installation
+    public void install() {
         Console.log(Type.INFO, "Installing " + this.refs[0] + " server software");
-        File file = this.file(); // TODO: Fix this.file() functionality
-        if (file == null) {
-            if (!Console.log(Type.INFO, Style.WARN, " skipped (unable to install)\n")) {
-                Console.log(Type.WARN, "Skipped " + this.refs[0] +
-                        " server software (unable to install)\n");
-            }
-            Console.log(Type.WARN, this.refs[0] + " server software uri is not a file\n");
-            return;
-        }
+        File file = new File(this.refs[0] + "-" + "ver" + ".jar"); // TODO: Save versions during installation
         if (file.exists()) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
                 Console.log(Type.WARN, this.refs[0] + " server software is already installed\n");
@@ -76,29 +61,21 @@ public enum Software {
     // TODO: Add update method
 
     public void uninstall() {
-        Console.log(Type.INFO, "Uninstalling " + this.refs[0] + " server software");
-        File file = this.file();
-        if (file == null) {
-            if (!Console.log(Type.INFO, Style.ERR, " skipped (unable to uninstall)\n")) {
-                Console.log(Type.ERR, "Uninstalling " + this.refs[0] +
-                        " server software skipped (unable to uninstall)\n");
+        File folder = new File("plugins/");
+        File[] files = folder.listFiles();
+        if (files == null) return;
+        String name;
+        for (File f : files) {
+            name = f.getName();
+            if (name.toLowerCase().startsWith(this.refs[0].toLowerCase()) && name.toLowerCase().endsWith(".jar")) {
+                Console.log(Type.INFO, "Uninstalling " + name);
+                if (f.delete()) {
+                    Console.log(Type.INFO, Style.DONE, " done\n");
+                    continue;
+                }
+                Console.log(Type.ERR, "Uninstalling " + this.name() + " failed\n");
             }
-            return;
         }
-        if (!file.exists()) {
-            if (!Console.log(Type.INFO, Style.WARN, " skipped (not installed)\n")) {
-                Console.log(Type.WARN, "Uninstalling " + this.refs[0] +
-                        " server software skipped (not installed)\n");
-            }
-            return;
-        }
-        if (!file.delete()) {
-            if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
-                Console.log(Type.ERR, "Uninstalling " + this.refs[0] + " failed\n");
-            }
-            return;
-        }
-        Console.log(Type.INFO, Style.DONE, " done\n");
     }
 
     @Override
