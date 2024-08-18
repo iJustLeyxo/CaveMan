@@ -42,8 +42,9 @@ public enum Command {
             if (!Console.confirm("Continue installation")) {
                 return;
             }
+            Set<Plugin> installed = result.plugins().get(true, null); // TODO: Move to plugins
             for (Plugin p : plugins) {
-                p.install();
+                p.install(installed);
             }
             for (Software s : software) {
                 s.install();
@@ -71,8 +72,9 @@ public enum Command {
             if (!Console.confirm("Continue linking")) {
                 return;
             }
+            Set<Plugin> installed = result.plugins().get(true, null); // TODO: Move to plugins
             for (Plugin p : plugins) {
-                p.link(path);
+                p.link(path, installed);
             }
         }
     },

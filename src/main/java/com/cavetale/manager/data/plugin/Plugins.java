@@ -20,14 +20,19 @@ import java.util.*;
  */
 public final class Plugins {
     private final @NotNull List<Index> index;
+    // TODO: use null key for unknown installations
     
     public Plugins(@NotNull Tokens tokens) {
+        this.index = new LinkedList<>();
+        this.index(tokens);
+    }
+
+    private void index(@NotNull Tokens tokens) {
         // Gather plugin data
         List<Index.Register> registers = this.gatherRegistered(tokens);
         List<Index.Installation> installations = this.gatherInstalled();
 
         // Sew together plugin index
-        this.index = new LinkedList<>();
         List<Index.Installation> instances;
         for (Index.Register r : registers) {
             instances = new LinkedList<>();

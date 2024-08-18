@@ -174,9 +174,9 @@ public enum Plugin implements Provider {
         this.categories = categories;
     }
 
-    public void install() {
+    public void install(@NotNull Set<Plugin> installed) {
         Console.log(Type.INFO, "Installing " + this.name());
-        if (this.isInstalled()) {
+        if (installed.contains(this)) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
                 Console.log(Type.WARN, "Installing " + this.name() + " skipped (already installed)\n");
             }
@@ -193,7 +193,7 @@ public enum Plugin implements Provider {
         }
     }
 
-    public void link(@NotNull String path) {
+    public void link(@NotNull String path, @NotNull Set<Plugin> installed) {
         Console.log(Type.INFO, "Linking " + this.name());
         File origin = null;
         File originFolder = new File(path);
@@ -211,7 +211,7 @@ public enum Plugin implements Provider {
             }
             return;
         }
-        if (this.isInstalled()) {
+        if (installed.contains(this)) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
                 Console.log(Type.WARN, "Linking " + this.name() + " skipped (already installed)\n");
             }
@@ -246,20 +246,6 @@ public enum Plugin implements Provider {
                 Console.log(Type.ERR, "Uninstalling " + this.name() + " failed\n");
             }
         }
-    }
-
-    public boolean isInstalled() { // TODO: Get from indexer instead
-        File folder = new File("plugins/");
-        folder.mkdir();
-        File file = new File(folder, this.name() + "-" + this.source.version + ".jar");
-        String name;
-        for (File f : folder.listFiles()) {
-            name = f.getName();
-            if (name.toLowerCase().startsWith(this.name().toLowerCase()) && name.toLowerCase().endsWith(".jar")) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
