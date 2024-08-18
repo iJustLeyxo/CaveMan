@@ -1,7 +1,7 @@
 package com.cavetale.manager.parser;
 
-import com.cavetale.manager.data.plugin.Plugins;
-import com.cavetale.manager.data.server.SoftwareManager;
+import com.cavetale.manager.data.plugin.PlugIndexer;
+import com.cavetale.manager.data.server.SoftwareIndexer;
 import com.cavetale.manager.parser.container.EmptyContainer;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Style;
@@ -59,6 +59,6 @@ public final class Parser {
         }
         Tokens tokens = new Tokens(commands, flags);
         Console.log(Type.DEBUG, Style.DONE, " done\n");
-        return new Result(tokens, new Plugins(tokens), new SoftwareManager(tokens));
+        return new Result(tokens, new PlugIndexer(tokens), new SoftwareIndexer(tokens));
     }
 }

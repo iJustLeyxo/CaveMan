@@ -12,45 +12,28 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.*;
 
 /**
  * Plugin manager, used to analyse installed and selected plugins
  */
-public final class Plugins {
-    private final @NotNull List<Index> index;
+public final class PlugIndexer {
+    private final @NotNull Map<Plugin, Index> index = new HashMap<>();
+
+    private record Index(
+            @Nullable Boolean isSelected,
+            @NotNull List<File> installs
+    ) { }
     
-    public Plugins(@NotNull Tokens tokens) {
-        this.index = new LinkedList<>();
-        this.index(tokens);
-    }
-
-    private void index(@NotNull Tokens tokens) {
-        // Gather plugin data
-        List<Index.Register> registers = this.gatherRegistered(tokens);
-        List<Index.Installation> installations = this.gatherInstalled();
-
-        // Sew together plugin index
-        List<Index.Installation> instances;
-        for (Index.Register r : registers) {
-            instances = new LinkedList<>();
-            for (Index.Installation i : installations) {
-                if (r.plugin == i.plugin) {
-                    instances.add(i);
-                    installations.remove(i);
-                }
-            }
-            this.index.add(new Index(r, instances));
-        }
-        // Add unknown plugins
-        for (Index.Installation i : installations) {
-            this.index.add(new Index(null, List.of(i)));
+    public PlugIndexer(@NotNull Tokens tokens) {
+        Set<Plugin> selected = this.gatherSelected(tokens);
+        Map<Plugin, List<File>> installs = this.gatherInstalled();
+        for (Map.Entry<Plugin, List<File>> e : installs.entrySet()) {
+            this.index.put(e.getKey(), new Index(selected.contains(e.getKey()), e.getValue()));
         }
     }
 
-    private List<Index.Register> gatherRegistered(@NotNull Tokens tokens) {
-        // Resolve registered plugins
+    private Set<Plugin> gatherSelected(@NotNull Tokens tokens) {
         Set<Plugin> selected = new HashSet<>();
         if (tokens.flags().containsKey(Flag.PLUGIN)) {
             selected.addAll(((PluginContainer) tokens.flags().get(Flag.PLUGIN)).get());
@@ -65,55 +48,46 @@ public final class Plugins {
                 selected.addAll(server.plugins());
             }
         }
-        List<Index.Register> registers = new LinkedList<>();
-        for (Plugin p : Plugin.values()) {
-            registers.add(new Index.Register(p, selected.contains(p)));
-        }
-        return registers;
+        return selected;
     }
 
-    private List<Index.Installation> gatherInstalled() {
-        // Resolve installed plugins
-        List<Index.Installation> installations = new LinkedList<>();
+    private Map<Plugin, List<File>> gatherInstalled() {
+        Map<Plugin, List<File>> installs = new HashMap<>();
         File folder = new File("plugins/");
         File[] files = folder.listFiles();
         if (files == null) {
-            return installations;
+            return installs;
+        }
+        installs.put(null, new LinkedList<>());
+        for (Plugin p : Plugin.values()) {
+            installs.put(p, new LinkedList<>());
         }
         for (File f : files) {
             String name = f.getName();
             try {
                 Plugin p = Plugin.get(name);
-                installations.add(new Index.Installation(p, name, Files.isSymbolicLink(f.toPath())));
+                installs.get(p).add(f);
             } catch (Plugin.NotFoundException e) {
-                installations.add(new Index.Installation(null, name, Files.isSymbolicLink(f.toPath())));
+                installs.get(null).add(f);
             }
         }
-        return installations;
+        return installs;
     }
 
     public @NotNull Set<Plugin> get(@Nullable Boolean installed, @Nullable Boolean selected) {
         Set<Plugin> plugins = new HashSet<>();
-        for (Index i : this.index) {
-            if (i.register == null) {
-                continue;
-            }
-            if ((installed == null || !i.installations.isEmpty() == installed) &&
-                    (selected == null || i.register.isSelected == selected)) {
-                plugins.add(i.register.plugin);
+        for (Map.Entry<Plugin, Index> e : this.index.entrySet()) {
+            Index i = e.getValue();
+            if ((installed == null || !i.installs.isEmpty() == installed) &&
+                    (selected == null || i.isSelected == selected)) {
+                plugins.add(e.getKey());
             }
         }
         return plugins;
     }
 
-    public @NotNull List<Index.Installation> unknown() {
-        List<Index.Installation> unknown = new LinkedList<>();
-        for (Index i : this.index) {
-            if (i.register == null) {
-                unknown.addAll(i.installations);
-            }
-        }
-        return unknown;
+    public @NotNull List<File> unknownInstalls() {
+        return new LinkedList<>(this.index.get(null).installs);
     }
 
     public void summarize() {
@@ -126,7 +100,7 @@ public final class Plugins {
         } else {
             Console.log(Type.REQUESTED, Style.INFO, "Nothing selected, nothing installed\n");
         }
-        List<Index.Installation> unknown = this.unknown();
+        List<File> unknown = this.unknownInstalls();
         if (!unknown.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
@@ -165,21 +139,5 @@ public final class Plugins {
             Console.logL(Type.REQUESTED, Style.INSTALL, installed.size() +
                     " plugins(s) installed", 4, 21, installed.toArray());
         }
-    }
-
-    public record Index(
-            @Nullable Plugins.Index.Register register,
-            @NotNull List<Installation> installations
-    ) {
-        public record Register(
-                @NotNull Plugin plugin,
-                @NotNull Boolean isSelected
-        ) { }
-
-        public record Installation (
-                @Nullable Plugin plugin,
-                @NotNull String file,
-                @NotNull Boolean isLink
-        ) { }
     }
 }

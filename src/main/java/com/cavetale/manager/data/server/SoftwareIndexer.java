@@ -18,12 +18,12 @@ import java.util.Set;
 /**
  * Server software manager, used to analyse installed and selected plugins
  */
-public final class SoftwareManager {
+public final class SoftwareIndexer {
     private final @NotNull Tokens tokens;
     private final @NotNull Map<Software, Details> software = new HashMap<>();
     private final @NotNull Set<String> unknown = new HashSet<>();
 
-    public SoftwareManager(@NotNull Tokens tokens) {
+    public SoftwareIndexer(@NotNull Tokens tokens) {
         this.tokens = tokens;
         this.resolve();
     }
