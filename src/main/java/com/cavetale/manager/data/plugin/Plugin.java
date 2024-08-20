@@ -198,11 +198,19 @@ public enum Plugin implements Provider {
         File origin = null;
         File originFolder = new File(path);
         originFolder.mkdir();
+        File[] files = originFolder.listFiles();
+        if (files == null) {
+            if (!Console.log(Type.INFO, Style.WARN, " failed (origin not found)\n")) {
+                Console.log(Type.WARN, "Linking " + this.name() + " failed (origin not found)\n");
+            }
+            return;
+        }
         String name;
-        for (File f : originFolder.listFiles()) {
+        for (File f : files) {
             name = f.getName();
             if (name.toLowerCase().startsWith(this.name().toLowerCase()) && name.endsWith(".jar")) {
                 origin = f;
+                break;
             }
         }
         if (origin == null) {

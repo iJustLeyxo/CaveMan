@@ -142,7 +142,7 @@ public enum Command {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
             }
-            Console.log(Type.REQUESTED, Style.UPDATE,
+            Console.log(Type.REQUESTED, Style.UNINSTALL,
                     plugins.size() + " plugins and " + software.size() + " software to uninstall");
             if (!Console.confirm("Continue removal")) {
                 return;

@@ -1,6 +1,5 @@
 package com.cavetale.manager.data.server;
 
-import com.cavetale.manager.data.DataError;
 import com.cavetale.manager.data.Source;
 import com.cavetale.manager.parser.InputException;
 import com.cavetale.manager.util.Util;
@@ -96,12 +95,6 @@ public enum Software {
     public static final class NotFoundException extends InputException {
         public NotFoundException(@NotNull String ref) {
             super("Server software \"" + ref + "\" not found");
-        }
-    }
-
-    public final class URIError extends DataError {
-        public URIError(@NotNull String uri, @NotNull Throwable cause) {
-            super("Faulty url \n" + uri + "\n in " + refs[0] + " server software: " + cause.getMessage(), cause);
         }
     }
 }
