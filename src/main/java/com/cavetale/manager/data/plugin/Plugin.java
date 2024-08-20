@@ -229,7 +229,10 @@ public enum Plugin implements Provider {
         }
     }
 
-    // TODO: Add update method
+    public void update(@NotNull Set<Plugin> installed) {
+        this.uninstall();
+        this.install(installed);
+    }
 
     public void uninstall() {
         File folder = new File("plugins/");

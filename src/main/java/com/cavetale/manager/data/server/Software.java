@@ -8,12 +8,10 @@ import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.Set;
 
 /**
  * Server software, used to register downloadable server software
@@ -34,12 +32,12 @@ public enum Software {
         this.source = new Source.Other(Util.uriOf(uri), version);
     }
 
-    public void install() {
+    public void install(@NotNull Set<Software> installed) {
         Console.log(Type.INFO, "Installing " + this.refs[0] + " server software");
         File file = new File(this.refs[0] + "-" + source.version + ".jar");
-        if (file.exists()) {
+        if (installed.contains(this)) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
-                Console.log(Type.WARN, this.refs[0] + " server software is already installed\n");
+                Console.log(Type.WARN, "Installing " + this.name() + " skipped (already installed)\n");
             }
             return;
         }
@@ -53,7 +51,10 @@ public enum Software {
         }
     }
 
-    // TODO: Add update method
+    public void update(@NotNull Set<Software> installed) {
+        this.uninstall();
+        this.install(installed);
+    }
 
     public void uninstall() {
         File folder = new File("plugins/");

@@ -42,12 +42,13 @@ public enum Command {
             if (!Console.confirm("Continue installation")) {
                 return;
             }
-            Set<Plugin> installed = result.plugIndexer().getAll(true, null);
+            Set<Plugin> installedPlugins = result.plugIndexer().getAll(true, null);
             for (Plugin p : plugins) {
-                p.install(installed);
+                p.install(installedPlugins);
             }
+            Set<Software> installedSoftware = result.softwareIndexer().getAll(true, null);
             for (Software s : software) {
-                s.install();
+                s.install(installedSoftware);
             }
         }
     },
@@ -169,11 +170,13 @@ public enum Command {
             if (!Console.confirm("Continue update")) {
                 return;
             }
+            Set<Plugin> installedPlugins = result.plugIndexer().getAll(true, null);
             for (Plugin p : plugins) {
-                // TODO: Update plugins
+                p.update(installedPlugins);
             }
+            Set<Software> installedSoftware = result.softwareIndexer().getAll(true, null);
             for (Software s  : software) {
-                // TODO: Update soware
+                s.update(installedSoftware);
             }
         }
     };

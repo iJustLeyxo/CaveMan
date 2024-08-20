@@ -1,10 +1,6 @@
 package com.cavetale.manager;
 
-import com.cavetale.manager.parser.Command;
-import com.cavetale.manager.parser.Flag;
-import com.cavetale.manager.parser.InputException;
-import com.cavetale.manager.parser.Parser;
-import com.cavetale.manager.parser.Result;
+import com.cavetale.manager.parser.*;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Type;
