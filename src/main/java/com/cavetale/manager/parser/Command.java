@@ -32,7 +32,7 @@ public enum Command {
         @Override
         public void run(@NotNull Result result) {
             Set<Plugin> plugins = result.plugIndexer().getSelected();
-            Set<Software> software = result.softwareIndexer().getAll(null, true);
+            Set<Software> software = result.softwareIndexer().getSelected();
             if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
@@ -46,7 +46,7 @@ public enum Command {
             for (Plugin p : plugins) {
                 p.install(installedPlugins);
             }
-            Set<Software> installedSoftware = result.softwareIndexer().getAll(true, null);
+            Set<Software> installedSoftware = result.softwareIndexer().getInstalled().keySet();
             for (Software s : software) {
                 s.install(installedSoftware);
             }
@@ -137,7 +137,7 @@ public enum Command {
             } else {
                 plugins = result.plugIndexer().getSelected();
             }
-            Set<Software> software = result.softwareIndexer().getAll(null, true);
+            Set<Software> software = result.softwareIndexer().getSelected();
             if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
@@ -160,7 +160,7 @@ public enum Command {
         @Override
         public void run(@NotNull Result result) {
             Set<Plugin> plugins = result.plugIndexer().getSelected();
-            Set<Software> software = result.softwareIndexer().getAll(null, true);
+            Set<Software> software = result.softwareIndexer().getSelected();
             if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
@@ -174,7 +174,7 @@ public enum Command {
             for (Plugin p : plugins) {
                 p.update(installedPlugins);
             }
-            Set<Software> installedSoftware = result.softwareIndexer().getAll(true, null);
+            Set<Software> installedSoftware = result.softwareIndexer().getInstalled().keySet();
             for (Software s  : software) {
                 s.update(installedSoftware);
             }

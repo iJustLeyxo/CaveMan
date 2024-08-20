@@ -20,6 +20,8 @@ import java.util.Set;
  */
 public final class SoftwareIndexer {
     private final @NotNull Map<Software, Index> index = new HashMap<>();
+    private final @NotNull Map<Software, Set<File>> installed;
+    private final @NotNull Set<Software> selected;
 
     private record Index(
             @Nullable Boolean isSelected,
@@ -27,10 +29,10 @@ public final class SoftwareIndexer {
     ) { }
 
     public SoftwareIndexer(@NotNull Tokens tokens) {
-        Set<Software> selected = this.gatherSelected(tokens);
-        Map<Software, Set<File>> installs = this.gatherInstalls();
-        for (Map.Entry<Software, Set<File>> e : installs.entrySet()) {
-            this.index.put(e.getKey(), new Index(selected.contains(e.getKey()), e.getValue()));
+        this.selected = this.gatherSelected(tokens);
+        this.installed = this.gatherInstalls();
+        for (Map.Entry<Software, Set<File>> e : this.installed.entrySet()) {
+            this.index.put(e.getKey(), new Index(this.selected.contains(e.getKey()), e.getValue()));
         }
     }
 
@@ -67,7 +69,6 @@ public final class SoftwareIndexer {
         return installs;
     }
 
-    // TODO: Implement one time indexer
     public Set<Software> getAll(@Nullable Boolean installed, @Nullable Boolean selected) {
         Set<Software> software = new HashSet<>();
         for (Map.Entry<Software, Index> e : this.index.entrySet()) {
@@ -80,13 +81,21 @@ public final class SoftwareIndexer {
         return software;
     }
 
-    public @NotNull Set<File> unknownInstalls() {
+    public @NotNull Map<Software, Set<File>> getInstalled() {
+        return this.installed;
+    }
+
+    public @NotNull Set<Software> getSelected() {
+        return this.selected;
+    }
+
+    public @NotNull Set<File> getUnknown() {
         return new HashSet<>(this.index.get(null).installs);
     }
 
     public void summarize() {
-        Set<Software> selected = this.getAll(null, true);
-        Set<Software> installed = this.getAll(true, null);
+        Set<Software> selected = this.getSelected();
+        Set<Software> installed = this.getInstalled().keySet();
         if (!selected.isEmpty()) {
             this.summarizeSelected(selected); // Compare selected to installed software
         } else if (!installed.isEmpty()) {
@@ -94,7 +103,7 @@ public final class SoftwareIndexer {
         } else {
             Console.log(Type.REQUESTED, Style.INFO, "Nothing selected, nothing installed\n");
         }
-        Set<File> unknown = this.unknownInstalls(); // Always show unknown software
+        Set<File> unknown = this.getUnknown(); // Always show unknown software
         if (!unknown.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +

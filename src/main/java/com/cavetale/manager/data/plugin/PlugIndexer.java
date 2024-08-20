@@ -19,7 +19,7 @@ import java.util.*;
  */
 public final class PlugIndexer {
     private final @NotNull Map<Plugin, Index> index = new HashMap<>();
-    private final @NotNull Map<Plugin, Set<File>> installed = new HashMap<>();
+    private final @NotNull Map<Plugin, Set<File>> installed;
     private final @NotNull Set<Plugin> selected;
 
     private record Index(
@@ -29,12 +29,9 @@ public final class PlugIndexer {
     
     public PlugIndexer(@NotNull Tokens tokens) {
         this.selected = this.gatherSelected(tokens);
-        Map<Plugin, Set<File>> installs = this.gatherInstalled();
-        for (Map.Entry<Plugin, Set<File>> e : installs.entrySet()) {
+        this.installed = this.gatherInstalled();
+        for (Map.Entry<Plugin, Set<File>> e : this.installed.entrySet()) {
             this.index.put(e.getKey(), new Index(this.selected.contains(e.getKey()), e.getValue()));
-            if (!e.getValue().isEmpty()) {
-                this.installed.put(e.getKey(), e.getValue());
-            }
         }
     }
 
@@ -98,7 +95,7 @@ public final class PlugIndexer {
         return this.selected;
     }
 
-    public @NotNull Set<File> unknownInstalls() {
+    public @NotNull Set<File> getUnknown() {
         return new HashSet<>(this.index.get(null).installs);
     }
 
@@ -112,7 +109,7 @@ public final class PlugIndexer {
         } else {
             Console.log(Type.REQUESTED, Style.INFO, "Nothing selected, nothing installed\n");
         }
-        Set<File> unknown = this.unknownInstalls();
+        Set<File> unknown = this.getUnknown();
         if (!unknown.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
