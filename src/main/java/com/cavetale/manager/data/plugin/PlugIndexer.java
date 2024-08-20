@@ -12,16 +12,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Plugin manager, used to analyse installed and selected plugins
  */
 public final class PlugIndexer {
     private final @NotNull Map<Plugin, Index> index = new HashMap<>();
+    private final @NotNull Map<Plugin, Set<File>> installed = new HashMap<>();
+    private final @NotNull Set<Plugin> selected;
 
     private record Index(
             @Nullable Boolean isSelected,
@@ -29,10 +28,13 @@ public final class PlugIndexer {
     ) { }
     
     public PlugIndexer(@NotNull Tokens tokens) {
-        Set<Plugin> selected = this.gatherSelected(tokens);
-        Map<Plugin, Set<File>> installs = this.gatherInstalls();
+        this.selected = this.gatherSelected(tokens);
+        Map<Plugin, Set<File>> installs = this.gatherInstalled();
         for (Map.Entry<Plugin, Set<File>> e : installs.entrySet()) {
-            this.index.put(e.getKey(), new Index(selected.contains(e.getKey()), e.getValue()));
+            this.index.put(e.getKey(), new Index(this.selected.contains(e.getKey()), e.getValue()));
+            if (!e.getValue().isEmpty()) {
+                this.installed.put(e.getKey(), e.getValue());
+            }
         }
     }
 
@@ -54,7 +56,7 @@ public final class PlugIndexer {
         return selected;
     }
 
-    private Map<Plugin, Set<File>> gatherInstalls() {
+    private Map<Plugin, Set<File>> gatherInstalled() {
         Map<Plugin, Set<File>> installs = new HashMap<>();
         File folder = new File("plugins/");
         File[] files = folder.listFiles();
@@ -76,7 +78,6 @@ public final class PlugIndexer {
         return installs;
     }
 
-    // TODO: Implement one time indexer
     public @NotNull Set<Plugin> getAll(@Nullable Boolean installed, @Nullable Boolean selected) {
         Set<Plugin> plugins = new HashSet<>();
         for (Map.Entry<Plugin, Index> e : this.index.entrySet()) {
@@ -89,13 +90,21 @@ public final class PlugIndexer {
         return plugins;
     }
 
+    public @NotNull Map<Plugin, Set<File>> getInstalled() {
+        return this.installed;
+    }
+
+    public @NotNull Set<Plugin> getSelected() {
+        return this.selected;
+    }
+
     public @NotNull Set<File> unknownInstalls() {
         return new HashSet<>(this.index.get(null).installs);
     }
 
     public void summarize() {
-        Set<Plugin> selected = this.getAll(null, true);
-        Set<Plugin> installed = this.getAll(true, null);
+        Set<Plugin> selected = this.getSelected();
+        Set<Plugin> installed = this.getInstalled().keySet();
         if (!selected.isEmpty()) {
             this.summarizeSelected(selected);
         } else if (!installed.isEmpty()) {
@@ -136,7 +145,7 @@ public final class PlugIndexer {
     }
 
     private void summarizeInstalled() {
-        Set<Plugin> installed = this.getAll(true, null);
+        Set<Plugin> installed = this.getInstalled().keySet();
         if (!installed.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.INSTALL, installed.size() +
