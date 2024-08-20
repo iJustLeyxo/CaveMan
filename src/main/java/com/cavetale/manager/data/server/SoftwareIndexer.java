@@ -94,50 +94,52 @@ public final class SoftwareIndexer {
     }
 
     public void summarize() {
-        Set<Software> selected = this.getSelected();
-        Set<Software> installed = this.getInstalled().keySet();
-        if (!selected.isEmpty()) {
-            this.summarizeSelected(selected); // Compare selected to installed software
-        } else if (!installed.isEmpty()) {
-            this.summarizeInstalled(installed); // Show installed software if nothing is selected
+        if (!this.selected.isEmpty()) {
+            this.summarizeSelected(); // Compare selected to installed software
+        } else if (!this.getInstalled().isEmpty()) {
+            this.summarizeInstalled(); // Show installed software if nothing is selected
         } else {
-            Console.log(Type.REQUESTED, Style.INFO, "Nothing selected, nothing installed\n");
+            Console.sep();
+            Console.log(Type.REQUESTED, Style.INFO, "No software selected or installed\n");
         }
+    }
+
+    private void summarizeSelected() {
+        Console.sep();
+        Set<Software> selected = this.getSelected();
+        Console.logL(Type.REQUESTED, Style.SELECT, selected.size() +
+                " software(s) selected", 4, 21, selected.toArray());
+        selected = this.getAll(true, true);
+        if (!selected.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.INSTALL, selected.size() +
+                    " software(s) installed", 4, 21, selected.toArray());
+        }
+        selected = this.getAll(true, false);
+        if (!selected.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.SUPERFLUOUS, selected.size() +
+                    " software(s) superfluous", 4, 21, selected.toArray());
+        }
+        selected = this.getAll(false, true);
+        if (!selected.isEmpty()) {
+            Console.sep();
+            Console.logL(Type.REQUESTED, Style.MISSING, selected.size() +
+                    " software(s) missing", 4, 21, selected.toArray());
+        }
+    }
+
+    private void summarizeInstalled() {
+        Console.sep();
+        Set<Software> installed = this.getInstalled().keySet();
+        installed.remove(null);
+        Console.logL(Type.REQUESTED, Style.SOFTWARE, installed.size() +
+                " software(s) installed", 4, 21, installed.toArray());
         Set<File> unknown = this.getUnknown(); // Always show unknown software
         if (!unknown.isEmpty()) {
             Console.sep();
             Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
                     " software(s) unknown", 4, 21, unknown.toArray());
         }
-    }
-
-    private void summarizeSelected(@NotNull Set<Software> software) {
-        Console.sep();
-        Console.logL(Type.REQUESTED, Style.SELECT, software.size() +
-                " software(s) selected", 4, 21, software.toArray());
-        software = this.getAll(true, true);
-        if (!software.isEmpty()) {
-            Console.sep();
-            Console.logL(Type.REQUESTED, Style.INSTALL, software.size() +
-                    " software(s) installed", 4, 21, software.toArray());
-        }
-        software = this.getAll(true, false);
-        if (!software.isEmpty()) {
-            Console.sep();
-            Console.logL(Type.REQUESTED, Style.SUPERFLUOUS, software.size() +
-                    " software(s) superfluous", 4, 21, software.toArray());
-        }
-        software = this.getAll(false, true);
-        if (!software.isEmpty()) {
-            Console.sep();
-            Console.logL(Type.REQUESTED, Style.MISSING, software.size() +
-                    " software(s) missing", 4, 21, software.toArray());
-        }
-    }
-
-    private void summarizeInstalled(@NotNull Set<Software> installed) {
-            Console.sep();
-            Console.logL(Type.REQUESTED, Style.SOFTWARE, installed.size() +
-                    " software(s) installed", 4, 21, installed.toArray());
     }
 }

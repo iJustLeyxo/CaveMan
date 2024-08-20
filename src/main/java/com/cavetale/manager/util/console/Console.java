@@ -113,7 +113,7 @@ public final class Console {
 
     /**
      * Test for separation between different types of logged output
-     * @param type The type to test for separation
+     * @param type The type to test for separation, {@code type = null} will always separate
      */
     private static void sep(@Nullable Type type) {
         if (Console.type != type || null == type) {
@@ -137,6 +137,7 @@ public final class Console {
      * @return user input argument
      */
     public static @NotNull String[] in() {
+        Console.sep();
         Console.log(Type.PROMPT, "> ");
         Console.log(Type.PROMPT, Style.INPUT);
         return System.console().readLine().split(" ");
@@ -148,6 +149,7 @@ public final class Console {
      * @return user's response to the prompt
      */
     public static @NotNull String in(@NotNull String prompt) {
+        Console.sep();
         Console.log(Type.PROMPT, prompt + " ");
         Console.log(Type.PROMPT, Style.INPUT);
         return System.console().readLine();

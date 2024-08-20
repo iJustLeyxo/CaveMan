@@ -28,10 +28,14 @@ public final class PlugIndexer {
     ) { }
     
     public PlugIndexer(@NotNull Tokens tokens) {
+        Set<Plugin> plugins = new HashSet<>(List.of(Plugin.values()));
+        plugins.add(null);
         this.selected = this.gatherSelected(tokens);
         this.installed = this.gatherInstalled();
-        for (Map.Entry<Plugin, Set<File>> e : this.installed.entrySet()) {
-            this.index.put(e.getKey(), new Index(this.selected.contains(e.getKey()), e.getValue()));
+        for (Plugin p : plugins) {
+            Set<File> installs = this.installed.get(p);
+            if (installs == null) installs = new HashSet<>();
+            this.index.put(p, new Index(this.selected.contains(p), installs));
         }
     }
 
@@ -67,7 +71,11 @@ public final class PlugIndexer {
         for (File f : files) {
             try {
                 Plugin p = Plugin.get(f.getName());
-                installs.get(p).add(f);
+                if (installs.containsKey(p)) {
+                    installs.get(p).add(f);
+                } else {
+                    installs.put(p, new HashSet<>(List.of(f)));
+                }
             } catch (Plugin.NotFoundException e) {
                 installs.get(null).add(f);
             }
@@ -100,53 +108,52 @@ public final class PlugIndexer {
     }
 
     public void summarize() {
-        Set<Plugin> selected = this.getSelected();
-        Set<Plugin> installed = this.getInstalled().keySet();
-        if (!selected.isEmpty()) {
-            this.summarizeSelected(selected);
-        } else if (!installed.isEmpty()) {
+        if (!this.getSelected().isEmpty()) {
+            this.summarizeSelected();
+        } else if (!this.getInstalled().isEmpty()) {
             this.summarizeInstalled();
         } else {
-            Console.log(Type.REQUESTED, Style.INFO, "Nothing selected, nothing installed\n");
-        }
-        Set<File> unknown = this.getUnknown();
-        if (!unknown.isEmpty()) {
             Console.sep();
-            Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
-                    " plugins(s) unknown", 4, 21, unknown.toArray());
+            Console.log(Type.REQUESTED, Style.INFO, "No plugins selected or installed\n");
         }
     }
 
-    private void summarizeSelected(@NotNull Set<Plugin> plugins) {
+    private void summarizeSelected() {
         Console.sep();
-        Console.logL(Type.REQUESTED, Style.SELECT, plugins.size() +
-                " plugins(s) selected", 4, 21, plugins.toArray());
-        plugins = this.getAll(true, true);
-        if (!plugins.isEmpty()) {
+        Set<Plugin> selected = this.getSelected();
+        Console.logL(Type.REQUESTED, Style.SELECT, selected.size() +
+                " plugins(s) selected", 4, 21, selected.toArray());
+        selected = this.getAll(true, true);
+        if (!selected.isEmpty()) {
             Console.sep();
-            Console.logL(Type.REQUESTED, Style.INSTALL, plugins.size() +
-                    " plugins(s) installed", 4, 21, plugins.toArray());
+            Console.logL(Type.REQUESTED, Style.INSTALL, selected.size() +
+                    " plugins(s) installed", 4, 21, selected.toArray());
         }
-        plugins = this.getAll(true, false);
-        if (!plugins.isEmpty()) {
+        selected = this.getAll(true, false);
+        if (!selected.isEmpty()) {
             Console.sep();
-            Console.logL(Type.REQUESTED, Style.SUPERFLUOUS, plugins.size() +
-                    " plugins(s) superfluous", 4, 21, plugins.toArray());
+            Console.logL(Type.REQUESTED, Style.SUPERFLUOUS, selected.size() +
+                    " plugins(s) superfluous", 4, 21, selected.toArray());
         }
-        plugins = this.getAll(false, true);
-        if (!plugins.isEmpty()) {
+        selected = this.getAll(false, true);
+        if (!selected.isEmpty()) {
             Console.sep();
-            Console.logL(Type.REQUESTED, Style.MISSING, plugins.size() +
-                    " plugins(s) missing", 4, 21, plugins.toArray());
+            Console.logL(Type.REQUESTED, Style.MISSING, selected.size() +
+                    " plugins(s) missing", 4, 21, selected.toArray());
         }
     }
 
     private void summarizeInstalled() {
         Set<Plugin> installed = this.getInstalled().keySet();
-        if (!installed.isEmpty()) {
+        installed.remove(null);
+        Console.sep();
+        Console.logL(Type.REQUESTED, Style.INSTALL, installed.size() +
+                " plugins(s) installed", 4, 21, installed.toArray());
+        Set<File> unknown = this.getUnknown();
+        if (!unknown.isEmpty()) {
             Console.sep();
-            Console.logL(Type.REQUESTED, Style.INSTALL, installed.size() +
-                    " plugins(s) installed", 4, 21, installed.toArray());
+            Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
+                    " plugins(s) unknown", 4, 21, unknown.toArray());
         }
     }
 }

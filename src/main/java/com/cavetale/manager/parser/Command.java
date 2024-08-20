@@ -137,13 +137,15 @@ public enum Command {
             } else {
                 plugins = result.plugIndexer().getSelected();
             }
+            plugins.remove(null);
             Set<Software> software = result.softwareIndexer().getSelected();
             if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
             }
+            software.remove(null);
             Console.log(Type.REQUESTED, Style.UNINSTALL,
-                    plugins.size() + " plugins and " + software.size() + " software to uninstall");
+                    plugins.size() + " plugins and " + software.size() + " software to uninstall\n");
             if (!Console.confirm("Continue removal")) {
                 return;
             }
