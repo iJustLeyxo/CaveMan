@@ -85,6 +85,7 @@ public enum Software {
             }
         }
         throw new NotFoundException(ref);
+        // TODO: Diversify between plugin not found and not a plugin
     }
 
     public static void list() {

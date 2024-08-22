@@ -274,6 +274,7 @@ public enum Plugin implements Provider {
                     ref.toLowerCase().endsWith(".jar")) return p;
         }
         throw new NotFoundException(ref);
+        // TODO: Diversify between plugin not found and not a plugin
     }
 
     public static void list() {
