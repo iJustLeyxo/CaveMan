@@ -18,10 +18,10 @@ import java.util.*;
  * Plugin manager, used to analyse installed and selected plugins
  */
 public final class PlugIndexer {
-    protected static PlugIndexer active;
+    static PlugIndexer active;
 
     private final @NotNull Map<Plugin, Index> index = new HashMap<>();
-    protected final @NotNull Map<Plugin, Set<File>> installed;
+    final @NotNull Map<Plugin, Set<File>> installed;
     private final @NotNull Set<Plugin> selected;
     
     public PlugIndexer(@NotNull Tokens tokens) {
@@ -37,7 +37,7 @@ public final class PlugIndexer {
         PlugIndexer.active = this;
     }
 
-    private Set<Plugin> gatherSelected(@NotNull Tokens tokens) {
+    private @NotNull Set<Plugin> gatherSelected(@NotNull Tokens tokens) {
         Set<Plugin> selected = new HashSet<>();
         if (tokens.flags().containsKey(Flag.PLUGIN)) {
             selected.addAll(((PluginContainer) tokens.flags().get(Flag.PLUGIN)).get());
@@ -55,26 +55,28 @@ public final class PlugIndexer {
         return selected;
     }
 
-    private Map<Plugin, Set<File>> gatherInstalled() {
+    private @NotNull Map<Plugin, Set<File>> gatherInstalled() {
         Map<Plugin, Set<File>> installs = new HashMap<>();
         File folder = new File("plugins/");
         File[] files = folder.listFiles();
         if (files == null) {
             return installs;
         }
-        installs.put(null, new HashSet<>());
-        for (Plugin p : Plugin.values()) {
-            installs.put(p, new HashSet<>());
-        }
         for (File f : files) {
             if (f.isDirectory()) {
                 continue;
             }
+            Plugin p;
             try {
-                Plugin p = Plugin.get(f.getName());
-                installs.get(p).add(new File(f.getName()));
+                p = Plugin.get(f.getName());
             } catch (Plugin.NotFoundException e) {
-                installs.get(null).add(new File(f.getName()));
+                p = null;
+            }
+            File i = new File(f.getName());
+            if (!installs.containsKey(p)) {
+                installs.put(p, new HashSet<>(Set.of(i)));
+            } else {
+                installs.get(p).add(i);
             }
         }
         return installs;

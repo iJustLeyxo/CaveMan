@@ -52,19 +52,21 @@ public final class SoftwareIndexer {
         if (files == null) {
             return installs;
         }
-        installs.put(null, new HashSet<>());
-        for (Software s : Software.values()) {
-            installs.put(s, new HashSet<>());
-        }
         for (File f : files) {
             if (f.isDirectory()) {
                 continue;
             }
+            Software s;
             try {
-                Software s = Software.get(f.getName());
-                installs.get(s).add(new File(f.getName()));
+                s = Software.get(f.getName());
             } catch (Software.NotFoundException e) {
-                installs.get(null).add(new File(f.getName()));
+                s = null;
+            }
+            File i = new File(f.getName());
+            if (!installs.containsKey(s)) {
+                installs.put(s, new HashSet<>(Set.of(i)));
+            } else {
+                installs.get(s).add(i);
             }
         }
         return installs;
