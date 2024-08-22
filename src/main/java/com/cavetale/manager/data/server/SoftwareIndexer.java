@@ -59,6 +59,9 @@ public final class SoftwareIndexer {
             installs.put(s, new HashSet<>());
         }
         for (File f : files) {
+            if (f.isDirectory()) {
+                continue;
+            }
             try {
                 Software s = Software.get(f.getName());
                 installs.get(s).add(f);
