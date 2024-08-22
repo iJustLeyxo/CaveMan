@@ -18,14 +18,11 @@ import java.util.*;
  * Plugin manager, used to analyse installed and selected plugins
  */
 public final class PlugIndexer {
-    private final @NotNull Map<Plugin, Index> index = new HashMap<>();
-    private final @NotNull Map<Plugin, Set<File>> installed;
-    private final @NotNull Set<Plugin> selected;
+    protected static PlugIndexer active;
 
-    private record Index(
-            @Nullable Boolean isSelected,
-            @NotNull Set<File> installs
-    ) { }
+    private final @NotNull Map<Plugin, Index> index = new HashMap<>();
+    protected final @NotNull Map<Plugin, Set<File>> installed;
+    private final @NotNull Set<Plugin> selected;
     
     public PlugIndexer(@NotNull Tokens tokens) {
         Set<Plugin> plugins = new HashSet<>(List.of(Plugin.values()));
@@ -37,6 +34,7 @@ public final class PlugIndexer {
             if (installs == null) installs = new HashSet<>();
             this.index.put(p, new Index(this.selected.contains(p), installs));
         }
+        PlugIndexer.active = this;
     }
 
     private Set<Plugin> gatherSelected(@NotNull Tokens tokens) {
@@ -74,9 +72,9 @@ public final class PlugIndexer {
             }
             try {
                 Plugin p = Plugin.get(f.getName());
-                installs.get(p).add(f);
+                installs.get(p).add(new File(f.getName()));
             } catch (Plugin.NotFoundException e) {
-                installs.get(null).add(f);
+                installs.get(null).add(new File(f.getName()));
             }
         }
         return installs;
@@ -155,4 +153,9 @@ public final class PlugIndexer {
                     " plugins(s) unknown", 4, 21, unknown.toArray());
         }
     }
+
+    private record Index(
+            @Nullable Boolean isSelected,
+            @NotNull Set<File> installs
+    ) { }
 }

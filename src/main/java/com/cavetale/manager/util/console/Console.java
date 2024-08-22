@@ -68,9 +68,6 @@ public final class Console {
         Arrays.sort(objects);
         int i = 1;
         for (Object o : objects) {
-            if (o instanceof File) {
-                o = ((File) o).getName();
-            }
             b.append(o).append(" ".repeat(Math.max(0, colSize - o.toString().length())));
             if (i >= cols) {
                 b.append("\n");

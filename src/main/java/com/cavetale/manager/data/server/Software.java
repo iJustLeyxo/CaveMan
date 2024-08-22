@@ -1,6 +1,8 @@
 package com.cavetale.manager.data.server;
 
 import com.cavetale.manager.data.Source;
+import com.cavetale.manager.data.plugin.PlugIndexer;
+import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.parser.InputException;
 import com.cavetale.manager.util.Util;
 import com.cavetale.manager.util.console.Console;
@@ -32,11 +34,11 @@ public enum Software {
     }
 
     public void install(@NotNull Set<Software> installed) {
-        Console.log(Type.INFO, "Installing " + this.refs[0] + " server software");
+        Console.log(Type.INFO, "Installing " + this.refs[0] + " software");
         File file = new File(this.refs[0] + "-" + source.version + ".jar");
         if (installed.contains(this)) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
-                Console.log(Type.WARN, "Installing " + this.name() + " skipped (already installed)\n");
+                Console.log(Type.WARN, "Installing " + this.name() + " software skipped (already installed)\n");
             }
             return;
         }
@@ -45,7 +47,7 @@ public enum Software {
             Console.log(Type.INFO, Style.DONE, " done\n");
         } catch (IOException e) {
             if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
-                Console.log(Type.ERR, "Installing " + this.refs[0] + " server software failed\n");
+                Console.log(Type.ERR, "Installing " + this.refs[0] + " software failed\n");
             }
         }
     }
@@ -56,19 +58,16 @@ public enum Software {
     }
 
     public void uninstall() {
+        Set<File> files = SoftwareIndexer.active.installed.get(this);
         File folder = new File("plugins/");
-        File[] files = folder.listFiles();
-        if (files == null) return;
-        String name;
         for (File f : files) {
-            name = f.getName();
-            if (name.toLowerCase().startsWith(this.refs[0].toLowerCase()) && name.toLowerCase().endsWith(".jar")) {
-                Console.log(Type.INFO, "Uninstalling " + name);
-                if (f.delete()) {
-                    Console.log(Type.INFO, Style.DONE, " done\n");
-                    continue;
-                }
-                Console.log(Type.ERR, "Uninstalling " + this.name() + " failed\n");
+            Console.log(Type.INFO, "Uninstalling " + f.getName() + " software");
+            if (new File(folder, f.getName()).delete()) {
+                Console.log(Type.INFO, Style.DONE, " done\n");
+                continue;
+            }
+            if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
+                Console.log(Type.ERR, "Uninstalling " + f.getName() + " software failed\n");
             }
         }
     }

@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -175,10 +176,10 @@ public enum Plugin implements Provider {
     }
 
     public void install(@NotNull Set<Plugin> installed) {
-        Console.log(Type.INFO, "Installing " + this.name());
+        Console.log(Type.INFO, "Installing " + this.name() + " plugin");
         if (installed.contains(this)) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
-                Console.log(Type.WARN, "Installing " + this.name() + " skipped (already installed)\n");
+                Console.log(Type.WARN, "Installing " + this.name() + " plugin skipped (already installed)\n");
             }
             return;
         }
@@ -188,20 +189,20 @@ public enum Plugin implements Provider {
             Console.log(Type.INFO, Style.DONE, " done\n");
         } catch (IOException e) {
             if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
-                Console.log(Type.ERR, "Installing " + this.name() + " failed\n");
+                Console.log(Type.ERR, "Installing " + this.name() + " plugin failed\n");
             }
         }
     }
 
     public void link(@NotNull String path, @NotNull Set<Plugin> installed) {
-        Console.log(Type.INFO, "Linking " + this.name());
+        Console.log(Type.INFO, "Linking " + this.name() + " plugin");
         File origin = null;
         File originFolder = new File(path);
         originFolder.mkdir();
         File[] files = originFolder.listFiles();
         if (files == null) {
             if (!Console.log(Type.INFO, Style.WARN, " failed (origin not found)\n")) {
-                Console.log(Type.WARN, "Linking " + this.name() + " failed (origin not found)\n");
+                Console.log(Type.WARN, "Linking " + this.name() + " plugin failed (origin not found)\n");
             }
             return;
         }
@@ -215,13 +216,13 @@ public enum Plugin implements Provider {
         }
         if (origin == null) {
             if (!Console.log(Type.INFO, Style.WARN, " failed (origin not found)\n")) {
-                Console.log(Type.WARN, "Linking " + this.name() + " failed (origin not found)\n");
+                Console.log(Type.WARN, "Linking " + this.name() + " plugin failed (origin not found)\n");
             }
             return;
         }
         if (installed.contains(this)) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
-                Console.log(Type.WARN, "Linking " + this.name() + " skipped (already installed)\n");
+                Console.log(Type.WARN, "Linking " + this.name() + " plugin skipped (already installed)\n");
             }
             return;
         }
@@ -232,7 +233,7 @@ public enum Plugin implements Provider {
             Console.log(Type.INFO, Style.DONE, " done\n");
         } catch (IOException e) {
             if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
-                Console.log(Type.ERR, "Linking " + this.name() + " failed\n");
+                Console.log(Type.ERR, "Linking " + this.name() + " plugin failed\n");
             }
         }
     }
@@ -243,19 +244,16 @@ public enum Plugin implements Provider {
     }
 
     public void uninstall() {
+        Set<File> files = PlugIndexer.active.installed.get(this);
         File folder = new File("plugins/");
-        File[] files = folder.listFiles();
-        if (files == null) return;
-        String name;
         for (File f : files) {
-            name = f.getName();
-            if (name.toLowerCase().startsWith(this.name().toLowerCase()) && name.toLowerCase().endsWith(".jar")) {
-                Console.log(Type.INFO, "Uninstalling " + name);
-                if (f.delete()) {
-                    Console.log(Type.INFO, Style.DONE, " done\n");
-                    continue;
-                }
-                Console.log(Type.ERR, "Uninstalling " + this.name() + " failed\n");
+            Console.log(Type.INFO, "Uninstalling " + f.getName() + " plugin");
+            if (new File(folder, f.getName()).delete()) {
+                Console.log(Type.INFO, Style.DONE, " done\n");
+                continue;
+            }
+            if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
+                Console.log(Type.ERR, "Uninstalling " + f.getName() + " plugin failed\n");
             }
         }
     }

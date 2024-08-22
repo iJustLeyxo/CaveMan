@@ -19,14 +19,11 @@ import java.util.Set;
  * Server software manager, used to analyse installed and selected plugins
  */
 public final class SoftwareIndexer {
-    private final @NotNull Map<Software, Index> index = new HashMap<>();
-    private final @NotNull Map<Software, Set<File>> installed;
-    private final @NotNull Set<Software> selected;
+    public static SoftwareIndexer active;
 
-    private record Index(
-            @Nullable Boolean isSelected,
-            @NotNull Set<File> installs
-    ) { }
+    private final @NotNull Map<Software, Index> index = new HashMap<>();
+    protected final @NotNull Map<Software, Set<File>> installed;
+    private final @NotNull Set<Software> selected;
 
     public SoftwareIndexer(@NotNull Tokens tokens) {
         this.selected = this.gatherSelected(tokens);
@@ -34,6 +31,7 @@ public final class SoftwareIndexer {
         for (Map.Entry<Software, Set<File>> e : this.installed.entrySet()) {
             this.index.put(e.getKey(), new Index(this.selected.contains(e.getKey()), e.getValue()));
         }
+        SoftwareIndexer.active = this;
     }
 
     /**
@@ -64,9 +62,9 @@ public final class SoftwareIndexer {
             }
             try {
                 Software s = Software.get(f.getName());
-                installs.get(s).add(f);
+                installs.get(s).add(new File(f.getName()));
             } catch (Software.NotFoundException e) {
-                installs.get(null).add(f);
+                installs.get(null).add(new File(f.getName()));
             }
         }
         return installs;
@@ -145,4 +143,9 @@ public final class SoftwareIndexer {
                     " software(s) unknown", 4, 21, unknown.toArray());
         }
     }
+
+    private record Index(
+            @Nullable Boolean isSelected,
+            @NotNull Set<File> installs
+    ) { }
 }
