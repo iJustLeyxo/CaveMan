@@ -34,15 +34,17 @@ public final class Manager {
                         Console.log(Type.WARN, "Nothing to do. Try typing \"help\".\n");
                     }
                 } else {
-                    Console.log(Type.DEBUG, "Running " + result.tokens().commands().size() + " commands\n");
+                    Console.log(Type.DEBUG, "Running " + result.tokens().commands().size() + " command(s)\n");
                     for (Command cmd : result.tokens().commands()) {
+                        Console.log(Type.DEBUG, "Running " + cmd.refs[0] + " command\n");
                         if (result.tokens().flags().containsKey(Flag.HELP)) {
                             cmd.help(result);
                             continue;
                         }
                         cmd.run(result);
+                        Console.log(Type.DEBUG, "Finished running " + cmd.refs[0] + " command\n");
                     }
-                    Console.log(Type.DEBUG, "Finished running commands\n");
+                    Console.log(Type.DEBUG, "Finished running command(s)\n");
                 }
             } catch (InputException e) {
                 Console.log(Type.ERR, e.getMessage() + "\n");
