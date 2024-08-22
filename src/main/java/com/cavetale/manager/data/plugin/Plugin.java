@@ -272,7 +272,7 @@ public enum Plugin implements Provider {
 
     public static Plugin get(String ref) throws NotFoundException {
         for (Plugin p : Plugin.values()) {
-            if (ref.toLowerCase().startsWith(p.name().toLowerCase()) &&
+            if (ref.split("\\.")[0].split("-")[0].equalsIgnoreCase(p.name()) &&
                     ref.toLowerCase().endsWith(".jar")) return p;
         }
         throw new NotFoundException(ref);

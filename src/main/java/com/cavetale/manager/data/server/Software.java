@@ -79,9 +79,10 @@ public enum Software {
     }
 
     public static @NotNull Software get(@NotNull String ref) throws NotFoundException {
-        for (Software s : values()) {
+        for (Software s : Software.values()) {
             for (String r : s.refs) {
-                if (ref.startsWith(r)) return s;
+                if (ref.split(".")[0].split("-")[0].equalsIgnoreCase(r) &&
+                        ref.toLowerCase().endsWith(".jar")) return s;
             }
         }
         throw new NotFoundException(ref);
