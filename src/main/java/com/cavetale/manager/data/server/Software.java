@@ -2,7 +2,6 @@ package com.cavetale.manager.data.server;
 
 import com.cavetale.manager.data.DataException;
 import com.cavetale.manager.data.Source;
-import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.parser.InputException;
 import com.cavetale.manager.util.Util;
 import com.cavetale.manager.util.console.Console;

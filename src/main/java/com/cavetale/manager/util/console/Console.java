@@ -3,7 +3,6 @@ package com.cavetale.manager.util.console;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
 import java.util.Arrays;
 
 /**

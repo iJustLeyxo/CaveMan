@@ -22,7 +22,7 @@ public final class SoftwareIndexer {
     public static SoftwareIndexer active;
 
     private final @NotNull Map<Software, Index> index = new HashMap<>();
-    protected final @NotNull Map<Software, Set<File>> installed;
+    final @NotNull Map<Software, Set<File>> installed;
     private final @NotNull Set<Software> selected;
 
     public SoftwareIndexer(@NotNull Tokens tokens) {
