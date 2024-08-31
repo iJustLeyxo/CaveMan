@@ -4,7 +4,6 @@ import com.cavetale.manager.data.plugin.PlugIndexer;
 import com.cavetale.manager.data.server.SoftwareIndexer;
 import com.cavetale.manager.parser.container.EmptyContainer;
 import com.cavetale.manager.util.console.Console;
-import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
