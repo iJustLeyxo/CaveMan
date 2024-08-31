@@ -247,9 +247,9 @@ public enum Plugin implements Provider {
         Set<File> files = PlugIndexer.active.installed.get(this);
         File folder = new File("plugins/");
         for (File f : files) {
-            Console.log(Type.INFO, Style.DEBUG, "Uninstalling " + f.getName() + " plugin");
+            Console.log(Type.INFO, Style.DEBUG, "Uninstalling " + f.getName());
             if (new File(folder, f.getName()).delete()) {
-                Console.log(Type.DEBUG, Style.DONE, " done\n");
+                Console.log(Type.INFO, Style.DONE, " done\n");
                 continue;
             }
             if (!Console.log(Type.DEBUG, Style.ERR, " failed\n")) {
