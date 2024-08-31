@@ -1,6 +1,7 @@
 package com.cavetale.manager.data.plugin;
 
 import com.cavetale.manager.data.DataError;
+import com.cavetale.manager.data.DataException;
 import com.cavetale.manager.data.Source;
 import com.cavetale.manager.parser.InputException;
 import com.cavetale.manager.util.Util;
@@ -13,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -268,24 +268,40 @@ public enum Plugin implements Provider {
         return this.name();
     }
 
-    public static Plugin get(@NotNull String ref) throws NotFoundException {
+    public static Plugin get(@NotNull String ref) throws PluginNotFoundException {
         String lowRef = ref.toLowerCase();
         for (Plugin p : Plugin.values()) {
             if (lowRef.equalsIgnoreCase(p.name())) return p;
         }
-        throw new NotFoundException(ref);
+        throw new PluginNotFoundException(ref);
     }
 
-    // TODO: Add file detection
+    public static Plugin get(@NotNull File file) throws NotAPluginException, PluginNotFoundException {
+        String ref = file.getName().toLowerCase();
+        if (file.isDirectory() || !ref.endsWith(".jar")) {
+            throw new NotAPluginException(file);
+        }
+        ref = ref.split("-")[0];
+        for (Plugin p : Plugin.values()) {
+            if (ref.equalsIgnoreCase(p.name())) return p;
+        }
+        throw new PluginNotFoundException(ref);
+    }
 
     public static void list() {
         Console.sep();
         Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins", 4, 21, (Object[]) Plugin.values());
     }
 
-    public static class NotFoundException extends InputException {
-        public NotFoundException(@NotNull String ref) {
+    public static class PluginNotFoundException extends InputException {
+        public PluginNotFoundException(@NotNull String ref) {
             super("Plugin \"" + ref + "\" not found");
+        }
+    }
+
+    public static class NotAPluginException extends DataException {
+        public NotAPluginException(@NotNull File file) {
+            super(file.getName() + " is not a plugin");
         }
     }
 

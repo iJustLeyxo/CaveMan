@@ -63,15 +63,12 @@ public final class PlugIndexer {
             return installs;
         }
         for (File f : files) {
-            if (f.isDirectory()) {
-                continue;
-            }
-            Plugin p;
+            Plugin p = null;
             try {
-                p = Plugin.get(f.getName());
-            } catch (Plugin.NotFoundException e) {
-                p = null;
-            }
+                p = Plugin.get(f);
+            } catch (Plugin.NotAPluginException e) {
+                continue;
+            } catch (Plugin.PluginNotFoundException ignored) {}
             File i = new File(f.getName());
             if (!installs.containsKey(p)) {
                 installs.put(p, new HashSet<>(Set.of(i)));

@@ -1,7 +1,7 @@
 package com.cavetale.manager.data.server;
 
+import com.cavetale.manager.data.DataException;
 import com.cavetale.manager.data.Source;
-import com.cavetale.manager.data.plugin.PlugIndexer;
 import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.parser.InputException;
 import com.cavetale.manager.util.Util;
@@ -75,17 +75,29 @@ public enum Software {
         return this.refs[0];
     }
 
-    public static @NotNull Software get(@NotNull String ref) throws NotFoundException {
+    public static @NotNull Software get(@NotNull String ref) throws SoftwareNotFoundException {
         String lowRef = ref.toLowerCase();
         for (Software s : Software.values()) {
             for (String r : s.refs) {
                 if (lowRef.equalsIgnoreCase(r)) return s;
             }
         }
-        throw new NotFoundException(ref);
+        throw new SoftwareNotFoundException(ref);
     }
 
-    // TODO: Add detection for files
+    public static @NotNull Software get(@NotNull File file) throws NotASoftwareException, SoftwareNotFoundException {
+        String ref = file.getName().toLowerCase();
+        if (file.isDirectory() || !ref.endsWith(".jar")) {
+            throw new NotASoftwareException(file);
+        }
+        ref = ref.split("-")[0];
+        for (Software s : Software.values()) {
+            for (String r : s.refs) {
+                if (ref.equalsIgnoreCase(r)) return s;
+            }
+        }
+        throw new SoftwareNotFoundException(ref);
+    }
 
     public static void list() {
         Console.sep();
@@ -93,9 +105,15 @@ public enum Software {
                 (Object[]) Software.values());
     }
 
-    public static final class NotFoundException extends InputException {
-        public NotFoundException(@NotNull String ref) {
+    public static final class SoftwareNotFoundException extends InputException {
+        public SoftwareNotFoundException(@NotNull String ref) {
             super("Server software \"" + ref + "\" not found");
+        }
+    }
+
+    public static class NotASoftwareException extends DataException {
+        public NotASoftwareException(@NotNull File file) {
+            super(file.getName() + " is not a software");
         }
     }
 }

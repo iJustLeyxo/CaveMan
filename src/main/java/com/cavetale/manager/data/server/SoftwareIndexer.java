@@ -53,15 +53,12 @@ public final class SoftwareIndexer {
             return installs;
         }
         for (File f : files) {
-            if (f.isDirectory()) {
-                continue;
-            }
-            Software s;
+            Software s = null;
             try {
-                s = Software.get(f.getName());
-            } catch (Software.NotFoundException e) {
-                s = null;
-            }
+                s = Software.get(f);
+            } catch (Software.NotASoftwareException e) {
+                continue;
+            } catch (Software.SoftwareNotFoundException ignored) {}
             File i = new File(f.getName());
             if (!installs.containsKey(s)) {
                 installs.put(s, new HashSet<>(Set.of(i)));
