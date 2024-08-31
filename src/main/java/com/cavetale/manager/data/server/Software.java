@@ -19,9 +19,7 @@ import java.util.Set;
  */
 public enum Software {
     PAPER("https://api.papermc.io/v2/projects/paper/versions/1.21/builds/127/downloads/paper-1.21-127.jar", "127",
-            "Paper", "PaperMC");
-
-    // TODO: Add individual install and update logic
+            "Paper", "PaperMC"); // TODO: Download newest version using Paper API
 
     public final @NotNull String[] refs;
     public final @NotNull Source source;
@@ -78,15 +76,16 @@ public enum Software {
     }
 
     public static @NotNull Software get(@NotNull String ref) throws NotFoundException {
+        String lowRef = ref.toLowerCase();
         for (Software s : Software.values()) {
             for (String r : s.refs) {
-                if (ref.split(".")[0].split("-")[0].equalsIgnoreCase(r) &&
-                        ref.toLowerCase().endsWith(".jar")) return s;
+                if (lowRef.equalsIgnoreCase(r)) return s;
             }
         }
         throw new NotFoundException(ref);
-        // TODO: Diversify between plugin not found and not a plugin
     }
+
+    // TODO: Add detection for files
 
     public static void list() {
         Console.logL(Type.REQUESTED, Style.SOFTWARE, "Server software", 4, 21,

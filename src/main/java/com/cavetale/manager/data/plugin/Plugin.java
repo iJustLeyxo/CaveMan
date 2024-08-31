@@ -268,14 +268,15 @@ public enum Plugin implements Provider {
         return this.name();
     }
 
-    public static Plugin get(String ref) throws NotFoundException {
+    public static Plugin get(@NotNull String ref) throws NotFoundException {
+        String lowRef = ref.toLowerCase();
         for (Plugin p : Plugin.values()) {
-            if (ref.split("\\.")[0].split("-")[0].equalsIgnoreCase(p.name()) &&
-                    ref.toLowerCase().endsWith(".jar")) return p;
+            if (lowRef.equalsIgnoreCase(p.name())) return p;
         }
         throw new NotFoundException(ref);
-        // TODO: Diversify between plugin not found and not a plugin
     }
+
+    // TODO: Add file detection
 
     public static void list() {
         Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins", 4, 21, (Object[]) Plugin.values());

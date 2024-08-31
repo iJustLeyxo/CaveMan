@@ -6,10 +6,7 @@ import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Type;
 import com.cavetale.manager.util.console.XCode;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Cavetale installation manager, used to manage plugins and server software for testing servers
@@ -48,6 +45,7 @@ public final class Manager {
                 }
             } catch (InputException e) {
                 Console.log(Type.ERR, e.getMessage() + "\n");
+                Console.log(Type.DEBUG, Style.WARN, Arrays.toString(e.getStackTrace()) + "\n"); // TODO: Better stack trace printing
                 if (!interactive) {
                     System.exit(1);
                 }
