@@ -161,7 +161,12 @@ public enum Command {
     UPDATE("Update plugins and software", "upgrade") {
         @Override
         public void run(@NotNull Result result) {
-            Set<Plugin> plugins = result.plugIndexer().getSelected();
+            Set<Plugin> plugins;
+            if (result.tokens().flags().containsKey(Flag.ALL)) {
+                plugins = result.plugIndexer().getInstalled().keySet();
+            } else {
+                plugins = result.plugIndexer().getSelected();
+            }
             Set<Software> software = result.softwareIndexer().getSelected();
             if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
