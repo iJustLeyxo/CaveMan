@@ -279,10 +279,13 @@ public enum Plugin implements Provider {
 
     public static Plugin get(@NotNull File file) throws NotAPluginException, PluginNotFoundException {
         String ref = file.getName().toLowerCase();
-        if (file.isDirectory() || !ref.endsWith(".jar")) {
-            throw new NotAPluginException(file);
-        }
-        ref = ref.split("-")[0];
+        if (!file.isFile() || !ref.endsWith(".jar")) throw new NotAPluginException(file);
+        int verStart = ref.indexOf("-");
+        if (verStart < 0) verStart = ref.length() - 1;
+        int extStart = ref.indexOf(".");
+        if (extStart < 0) extStart = ref.length() - 1;
+        int endStart = Math.min(verStart, extStart);
+        ref = ref.substring(0, endStart);
         for (Plugin p : Plugin.values()) {
             if (ref.equalsIgnoreCase(p.name())) return p;
         }

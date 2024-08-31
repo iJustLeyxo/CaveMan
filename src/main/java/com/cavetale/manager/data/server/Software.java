@@ -2,6 +2,7 @@ package com.cavetale.manager.data.server;
 
 import com.cavetale.manager.data.DataException;
 import com.cavetale.manager.data.Source;
+import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.parser.InputException;
 import com.cavetale.manager.util.Util;
 import com.cavetale.manager.util.console.Console;
@@ -87,10 +88,13 @@ public enum Software {
 
     public static @NotNull Software get(@NotNull File file) throws NotASoftwareException, SoftwareNotFoundException {
         String ref = file.getName().toLowerCase();
-        if (file.isDirectory() || !ref.endsWith(".jar")) {
-            throw new NotASoftwareException(file);
-        }
-        ref = ref.split("-")[0];
+        if (!file.isFile() || !ref.endsWith(".jar")) throw new NotASoftwareException(file);
+        int verStart = ref.indexOf("-");
+        if (verStart < 0) verStart = ref.length() - 1;
+        int extStart = ref.indexOf(".");
+        if (extStart < 0) extStart = ref.length() - 1;
+        int endStart = Math.min(verStart, extStart);
+        ref = ref.substring(0, endStart);
         for (Software s : Software.values()) {
             for (String r : s.refs) {
                 if (ref.equalsIgnoreCase(r)) return s;
