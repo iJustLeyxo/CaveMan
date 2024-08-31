@@ -14,17 +14,17 @@ import java.util.*;
  */
 public enum Category implements Provider {
     GLOBAL("Global plugins"),
-    BUILD("Plugins for build softwareManager"),
+    BUILD("Plugins for build servers"),
     CORE("Essential plugins"),
-    CREATIVE("Plugins for creative softwareManager"),
+    CREATIVE("Plugins for creative servers"),
     DEPRECATED("Deprecated plugins"),
     EVENT("Plugins for events without a dedicated server"),
-    HOME("Plugins for home softwareManager"),
-    HUB("Plugins for hub softwareManager"),
-    MINE("Plugins for mine softwareManager"),
-    MINI_GAME("minigame", "Plugins for mini game softwareManager"),
+    HOME("Plugins for home servers"),
+    HUB("Plugins for hub servers"),
+    MINE("Plugins for mine servers"),
+    MINI_GAME("minigame", "Plugins for mini game servers"),
     SEASONAL("Seasonal event plugins"),
-    SURVIVAL("Plugins for survival softwareManager"),
+    SURVIVAL("Plugins for survival servers"),
     UTIL("Optional utility plugins"),
     WORLD_GEN("worldgen", "World generation plugins");
 
@@ -67,6 +67,7 @@ public enum Category implements Provider {
     }
 
     public static void list() {
+        Console.sep();
         Console.log(Type.REQUESTED, Style.CATEGORY, XCode.BOLD +
                 "-------------------------------------- " +
                 "Categories -------------------------------------\n");

@@ -13,17 +13,16 @@ import java.util.*;
  * Servers, used to group plugins by installed server
  */
 public enum Server implements Provider {
-    BASE("Plugins for all softwareManager", Category.CORE, Category.GLOBAL),
-    VOID("Plugins for void softwareManager", Server.BASE),
-    HUB("Plugins for hub softwareManager", Server.BASE, Category.SURVIVAL, Category.BUILD,
+    BASE("Plugins for all servers", Category.CORE, Category.GLOBAL),
+    VOID("Plugins for void servers", Server.BASE),
+    HUB("Plugins for hub servers", Server.BASE, Category.SURVIVAL, Category.BUILD,
             Category.HUB, Plugin.Structure),
-    EINS("Plugins for build server one", Server.BASE, Category.SURVIVAL, Category.BUILD, Category.HOME),
-    ZWEI("Plugins for build server two", Server.BASE, Category.SURVIVAL, Category.BUILD, Category.HOME),
-    MINE("Plugins for mine softwareManager", Server.BASE, Category.SURVIVAL, Category.BUILD, Category.MINE),
-    CREATIVE("Plugins for creative softwareManager", Server.BASE, Category.CREATIVE, Category.BUILD,
+    BUILD("Plugins for build servers", Server.BASE, Category.SURVIVAL, Category.BUILD, Category.HOME),
+    MINE("Plugins for mine servers", Server.BASE, Category.SURVIVAL, Category.BUILD, Category.MINE),
+    CREATIVE("Plugins for creative servers", Server.BASE, Category.CREATIVE, Category.BUILD,
             Plugin.Enemy, Plugin.Festival, Plugin.LinkPortal, Plugin.Race, Plugin.Raid, Plugin.Resident),
-    EVENT("Plugins for event softwareManager", Server.BASE, Plugin.Worlds),
-    CLASSIC("Plugins for classic softwareManager", Server.BASE, Category.SURVIVAL, Category.BUILD);
+    EVENT("Plugins for event servers", Server.BASE, Plugin.Worlds),
+    CLASSIC("Plugins for classic servers", Server.BASE, Category.SURVIVAL, Category.BUILD);
 
     public final @NotNull String ref;
     public final @NotNull String info;

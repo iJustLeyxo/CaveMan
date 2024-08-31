@@ -88,6 +88,7 @@ public enum Software {
     // TODO: Add detection for files
 
     public static void list() {
+        Console.sep();
         Console.logL(Type.REQUESTED, Style.SOFTWARE, "Server software", 4, 21,
                 (Object[]) Software.values());
     }

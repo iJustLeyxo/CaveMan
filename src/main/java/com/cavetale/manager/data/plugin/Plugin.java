@@ -279,6 +279,7 @@ public enum Plugin implements Provider {
     // TODO: Add file detection
 
     public static void list() {
+        Console.sep();
         Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins", 4, 21, (Object[]) Plugin.values());
     }
 
