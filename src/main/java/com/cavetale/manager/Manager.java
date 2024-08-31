@@ -6,7 +6,10 @@ import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Type;
 import com.cavetale.manager.util.console.XCode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Cavetale installation manager, used to manage plugins and server software for testing servers
