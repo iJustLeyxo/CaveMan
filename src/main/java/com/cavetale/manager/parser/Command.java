@@ -11,6 +11,7 @@ import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Set;
 
 public enum Command {
@@ -42,6 +43,8 @@ public enum Command {
             if (!Console.confirm("Continue installation")) {
                 return;
             }
+            File folder = new File("plugins/");
+            folder.mkdir();
             Set<Plugin> installedPlugins = result.plugIndexer().getInstalled().keySet();
             for (Plugin p : plugins) {
                 p.install(installedPlugins);
@@ -73,6 +76,8 @@ public enum Command {
             if (!Console.confirm("Continue linking")) {
                 return;
             }
+            File folder = new File("plugins/");
+            folder.mkdir();
             Set<Plugin> installed = result.plugIndexer().getInstalled().keySet();
             for (Plugin p : plugins) {
                 p.link(path, installed);
