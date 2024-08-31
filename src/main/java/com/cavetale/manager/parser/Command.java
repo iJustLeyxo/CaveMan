@@ -38,7 +38,7 @@ public enum Command {
                 return;
             }
             Console.log(Type.REQUESTED, Style.INSTALL,
-                    plugins.size() + " plugins and " + software.size() + " software to install");
+                    plugins.size() + " plugins and " + software.size() + " software to install\n");
             if (!Console.confirm("Continue installation")) {
                 return;
             }
@@ -69,7 +69,7 @@ public enum Command {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
             }
-            Console.log(Type.REQUESTED, Style.LINK, plugins.size() + " plugins to link");
+            Console.log(Type.REQUESTED, Style.LINK, plugins.size() + " plugins to link\n");
             if (!Console.confirm("Continue linking")) {
                 return;
             }
