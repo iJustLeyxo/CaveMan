@@ -2,11 +2,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.cavetale.setup</groupId>
-  <artifactId>setup</artifactId>
+  <artifactId>Setup</artifactId>
   <version>0.1-SNAPSHOT</version>
 
-  <name>CaveMan</name>
-  <url>https://github.com/iJustLeyxo/CaveMan</url>
+  <name>Setup</name>
+  <url>https://github.com/StarTux/Setup</url>
   <packaging>jar</packaging>
 
   <properties>

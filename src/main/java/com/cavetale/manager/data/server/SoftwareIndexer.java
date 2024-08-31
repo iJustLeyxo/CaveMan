@@ -50,7 +50,7 @@ public final class SoftwareIndexer {
             return installs;
         }
         for (File f : files) {
-            if (f.getName().startsWith("CaveMan")) continue;
+            if (f.getName().startsWith("Setup")) continue;
             Software s = null;
             try {
                 s = Software.get(f);
