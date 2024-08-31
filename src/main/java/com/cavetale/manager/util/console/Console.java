@@ -63,8 +63,9 @@ public final class Console {
         if (!Console.logs(type.detail)) {
             return false;
         }
-        StringBuilder b = new StringBuilder(XCode.BOLD + header + "\n" +
-                "-".repeat(cols * colSize + cols - 1) + "\n" + XCode.WEIGHT_OFF);
+        int dashes = (cols * colSize + cols - 1) - header.length() - 2;
+        StringBuilder b = new StringBuilder(XCode.BOLD + "-".repeat(dashes / 2) + " " + header + " "
+                + "-".repeat(dashes / 2 + dashes % 2) + "\n" + XCode.WEIGHT_OFF);
         Arrays.sort(objects);
         int i = 1;
         for (Object o : objects) {
