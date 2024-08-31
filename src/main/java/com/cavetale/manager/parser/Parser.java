@@ -21,7 +21,7 @@ public final class Parser {
      * @throws InputException When an invalid input was found
      */
     public static @NotNull Result parse(String[] args) throws InputException {
-        Console.log(Type.DEBUG, "Parsing input");
+        Console.log(Type.DEBUG, "Parsing input\n");
         Set<Command> commands = new LinkedHashSet<>();
         Map<Flag, EmptyContainer> flags = new HashMap<>();
         Flag flag = null;
@@ -58,7 +58,7 @@ public final class Parser {
             }
         }
         Tokens tokens = new Tokens(commands, flags);
-        Console.log(Type.DEBUG, Style.DONE, " done\n");
+        Console.log(Type.DEBUG, "Finished parsing done\n");
         return new Result(tokens, new PlugIndexer(tokens), new SoftwareIndexer(tokens));
     }
 }

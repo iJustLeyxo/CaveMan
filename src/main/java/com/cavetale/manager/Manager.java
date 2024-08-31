@@ -45,7 +45,11 @@ public final class Manager {
                 }
             } catch (InputException e) {
                 Console.log(Type.ERR, e.getMessage() + "\n");
-                Console.log(Type.DEBUG, Style.WARN, Arrays.toString(e.getStackTrace()) + "\n"); // TODO: Better stack trace printing
+                if (Console.logs(Type.DEBUG)) {
+                    Console.sep();
+                    Console.log(Type.DEBUG, Style.ERR);
+                    e.printStackTrace();
+                }
                 if (!interactive) {
                     System.exit(1);
                 }

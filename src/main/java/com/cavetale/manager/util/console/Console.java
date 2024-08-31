@@ -112,11 +112,15 @@ public final class Console {
         return Console.detail.val >= detail.val;
     }
 
+    public static boolean logs(@NotNull Type type) {
+        return Console.logs(type.detail);
+    }
+
     /**
      * Test for separation between different types of logged output
      * @param type The type to test for separation, {@code type = null} will always separate
      */
-    private static void sep(@Nullable Type type) {
+    public static void sep(@Nullable Type type) {
         if (Console.type != type || null == type) {
             if (!Console.empty) {
                 System.out.println();
