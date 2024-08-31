@@ -62,8 +62,9 @@ public final class Console {
         if (!Console.logs(type.detail)) {
             return false;
         }
-        StringBuilder b = new StringBuilder(XCode.BOLD + header + "\n" +
-                "-".repeat(cols * colSize + cols - 1) + "\n" + XCode.WEIGHT_OFF);
+        int dashes = (cols * colSize + cols - 1) - header.length() - 2;
+        StringBuilder b = new StringBuilder(XCode.BOLD + "-".repeat(dashes / 2) + " " + header + " "
+                + "-".repeat(dashes / 2 + dashes % 2) + "\n" + XCode.WEIGHT_OFF);
         Arrays.sort(objects);
         int i = 1;
         for (Object o : objects) {
@@ -111,11 +112,15 @@ public final class Console {
         return Console.detail.val >= detail.val;
     }
 
+    public static boolean logs(@NotNull Type type) {
+        return Console.logs(type.detail);
+    }
+
     /**
      * Test for separation between different types of logged output
-     * @param type The type to test for separation
+     * @param type The type to test for separation, {@code type = null} will always separate
      */
-    private static void sep(@Nullable Type type) {
+    public static void sep(@Nullable Type type) {
         if (Console.type != type || null == type) {
             if (!Console.empty) {
                 System.out.println();
@@ -137,6 +142,7 @@ public final class Console {
      * @return user input argument
      */
     public static @NotNull String[] in() {
+        Console.sep();
         Console.log(Type.PROMPT, "> ");
         Console.log(Type.PROMPT, Style.INPUT);
         return System.console().readLine().split(" ");
@@ -148,8 +154,13 @@ public final class Console {
      * @return user's response to the prompt
      */
     public static @NotNull String in(@NotNull String prompt) {
+        Console.sep();
         Console.log(Type.PROMPT, prompt + " ");
         Console.log(Type.PROMPT, Style.INPUT);
         return System.console().readLine();
+    }
+
+    public static boolean confirm(@NotNull String string) {
+        return Console.in(string + " (Y/n)?").equalsIgnoreCase("y");
     }
 }

@@ -64,13 +64,6 @@ public enum Flag {
         this.usage = null;
     }
 
-    Flag(@NotNull Character shotRef, @NotNull String info) {
-        this.shortRef = shotRef;
-        this.longRef = this.name().toLowerCase();
-        this.info = info;
-        this.usage = null;
-    }
-
     Flag(@NotNull Character shotRef, @NotNull String info, @Nullable String usage) {
         this.shortRef = shotRef;
         this.longRef = this.name().toLowerCase();

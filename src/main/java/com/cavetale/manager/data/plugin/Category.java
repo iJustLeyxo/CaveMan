@@ -1,28 +1,30 @@
 package com.cavetale.manager.data.plugin;
 
 import com.cavetale.manager.parser.InputException;
+import com.cavetale.manager.util.console.Console;
+import com.cavetale.manager.util.console.Style;
+import com.cavetale.manager.util.console.Type;
+import com.cavetale.manager.util.console.XCode;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Plugin categories, used to group plugins by purpose / usage
  */
 public enum Category implements Provider {
     GLOBAL("Global plugins"),
-    BUILD("Plugins for build softwareManager"),
+    BUILD("Plugins for build servers"),
     CORE("Essential plugins"),
-    CREATIVE("Plugins for creative softwareManager"),
+    CREATIVE("Plugins for creative servers"),
     DEPRECATED("Deprecated plugins"),
     EVENT("Plugins for events without a dedicated server"),
-    HOME("Plugins for home softwareManager"),
-    HUB("Plugins for hub softwareManager"),
-    MINE("Plugins for mine softwareManager"),
-    MINI_GAME("minigame", "Plugins for mini game softwareManager"),
+    HOME("Plugins for home servers"),
+    HUB("Plugins for hub servers"),
+    MINE("Plugins for mine servers"),
+    MINI_GAME("minigame", "Plugins for mini game servers"),
     SEASONAL("Seasonal event plugins"),
-    SURVIVAL("Plugins for survival softwareManager"),
+    SURVIVAL("Plugins for survival servers"),
     UTIL("Optional utility plugins"),
     WORLD_GEN("worldgen", "World generation plugins");
 
@@ -62,6 +64,21 @@ public enum Category implements Provider {
             }
         }
         throw new NotFoundException(ref);
+    }
+
+    public static void list() {
+        Console.sep();
+        Console.log(Type.REQUESTED, Style.CATEGORY, XCode.BOLD +
+                "-------------------------------------- " +
+                "Categories -------------------------------------\n");
+        Console.logF(Type.REQUESTED, Style.CATEGORY, "%-16s | %-68s\n", "Category", "Info");
+        Console.log(Type.REQUESTED, Style.CATEGORY, "--------------------------------------------" +
+                "-------------------------------------------\n");
+        ArrayList<Category> categories = new ArrayList<>(List.of(Category.values()));
+        Collections.sort(categories);
+        for (Category c : categories) {
+            Console.logF(Type.REQUESTED, Style.CATEGORY, "%-16s | %-68s\n", c.ref, c.info);
+        }
     }
 
     public static final class NotFoundException extends InputException {
