@@ -56,7 +56,8 @@ public enum Software {
 
     public void uninstall() {
         Set<File> files = SoftwareIndexer.active.installed.get(this);
-        File folder = new File("plugins/");
+        if (files == null) return;
+        File folder = new File("");
         for (File f : files) {
             Console.log(Type.INFO, "Uninstalling " + f.getName() + " software");
             if (new File(folder, f.getName()).delete()) {

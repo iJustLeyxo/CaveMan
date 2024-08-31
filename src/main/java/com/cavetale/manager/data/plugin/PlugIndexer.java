@@ -100,6 +100,8 @@ public final class PlugIndexer {
     }
 
     public @NotNull Set<File> getUnknown() {
+        Index i = this.index.get(null);
+        if (i == null) return new HashSet<>();
         return new HashSet<>(this.index.get(null).installs);
     }
 

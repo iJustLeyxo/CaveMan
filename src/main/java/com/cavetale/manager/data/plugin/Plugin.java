@@ -245,6 +245,7 @@ public enum Plugin implements Provider {
 
     public void uninstall() {
         Set<File> files = PlugIndexer.active.installed.get(this);
+        if (files == null) return;
         File folder = new File("plugins/");
         for (File f : files) {
             Console.log(Type.INFO, Style.DEBUG, "Uninstalling " + f.getName());

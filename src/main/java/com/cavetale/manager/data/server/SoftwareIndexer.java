@@ -10,10 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Server software manager, used to analyse installed and selected plugins
@@ -47,12 +44,13 @@ public final class SoftwareIndexer {
 
     public Map<Software, Set<File>> gatherInstalls() {
         Map<Software, Set<File>> installs = new HashMap<>();
-        File folder = new File("");
+        File folder = new File(".");
         File[] files = folder.listFiles();
         if (files == null) {
             return installs;
         }
         for (File f : files) {
+            if (f.getName().startsWith("CaveMan")) continue;
             Software s = null;
             try {
                 s = Software.get(f);
@@ -90,6 +88,8 @@ public final class SoftwareIndexer {
     }
 
     public @NotNull Set<File> getUnknown() {
+        Index i = this.index.get(null);
+        if (i == null) return new HashSet<>();
         return new HashSet<>(this.index.get(null).installs);
     }
 
