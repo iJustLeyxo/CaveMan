@@ -168,7 +168,7 @@ public enum Command {
                 return;
             }
             Console.log(Type.REQUESTED, Style.UPDATE,
-                    plugins.size() + " plugins and " + software.size() + " software to update");
+                    plugins.size() + " plugins and " + software.size() + " software to update\n");
             if (!Console.confirm("Continue update")) {
                 return;
             }
