@@ -14,6 +14,8 @@ import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Set;
 
 public enum Command {
@@ -60,29 +62,34 @@ public enum Command {
         @Override
         public
         void run(@NotNull Result result) {
-            Set<Plugin> plugins = result.plugIndexer().getSelected();
             PathContainer patCon = (PathContainer) result.tokens().flags().get(Flag.PATH);
             if (patCon == null || patCon.isEmpty() || patCon.get().isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "No path specified\n");
                 return;
             }
-            String path = patCon.get();
-            if (!path.endsWith(".jar")) {
-                Console.log(Type.REQUESTED, Style.WARN, path + " is not a jar file\n");
-                return;
-            }
-            if (plugins.isEmpty()) {
-                Console.log(Type.REQUESTED, Style.WARN, "No plugins selected\n");
-                return;
-            }
-            Console.log(Type.REQUESTED, Style.LINK, plugins.size() + " plugins to link\n");
+            File origin = new File(patCon.get());
+            try {
+                Plugin.get(origin);
+            } catch (Plugin.NotAPluginException e) {
+                Console.log(Type.REQUESTED, Style.WARN, e.getMessage());
+            } catch (Plugin.PluginNotFoundException ignored) {}
+            Console.log(Type.REQUESTED, Style.LINK, origin.getName() + " will be linked\n");
             if (!Console.confirm("Continue linking")) return;
-
+            Console.log(Type.INFO, "Linking " + origin.getName());
             File folder = new File("plugins/");
             folder.mkdir();
-            Set<Plugin> installed = result.plugIndexer().getInstalled().keySet();
-            for (Plugin p : plugins) {
-                p.link(path, installed);
+            File link = new File(folder, origin.getName());
+            if (link.exists()) {
+                if (!Console.log(Type.INFO, Style.ERR, " failed (already exists)\n"))
+                    Console.log(Type.ERR, "Linking " + this.name() + " plugin failed (already exists)\n");
+                return;
+            }
+            try {
+                Files.createSymbolicLink(link.toPath(), origin.toPath());
+                Console.log(Type.INFO, Style.DONE, " done\n");
+            } catch (IOException e) {
+                if (!Console.log(Type.INFO, Style.ERR, " failed\n"))
+                    Console.log(Type.ERR, "Linking " + origin.getName() + " failed\n");
             }
         }
     },
