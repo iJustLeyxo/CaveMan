@@ -32,24 +32,33 @@ public final class PlugIndexer {
         for (Plugin p : plugins) {
             Set<File> installs = this.installed.get(p);
             if (installs == null) installs = new HashSet<>();
-            this.index.put(p, new Index(this.selected.contains(p), installs));
+            boolean selected = false;
+            if (p != null) selected = this.selected.contains(p);
+            this.index.put(p, new Index(selected, installs));
         }
         PlugIndexer.active = this;
     }
 
     private @NotNull Set<Plugin> gatherSelected(@NotNull Tokens tokens) {
         Set<Plugin> selected = new HashSet<>();
-        if (tokens.flags().containsKey(Flag.PLUGIN)) {
-            selected.addAll(((PluginContainer) tokens.flags().get(Flag.PLUGIN)).get());
+        PluginContainer pluCon = (PluginContainer) tokens.flags().get(Flag.PLUGIN);
+        if (tokens.flags().containsKey(Flag.ALL)) return Set.of(Plugin.values());
+        if (pluCon != null) {
+            if (pluCon.isEmpty()) return Set.of(Plugin.values());
+            selected.addAll(pluCon.get());
         }
-        if (tokens.flags().containsKey(Flag.CATEGORY)) {
-            for (Category category : ((CategoryContainer) tokens.flags().get(Flag.CATEGORY)).get()) {
-                selected.addAll(category.plugins());
+        CategoryContainer catCon = (CategoryContainer) tokens.flags().get(Flag.CATEGORY);
+        if (catCon != null) {
+            Set<Category> cats = catCon.isEmpty() ? Set.of(Category.values()) : catCon.get();
+            for (Category cat : cats) {
+                selected.addAll(cat.plugins());
             }
         }
-        if (tokens.flags().containsKey(Flag.SERVER)) {
-            for (Server server : ((ServerContainer) tokens.flags().get(Flag.SERVER)).get()) {
-                selected.addAll(server.plugins());
+        ServerContainer serCon = (ServerContainer) tokens.flags().get(Flag.SERVER);
+        if (serCon != null) {
+            Set<Server> servers = serCon.isEmpty() ? Set.of(Server.values()) : serCon.get();
+            for (Server ser : servers) {
+                selected.addAll(ser.plugins());
             }
         }
         return selected;
@@ -153,6 +162,11 @@ public final class PlugIndexer {
             Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
                     " plugins(s) unknown", 4, 21, unknown.toArray());
         }
+    }
+
+    public void listSelected() {
+        Console.sep();
+        Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins", 4, 21, this.selected.toArray());
     }
 
     private record Index(

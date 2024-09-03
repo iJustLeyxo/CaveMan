@@ -292,11 +292,6 @@ public enum Plugin implements Provider {
         throw new PluginNotFoundException(ref);
     }
 
-    public static void list() {
-        Console.sep();
-        Console.logL(Type.REQUESTED, Style.PLUGIN, "Plugins", 4, 21, (Object[]) Plugin.values());
-    }
-
     public static class PluginNotFoundException extends InputException {
         public PluginNotFoundException(@NotNull String ref) {
             super("Plugin \"" + ref + "\" not found");

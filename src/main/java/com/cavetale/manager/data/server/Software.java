@@ -2,7 +2,6 @@ package com.cavetale.manager.data.server;
 
 import com.cavetale.manager.data.DataException;
 import com.cavetale.manager.data.Source;
-import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.parser.InputException;
 import com.cavetale.manager.util.Util;
 import com.cavetale.manager.util.console.Console;
@@ -101,12 +100,6 @@ public enum Software {
             }
         }
         throw new SoftwareNotFoundException(ref);
-    }
-
-    public static void list() {
-        Console.sep();
-        Console.logL(Type.REQUESTED, Style.SOFTWARE, "Server software", 4, 21,
-                (Object[]) Software.values());
     }
 
     public static final class SoftwareNotFoundException extends InputException {

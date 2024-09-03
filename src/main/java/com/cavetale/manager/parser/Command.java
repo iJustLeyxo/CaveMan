@@ -5,7 +5,7 @@ import com.cavetale.manager.data.plugin.Category;
 import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.data.plugin.Server;
 import com.cavetale.manager.data.server.Software;
-import com.cavetale.manager.parser.container.PathContainer;
+import com.cavetale.manager.parser.container.*;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Type;
@@ -88,39 +88,13 @@ public enum Command {
     LIST("List plugins, categories, servers and server software", "show", "resolve") {
         @Override
         public void run(@NotNull Result result) {
-            if (result.tokens().flags().containsKey(Flag.ALL)) {
-                boolean all = true;
-                if (result.tokens().flags().containsKey(Flag.PLUGIN)) {
-                    Plugin.list();
-                    all = false;
-                }
-                if (result.tokens().flags().containsKey(Flag.CATEGORY)) {
-                    Category.list();
-                    all = false;
-                }
-                if (result.tokens().flags().containsKey(Flag.SERVER)) {
-                    Server.list();
-                    all = false;
-                }
-                if (result.tokens().flags().containsKey(Flag.SOFTWARE)) {
-                    Software.list();
-                    all = false;
-                }
-                if (all) {
-                    Plugin.list();
-                    Category.list();
-                    Server.list();
-                    Software.list();
-                }
-            } else { // List selected plugins
-                Set<Plugin> selected = result.plugIndexer().getSelected();
-                if (!selected.isEmpty()) {
-                    Console.logL(Type.REQUESTED, Style.PLUGIN, selected.size() +
-                            " plugin(s) selected", 4, 21, selected.toArray());
-                } else {
-                    Console.log(Type.WARN, "No plugins selected\n");
-                }
-            }
+            if (!result.plugIndexer().getSelected().isEmpty()) result.plugIndexer().listSelected();
+            boolean all = result.tokens().flags().containsKey(Flag.ALL);
+            CategoryContainer catCon = (CategoryContainer) result.tokens().flags().get(Flag.CATEGORY);
+            if (all || catCon != null && catCon.isEmpty()) Category.list();
+            ServerContainer serCon = (ServerContainer) result.tokens().flags().get(Flag.SERVER);
+            if (all || serCon != null && serCon.isEmpty()) Server.list();
+            if (!result.softwareIndexer().getSelected().isEmpty()) result.softwareIndexer().listSelected();
         }
     },
 
@@ -136,12 +110,7 @@ public enum Command {
     UNINSTALL("Uninstall plugins, server software and files", "remove", "delete") {
         @Override
         public void run(@NotNull Result result) {
-            Set<Plugin> plugins;
-            if (result.tokens().flags().containsKey(Flag.ALL)) {
-                plugins = result.plugIndexer().getInstalled().keySet();
-            } else {
-                plugins = result.plugIndexer().getSelected();
-            }
+            Set<Plugin> plugins = result.plugIndexer().getSelected();
             plugins.remove(null);
             Set<Software> software = result.softwareIndexer().getSelected();
             if (plugins.isEmpty() && software.isEmpty()) {
@@ -166,12 +135,7 @@ public enum Command {
     UPDATE("Update plugins and software", "upgrade") {
         @Override
         public void run(@NotNull Result result) {
-            Set<Plugin> plugins;
-            if (result.tokens().flags().containsKey(Flag.ALL)) {
-                plugins = result.plugIndexer().getInstalled().keySet();
-            } else {
-                plugins = result.plugIndexer().getSelected();
-            }
+            Set<Plugin> plugins = result.plugIndexer().getSelected();
             Set<Software> software = result.softwareIndexer().getSelected();
             if (plugins.isEmpty() && software.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");

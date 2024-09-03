@@ -10,10 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Server software manager, used to analyse installed and selected plugins
@@ -37,15 +34,17 @@ public final class SoftwareIndexer {
     /**
      * Resolve installed and selected software
      */
-    public Set<Software> gatherSelected(@NotNull Tokens tokens) {
-        Set<Software> selected = new HashSet<>();
-        if (tokens.flags().containsKey(Flag.SOFTWARE)) {
-            selected.addAll(((SoftwareContainer) tokens.flags().get(Flag.SOFTWARE)).get());
+    private Set<Software> gatherSelected(@NotNull Tokens tokens) {
+        SoftwareContainer softCon = (SoftwareContainer) tokens.flags().get(Flag.SOFTWARE);
+        if (tokens.flags().containsKey(Flag.ALL)) return Set.of(Software.values());
+        if (softCon != null) {
+            if (softCon.isEmpty()) return Set.of(Software.values());
+            return Set.of(softCon.get().toArray(new Software[0]));
         }
-        return selected;
+        return new HashSet<>();
     }
 
-    public Map<Software, Set<File>> gatherInstalls() {
+    private Map<Software, Set<File>> gatherInstalls() {
         Map<Software, Set<File>> installs = new HashMap<>();
         File folder = new File(".");
         File[] files = folder.listFiles();
@@ -144,6 +143,11 @@ public final class SoftwareIndexer {
             Console.logL(Type.REQUESTED, Style.UNKNOWN, unknown.size() +
                     " software(s) unknown", 4, 21, unknown.toArray());
         }
+    }
+
+    public void listSelected() {
+        Console.sep();
+        Console.logL(Type.REQUESTED, Style.SOFTWARE, "Server software", 4, 21, this.selected.toArray());
     }
 
     private record Index(
