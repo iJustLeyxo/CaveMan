@@ -47,13 +47,11 @@ public enum Command {
             if (!Console.confirm("Continue installation")) return;
             File folder = new File("plugins/");
             folder.mkdir();
-            Set<Plugin> installedPlugins = result.plugIndexer().getInstalled().keySet();
             for (Plugin p : plugins) {
-                p.install(installedPlugins);
+                p.install();
             }
-            Set<Software> installedSoftware = result.softwareIndexer().getInstalled().keySet();
             for (Software s : software) {
-                s.install(installedSoftware);
+                s.install();
             }
         }
     },
@@ -151,13 +149,11 @@ public enum Command {
             Console.log(Type.REQUESTED, Style.UPDATE,
                     plugins.size() + " plugins and " + software.size() + " software to update\n");
             if (!Console.confirm("Continue update")) return;
-            Set<Plugin> installedPlugins = result.plugIndexer().getInstalled().keySet();
             for (Plugin p : plugins) {
-                p.update(installedPlugins);
+                p.update();
             }
-            Set<Software> installedSoftware = result.softwareIndexer().getInstalled().keySet();
             for (Software s  : software) {
-                s.update(installedSoftware);
+                s.update();
             }
         }
     };

@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.file.Files;
 import java.util.Set;
 
 /**
@@ -175,9 +174,9 @@ public enum Plugin implements Provider {
         this.categories = categories;
     }
 
-    public void install(@NotNull Set<Plugin> installed) {
+    public void install() {
         Console.log(Type.INFO, "Installing " + this.name() + " plugin");
-        if (installed.contains(this)) {
+        if (PlugIndexer.active.getInstalled().containsKey(this)) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n"))
                 Console.log(Type.WARN, "Installing " + this.name() + " plugin skipped (already installed)\n");
             return;
@@ -192,49 +191,9 @@ public enum Plugin implements Provider {
         }
     }
 
-    public void link(@NotNull String path, @NotNull Set<Plugin> installed) {
-        Console.log(Type.INFO, "Linking " + this.name() + " plugin");
-        File origin = null;
-        File originFolder = new File(path);
-        originFolder.mkdir();
-        File[] files = originFolder.listFiles();
-        if (files == null) {
-            if (!Console.log(Type.INFO, Style.WARN, " failed (origin not found)\n"))
-                Console.log(Type.WARN, "Linking " + this.name() + " plugin failed (origin not found)\n");
-            return;
-        }
-        String name;
-        for (File f : files) {
-            name = f.getName();
-            if (name.toLowerCase().startsWith(this.name().toLowerCase()) && name.endsWith(".jar")) {
-                origin = f;
-                break;
-            }
-        }
-        if (origin == null) {
-            if (!Console.log(Type.INFO, Style.WARN, " failed (origin not found)\n"))
-                Console.log(Type.WARN, "Linking " + this.name() + " plugin failed (origin not found)\n");
-            return;
-        }
-        if (installed.contains(this)) {
-            if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n"))
-                Console.log(Type.WARN, "Linking " + this.name() + " plugin skipped (already installed)\n");
-            return;
-        }
-        File folder = new File("plugins/");
-        File link = new File(folder, origin.getName());
-        try {
-            Files.createSymbolicLink(link.toPath(), origin.toPath());
-            Console.log(Type.INFO, Style.DONE, " done\n");
-        } catch (IOException e) {
-            if (!Console.log(Type.INFO, Style.ERR, " failed\n"))
-                Console.log(Type.ERR, "Linking " + this.name() + " plugin failed\n");
-        }
-    }
-
-    public void update(@NotNull Set<Plugin> installed) {
+    public void update() {
         this.uninstall();
-        this.install(installed);
+        this.install();
     }
 
     public void uninstall() {

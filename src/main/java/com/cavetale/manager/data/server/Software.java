@@ -30,10 +30,10 @@ public enum Software {
         this.source = new Source.Other(Util.uriOf(uri), version);
     }
 
-    public void install(@NotNull Set<Software> installed) {
+    public void install() {
         Console.log(Type.INFO, "Installing " + this.refs[0] + " software");
         File file = new File(this.refs[0] + "-" + source.version + ".jar");
-        if (installed.contains(this)) {
+        if (SoftwareIndexer.active.getInstalled().containsKey(this)) {
             if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n"))
                 Console.log(Type.WARN, "Installing " + this.name() + " software skipped (already installed)\n");
             return;
@@ -47,9 +47,9 @@ public enum Software {
         }
     }
 
-    public void update(@NotNull Set<Software> installed) {
+    public void update() {
         this.uninstall();
-        this.install(installed);
+        this.install();
     }
 
     public void uninstall() {
