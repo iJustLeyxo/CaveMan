@@ -4,25 +4,13 @@ import com.cavetale.manager.data.server.Software;
 import com.cavetale.manager.parser.InputException;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Software container, used to store software from a software flag
  */
-public final class SoftwareContainer extends EmptyContainer {
-    private final @NotNull Set<Software> software = new HashSet<>();
-
+public final class SoftwareContainer extends SetContainer<Software> {
     @Override
     public boolean option(@NotNull String option) throws InputException {
-        this.software.add(Software.get(option));
+        this.contents.add(Software.get(option));
         return true;
     }
-
-    @Override
-    public boolean isEmpty() {
-        return software.isEmpty();
-    }
-
-    public @NotNull Set<Software> get() { return this.software; }
 }

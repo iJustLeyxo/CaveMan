@@ -11,7 +11,7 @@ public enum Flag {
     ALL("Select all"),
     CATEGORY("Specify categor(y/ies)", "-s <categor(y/ies)>") {
         @Override
-        public @NotNull EmptyContainer container() {
+        public @NotNull NotAContainer container() {
             return new CategoryContainer();
         }
     },
@@ -21,26 +21,26 @@ public enum Flag {
     INTERACTIVE("Enter command prompt mode"),
     PATH('P', "Specify a file path", "-P <path>") {
         @Override
-        public @NotNull EmptyContainer container() {
+        public @NotNull NotAContainer container() {
             return new PathContainer();
         }
     },
     PLUGIN('p', "Specify plugins(s)", "-p <plugins(s)>") {
         @Override
-        public @NotNull EmptyContainer container() {
+        public @NotNull NotAContainer container() {
             return new PluginContainer();
         }
     },
     QUIET("Reduced console output"),
     SERVER('s', "Specify server(s)", "-s <server(s)>") {
         @Override
-        public @NotNull EmptyContainer container() {
+        public @NotNull NotAContainer container() {
             return new ServerContainer();
         }
     },
     SOFTWARE('S', "Specify server software", "-S <software(s)>") {
         @Override
-        public @NotNull EmptyContainer container() {
+        public @NotNull NotAContainer container() {
             return new SoftwareContainer();
         }
     },
@@ -75,8 +75,8 @@ public enum Flag {
      * Gets the flag container of the respective flag
      * @return a flag container, by default an empty container
      */
-    public @NotNull EmptyContainer container() {
-        return new EmptyContainer();
+    public @NotNull NotAContainer container() {
+        return new NotAContainer();
     }
 
     public static @NotNull Flag get(@NotNull Character ref) throws NotFoundException {

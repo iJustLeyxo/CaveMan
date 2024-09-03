@@ -5,7 +5,9 @@ import com.cavetale.manager.data.plugin.Category;
 import com.cavetale.manager.data.plugin.Plugin;
 import com.cavetale.manager.data.plugin.Server;
 import com.cavetale.manager.data.server.Software;
-import com.cavetale.manager.parser.container.*;
+import com.cavetale.manager.parser.container.CategoryContainer;
+import com.cavetale.manager.parser.container.PathContainer;
+import com.cavetale.manager.parser.container.ServerContainer;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Style;
 import com.cavetale.manager.util.console.Type;
@@ -61,13 +63,11 @@ public enum Command {
         public
         void run(@NotNull Result result) {
             Set<Plugin> plugins = result.plugIndexer().getSelected();
-            if (!result.tokens().flags().containsKey(Flag.PATH) ||
-                    result.tokens().flags().get(Flag.PATH).isEmpty()) {
+            PathContainer patCon = (PathContainer) result.tokens().flags().get(Flag.PATH);
+            if (patCon == null || patCon.isEmpty() || patCon.get().isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "No path specified\n");
                 return;
             }
-            String path = ((PathContainer) result.tokens().flags().get(Flag.PATH)).get();
-            assert path != null;
             if (plugins.isEmpty()) {
                 Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
                 return;
@@ -76,10 +76,12 @@ public enum Command {
             if (!Console.confirm("Continue linking")) {
                 return;
             }
+            String path = patCon.get();
             File folder = new File("plugins/");
             folder.mkdir();
             Set<Plugin> installed = result.plugIndexer().getInstalled().keySet();
             for (Plugin p : plugins) {
+                assert path != null;
                 p.link(path, installed);
             }
         }

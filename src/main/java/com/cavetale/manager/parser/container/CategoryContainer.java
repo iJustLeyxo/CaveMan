@@ -6,30 +6,18 @@ import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Category container, used to store categories from a category flag
  */
-public final class CategoryContainer extends EmptyContainer {
-    private final @NotNull Set<Category> categories = new HashSet<>();
-
+public final class CategoryContainer extends SetContainer<Category> {
     @Override
     public boolean option(@NotNull String option) throws InputException {
         Category category = Category.get(option);
-        if (this.categories.contains(category)) {
+        if (this.contents.contains(category)) {
             Console.log(Type.INFO, "Ignoring duplicate category \"" + option + "\n");
         } else {
-            this.categories.add(category);
+            this.contents.add(category);
         }
         return true;
     }
-
-    @Override
-    public boolean isEmpty() {
-        return this.categories.isEmpty();
-    }
-
-    public @NotNull Set<Category> get() { return this.categories; }
 }

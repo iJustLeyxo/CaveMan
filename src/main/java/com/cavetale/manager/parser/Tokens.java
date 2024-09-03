@@ -1,7 +1,7 @@
 package com.cavetale.manager.parser;
 
 import com.cavetale.manager.Manager;
-import com.cavetale.manager.parser.container.EmptyContainer;
+import com.cavetale.manager.parser.container.NotAContainer;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Detail;
 import com.cavetale.manager.util.console.Style;
@@ -16,7 +16,7 @@ import java.util.Set;
  * @param commands Detected commands
  * @param flags Detected flags and flag options / arguments
  */
-public record Tokens (@NotNull Set<Command> commands, @NotNull Map<Flag, EmptyContainer> flags) {
+public record Tokens (@NotNull Set<Command> commands, @NotNull Map<Flag, NotAContainer> flags) {
     /**
      * Analyse the parsed tokens for some basic flags
      * @return {@code true} if something of significance has been found

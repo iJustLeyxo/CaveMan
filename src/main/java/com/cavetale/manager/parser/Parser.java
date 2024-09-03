@@ -2,7 +2,8 @@ package com.cavetale.manager.parser;
 
 import com.cavetale.manager.data.plugin.PlugIndexer;
 import com.cavetale.manager.data.server.SoftwareIndexer;
-import com.cavetale.manager.parser.container.EmptyContainer;
+import com.cavetale.manager.parser.container.Container;
+import com.cavetale.manager.parser.container.NotAContainer;
 import com.cavetale.manager.util.console.Console;
 import com.cavetale.manager.util.console.Type;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ public final class Parser {
     public static @NotNull Result parse(String[] args) throws InputException {
         Console.log(Type.DEBUG, "Parsing input\n");
         Set<Command> commands = new LinkedHashSet<>();
-        Map<Flag, EmptyContainer> flags = new HashMap<>();
+        Map<Flag, NotAContainer> flags = new HashMap<>();
         Flag flag = null;
         for (String arg : args) {
             if (arg.charAt(0) == '-') {
@@ -41,12 +42,8 @@ public final class Parser {
                     }
                 }
             } else {
-                if (flag != null) {
-                    if (!flags.get(flag).option(arg)) {
-                        System.out.println(arg);
-                        flag = null;
-                    }
-                }
+                if (flag != null && (
+                        !(flags.get(flag) instanceof Container<?> container) || !container.option(arg))) flag = null;
                 if (flag == null) {
                     Command cmd = Command.get(arg);
                     if (commands.contains(cmd)) {
