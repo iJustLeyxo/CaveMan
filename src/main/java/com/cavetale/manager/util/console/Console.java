@@ -21,9 +21,7 @@ public final class Console {
      * @return {@code true} if the message was logged and not held back due to verbosity
      */
     public static boolean log(@NotNull Type type, @NotNull Style style, @NotNull String msg) {
-        if (!Console.logs(type.detail)) {
-            return false;
-        }
+        if (!Console.logs(type.detail)) return false;
         Console.sep(type);
         System.out.print(XCode.RESET + style.toString() + msg);
         Console.empty = false;
@@ -39,9 +37,7 @@ public final class Console {
      * @return {@code true} if the message was logged and not held back due to verbosity
      */
     public static boolean logF(@NotNull Type type, @NotNull Style style, @NotNull String format, @NotNull String... params) {
-        if (!Console.logs(type.detail)) {
-            return false;
-        }
+        if (!Console.logs(type.detail)) return false;
         Console.sep(type);
         System.out.printf(XCode.RESET + style.toString() + format, (Object[]) params);
         Console.empty = false;
@@ -59,9 +55,7 @@ public final class Console {
      */
     public static boolean logL(@NotNull Type type, @NotNull Style style, @NotNull String header,
                                int cols, int colSize, @NotNull Object... objects) {
-        if (!Console.logs(type.detail)) {
-            return false;
-        }
+        if (!Console.logs(type.detail)) return false;
         int dashes = (cols * colSize + cols - 1) - header.length() - 2;
         StringBuilder b = new StringBuilder(XCode.BOLD + "-".repeat(dashes / 2) + " " + header + " "
                 + "-".repeat(dashes / 2 + dashes % 2) + "\n" + XCode.WEIGHT_OFF);
@@ -78,9 +72,7 @@ public final class Console {
             }
         }
         String s = b.toString();
-        if (!s.endsWith("\n")) {
-            s += "\n";
-        }
+        if (!s.endsWith("\n")) s += "\n";
         Console.log(type, style, s);
         return true;
     }
@@ -122,9 +114,7 @@ public final class Console {
      */
     public static void sep(@Nullable Type type) {
         if (Console.type != type || null == type) {
-            if (!Console.empty) {
-                System.out.println();
-            }
+            if (!Console.empty) System.out.println();
             Console.type = type;
             Console.empty = true;
         }

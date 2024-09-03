@@ -45,9 +45,7 @@ public enum Category implements Provider {
     public Set<Plugin> plugins() {
         Set<Plugin> result = new HashSet<>();
         for (Plugin p : Plugin.values()) {
-            if (Arrays.asList(p.categories).contains(this)) {
-                result.add(p);
-            }
+            if (Arrays.asList(p.categories).contains(this)) result.add(p);
         }
         return result;
     }
@@ -59,9 +57,7 @@ public enum Category implements Provider {
 
     public static Category get(@NotNull String ref) throws NotFoundException {
         for (Category c : values()) {
-            if (c.ref.equalsIgnoreCase(ref)) {
-                return c;
-            }
+            if (c.ref.equalsIgnoreCase(ref)) return c;
         }
         throw new NotFoundException(ref);
     }

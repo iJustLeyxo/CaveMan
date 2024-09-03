@@ -42,9 +42,7 @@ public enum Command {
             }
             Console.log(Type.REQUESTED, Style.INSTALL,
                     plugins.size() + " plugins and " + software.size() + " software to install\n");
-            if (!Console.confirm("Continue installation")) {
-                return;
-            }
+            if (!Console.confirm("Continue installation")) return;
             File folder = new File("plugins/");
             folder.mkdir();
             Set<Plugin> installedPlugins = result.plugIndexer().getInstalled().keySet();
@@ -68,20 +66,22 @@ public enum Command {
                 Console.log(Type.REQUESTED, Style.WARN, "No path specified\n");
                 return;
             }
+            String path = patCon.get();
+            if (!path.endsWith(".jar")) {
+                Console.log(Type.REQUESTED, Style.WARN, path + " is not a jar file\n");
+                return;
+            }
             if (plugins.isEmpty()) {
-                Console.log(Type.REQUESTED, Style.WARN, "Nothing selected\n");
+                Console.log(Type.REQUESTED, Style.WARN, "No plugins selected\n");
                 return;
             }
             Console.log(Type.REQUESTED, Style.LINK, plugins.size() + " plugins to link\n");
-            if (!Console.confirm("Continue linking")) {
-                return;
-            }
-            String path = patCon.get();
+            if (!Console.confirm("Continue linking")) return;
+
             File folder = new File("plugins/");
             folder.mkdir();
             Set<Plugin> installed = result.plugIndexer().getInstalled().keySet();
             for (Plugin p : plugins) {
-                assert path != null;
                 p.link(path, installed);
             }
         }
@@ -122,9 +122,7 @@ public enum Command {
             software.remove(null);
             Console.log(Type.REQUESTED, Style.UNINSTALL,
                     plugins.size() + " plugins and " + software.size() + " software to uninstall\n");
-            if (!Console.confirm("Continue removal")) {
-                return;
-            }
+            if (!Console.confirm("Continue removal")) return;
             for (Plugin p : plugins) {
                 p.uninstall();
             }
@@ -145,9 +143,7 @@ public enum Command {
             }
             Console.log(Type.REQUESTED, Style.UPDATE,
                     plugins.size() + " plugins and " + software.size() + " software to update\n");
-            if (!Console.confirm("Continue update")) {
-                return;
-            }
+            if (!Console.confirm("Continue update")) return;
             Set<Plugin> installedPlugins = result.plugIndexer().getInstalled().keySet();
             for (Plugin p : plugins) {
                 p.update(installedPlugins);
@@ -178,9 +174,7 @@ public enum Command {
     public static @NotNull Command get(@NotNull String ref) throws NotFoundException {
         for (Command c : Command.values()) {
             for (String r : c.refs) {
-                if (r.equalsIgnoreCase(ref)) {
-                    return c;
-                }
+                if (r.equalsIgnoreCase(ref)) return c;
             }
         }
         throw new NotFoundException(ref);

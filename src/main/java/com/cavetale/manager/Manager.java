@@ -30,9 +30,7 @@ public final class Manager {
                 Result result = Parser.parse(args);
                 boolean changed = result.tokens().analyse();
                 if (result.tokens().commands().isEmpty()) {
-                    if (!changed) {
-                        Console.log(Type.WARN, "Nothing to do. Try typing \"help\".\n");
-                    }
+                    if (!changed) Console.log(Type.WARN, "Nothing to do. Try typing \"help\".\n");
                 } else {
                     Console.log(Type.DEBUG, "Running " + result.tokens().commands().size() + " command(s)\n");
                     for (Command cmd : result.tokens().commands()) {
@@ -53,9 +51,7 @@ public final class Manager {
                     Console.log(Type.DEBUG, Style.ERR);
                     e.printStackTrace();
                 }
-                if (!interactive) {
-                    System.exit(1);
-                }
+                if (!interactive) System.exit(1);
             }
             args = null;
         }

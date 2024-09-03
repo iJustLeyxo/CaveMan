@@ -57,6 +57,7 @@ public enum Flag {
         this.info = info;
         this.usage = usage;
     }
+
     Flag(@NotNull String info) {
         this.shortRef = this.name().toLowerCase().charAt(0);
         this.longRef = this.name().toLowerCase();
@@ -81,18 +82,14 @@ public enum Flag {
 
     public static @NotNull Flag get(@NotNull Character ref) throws NotFoundException {
         for (Flag type : values()) {
-            if (ref == type.shortRef) {
-                return type;
-            }
+            if (ref == type.shortRef) return type;
         }
         throw new NotFoundException(ref);
     }
 
     public static @NotNull Flag get(@NotNull String ref) throws NotFoundException {
         for (Flag type : values()) {
-            if (ref.equalsIgnoreCase(type.longRef)) {
-                return type;
-            }
+            if (ref.equalsIgnoreCase(type.longRef)) return type;
         }
         throw new NotFoundException(ref);
     }
