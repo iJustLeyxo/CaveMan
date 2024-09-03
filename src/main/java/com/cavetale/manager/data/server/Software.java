@@ -42,8 +42,8 @@ public enum Software {
             Util.download(this.source.uri, file);
             Console.log(Type.INFO, Style.DONE, " done\n");
         } catch (IOException e) {
-            if (!Console.log(Type.INFO, Style.ERR, " failed\n"))
-                Console.log(Type.ERR, "Installing " + this.refs[0] + " software failed\n");
+            if (!Console.log(Type.INFO, Style.ERR, " failed (" + e.getMessage() + ")\n"))
+                Console.log(Type.ERR, "Installing " + this.refs[0] + " software failed (" + e.getMessage() + ")\n");
         }
     }
 
