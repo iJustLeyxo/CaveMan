@@ -34,18 +34,16 @@ public enum Software {
         Console.log(Type.INFO, "Installing " + this.refs[0] + " software");
         File file = new File(this.refs[0] + "-" + source.version + ".jar");
         if (installed.contains(this)) {
-            if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
+            if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n"))
                 Console.log(Type.WARN, "Installing " + this.name() + " software skipped (already installed)\n");
-            }
             return;
         }
         try {
             Util.download(this.source.uri, file);
             Console.log(Type.INFO, Style.DONE, " done\n");
         } catch (IOException e) {
-            if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
+            if (!Console.log(Type.INFO, Style.ERR, " failed\n"))
                 Console.log(Type.ERR, "Installing " + this.refs[0] + " software failed\n");
-            }
         }
     }
 
@@ -64,9 +62,8 @@ public enum Software {
                 Console.log(Type.INFO, Style.DONE, " done\n");
                 continue;
             }
-            if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
+            if (!Console.log(Type.INFO, Style.ERR, " failed\n"))
                 Console.log(Type.ERR, "Uninstalling " + f.getName() + " software failed\n");
-            }
         }
     }
 

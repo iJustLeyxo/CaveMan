@@ -14,5 +14,4 @@ public record Result (
         @NotNull Tokens tokens,
         @NotNull PlugIndexer plugIndexer,
         @NotNull SoftwareIndexer softwareIndexer) {
-
 }

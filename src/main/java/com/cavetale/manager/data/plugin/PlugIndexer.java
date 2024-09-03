@@ -68,9 +68,7 @@ public final class PlugIndexer {
         Map<Plugin, Set<File>> installs = new HashMap<>();
         File folder = new File("plugins/");
         File[] files = folder.listFiles();
-        if (files == null) {
-            return installs;
-        }
+        if (files == null) return installs;
         for (File f : files) {
             Plugin p = null;
             try {
@@ -93,9 +91,7 @@ public final class PlugIndexer {
         for (Map.Entry<Plugin, Index> e : this.index.entrySet()) {
             Index i = e.getValue();
             if ((installed == null || installed == !i.installs.isEmpty()) &&
-                    (selected == null || selected == i.isSelected)) {
-                plugins.add(e.getKey());
-            }
+                    (selected == null || selected == i.isSelected)) plugins.add(e.getKey());
         }
         return plugins;
     }

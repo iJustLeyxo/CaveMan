@@ -178,9 +178,8 @@ public enum Plugin implements Provider {
     public void install(@NotNull Set<Plugin> installed) {
         Console.log(Type.INFO, "Installing " + this.name() + " plugin");
         if (installed.contains(this)) {
-            if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
+            if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n"))
                 Console.log(Type.WARN, "Installing " + this.name() + " plugin skipped (already installed)\n");
-            }
             return;
         }
         File file = new File("plugins/" + this.name() + "-" + this.source.version + ".jar");
@@ -188,9 +187,8 @@ public enum Plugin implements Provider {
             Util.download(this.source.uri, file);
             Console.log(Type.INFO, Style.DONE, " done\n");
         } catch (IOException e) {
-            if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
+            if (!Console.log(Type.INFO, Style.ERR, " failed\n"))
                 Console.log(Type.ERR, "Installing " + this.name() + " plugin failed\n");
-            }
         }
     }
 
@@ -201,9 +199,8 @@ public enum Plugin implements Provider {
         originFolder.mkdir();
         File[] files = originFolder.listFiles();
         if (files == null) {
-            if (!Console.log(Type.INFO, Style.WARN, " failed (origin not found)\n")) {
+            if (!Console.log(Type.INFO, Style.WARN, " failed (origin not found)\n"))
                 Console.log(Type.WARN, "Linking " + this.name() + " plugin failed (origin not found)\n");
-            }
             return;
         }
         String name;
@@ -215,15 +212,13 @@ public enum Plugin implements Provider {
             }
         }
         if (origin == null) {
-            if (!Console.log(Type.INFO, Style.WARN, " failed (origin not found)\n")) {
+            if (!Console.log(Type.INFO, Style.WARN, " failed (origin not found)\n"))
                 Console.log(Type.WARN, "Linking " + this.name() + " plugin failed (origin not found)\n");
-            }
             return;
         }
         if (installed.contains(this)) {
-            if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n")) {
+            if (!Console.log(Type.INFO, Style.WARN, " skipped (already installed)\n"))
                 Console.log(Type.WARN, "Linking " + this.name() + " plugin skipped (already installed)\n");
-            }
             return;
         }
         File folder = new File("plugins/");
@@ -232,9 +227,8 @@ public enum Plugin implements Provider {
             Files.createSymbolicLink(link.toPath(), origin.toPath());
             Console.log(Type.INFO, Style.DONE, " done\n");
         } catch (IOException e) {
-            if (!Console.log(Type.INFO, Style.ERR, " failed\n")) {
+            if (!Console.log(Type.INFO, Style.ERR, " failed\n"))
                 Console.log(Type.ERR, "Linking " + this.name() + " plugin failed\n");
-            }
         }
     }
 
@@ -253,9 +247,8 @@ public enum Plugin implements Provider {
                 Console.log(Type.INFO, Style.DONE, " done\n");
                 continue;
             }
-            if (!Console.log(Type.DEBUG, Style.ERR, " failed\n")) {
+            if (!Console.log(Type.DEBUG, Style.ERR, " failed\n"))
                 Console.log(Type.ERR, "Uninstalling " + f.getName() + " plugin failed\n");
-            }
         }
     }
 

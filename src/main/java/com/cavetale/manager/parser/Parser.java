@@ -30,25 +30,18 @@ public final class Parser {
                 flag = null;
                 if (arg.length() > 2 && arg.charAt(1) == '-') {
                     flag = Flag.get(arg.substring(2));
-                    if (!flags.containsKey(flag)) {
-                        flags.put(flag, flag.container());
-                    }
+                    if (!flags.containsKey(flag)) flags.put(flag, flag.container());
                 } else if (arg.length() > 1) {
                     for (int i = 1; i < arg.length(); i++) {
                         flag = Flag.get(arg.charAt(i));
-                        if (!flags.containsKey(flag)) {
-                            flags.put(flag, flag.container());
-                        }
+                        if (!flags.containsKey(flag)) flags.put(flag, flag.container());
                     }
                 }
             } else {
-                if (flag != null && (
-                        !(flags.get(flag) instanceof Container<?> container) || !container.option(arg))) flag = null;
+                if (flag != null && (!(flags.get(flag) instanceof Container<?> container) || !container.option(arg))) flag = null;
                 if (flag == null) {
                     Command cmd = Command.get(arg);
-                    if (commands.contains(cmd)) {
-                        Console.log(Type.INFO, "Ignoring duplicate command \"" + arg + "\n");
-                    }
+                    if (commands.contains(cmd)) Console.log(Type.INFO, "Ignoring duplicate command \"" + arg + "\n");
                     commands.add(cmd);
                 }
             }

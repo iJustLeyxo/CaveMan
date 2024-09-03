@@ -51,9 +51,7 @@ public final class SoftwareIndexer {
         Map<Software, Set<File>> installs = new HashMap<>();
         File folder = new File(".");
         File[] files = folder.listFiles();
-        if (files == null) {
-            return installs;
-        }
+        if (files == null) return installs;
         for (File f : files) {
             if (f.getName().startsWith("Setup")) continue;
             Software s = null;
@@ -77,9 +75,7 @@ public final class SoftwareIndexer {
         for (Map.Entry<Software, Index> e : this.index.entrySet()) {
             Index i = e.getValue();
             if ((installed == null || installed == !i.installs.isEmpty()) &&
-                    (selected == null || selected == i.isSelected)) {
-                software.add(e.getKey());
-            }
+                    (selected == null || selected == i.isSelected)) software.add(e.getKey());
         }
         return software;
     }

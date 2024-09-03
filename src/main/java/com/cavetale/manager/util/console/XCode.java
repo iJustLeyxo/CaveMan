@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * ANSI escape codes, used to format text outputted to most modern terminal emulators
  */
-public enum XCode {
+public enum sXCode {
     RESET("\u001B[0m"),
     BOLD("\u001B[1m"),
     WEIGHT_OFF("\u001B[22m"),
