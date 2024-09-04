@@ -26,7 +26,7 @@ public enum Command {
         }
     },
 
-    HELP("Show command and flag help") {
+    HELP("Show usage help") {
         @Override
         public void run(@NotNull Result result) {
             Manager.help();
@@ -56,7 +56,7 @@ public enum Command {
         }
     },
 
-    LINK("Install plugins as symbolic links") {
+    LINK("Link any .jar to the plugins directory") {
         @Override
         public
         void run(@NotNull Result result) {

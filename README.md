@@ -8,32 +8,32 @@ Interactive: java -jar Manager.jar
 Single: java -jar Manager.jar <1+command(s)> <0+flag(s)>
 
 -------------------------------------- Commands ---------------------------------------
-Command          | Info
+Command          | Info                                                                
 ---------------------------------------------------------------------------------------
-exit             | Exit interactive mode
-help             | Show command and flag help
-install          | Install plugins and server software
-link             | Install plugins as symbolic links
-list             | List plugins, categories, servers and server software
-status           | View installation status
-uninstall        | Uninstall plugins, server software and files
-update           | Update plugins and software
+exit             | Exit interactive mode                                               
+help             | Show usage help                                                     
+install          | Install plugins and server software                                 
+link             | Link any .jar to the plugins directory                              
+list             | List plugins, categories, servers and server software               
+status           | View installation status                                            
+uninstall        | Uninstall plugins, server software and files                        
+update           | Update plugins and software                                         
 
 --------------------------------------- Flags -----------------------------------------
-Flag             | Info                             | Usage
+Flag             | Info                             | Usage                            
 ---------------------------------------------------------------------------------------
--a --all         | Select all                       |
--c --category    | Specify categor(y/ies)           | -s <categor(y/ies)>
--d --default     | Normal console output            |
--f --force       | Force execution                  |
--h --help        | Show command help                |
--i --interactive | Enter command prompt mode        |
--P --path        | Specify a file path              | -P <path>
--p --plugin      | Specify plugins(s)               | -p <plugins(s)>
--q --quiet       | Reduced console output           |
--s --server      | Specify server(s)                | -s <server(s)>
--S --software    | Specify server software          | -S <software(s)>
--v --verbose     | Detailed console output          |
+-a --all         | Select all                       |                                  
+-c --category    | Specify categor(y/ies)           | -s <categor(y/ies)>              
+-d --default     | Normal console output            |                                  
+-f --force       | Force execution                  |                                  
+-h --help        | Show command help                |                                  
+-i --interactive | Enter command prompt mode        |                                  
+-P --path        | Specify a file path              | -P <path>                        
+-p --plugin      | Specify plugins(s)               | -p <plugins(s)>                  
+-q --quiet       | Reduced console output           |                                  
+-s --server      | Specify server(s)                | -s <server(s)>                   
+-S --software    | Specify server software          | -S <software(s)>                 
+-v --verbose     | Detailed console output          | 
 ```
 
 ##### Adding commands
