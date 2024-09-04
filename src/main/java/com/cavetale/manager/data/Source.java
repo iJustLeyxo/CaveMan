@@ -5,6 +5,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
 
+/**
+ * Download source class for formatting download urls from different sources
+ */
 public abstract class Source {
     public final @NotNull String version;
     public final @NotNull URI uri;

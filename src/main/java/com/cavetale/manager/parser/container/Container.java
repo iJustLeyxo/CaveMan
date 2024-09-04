@@ -4,6 +4,10 @@ import com.cavetale.manager.parser.InputException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Container of an element of a generic type
+ * @param <T> Type of the contents
+ */
 public abstract class Container<T> extends NotAContainer {
     protected @Nullable T contents;
 
