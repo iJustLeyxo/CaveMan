@@ -23,17 +23,17 @@ update           | Update plugins and software
 Flag             | Info                             | Usage                            
 ---------------------------------------------------------------------------------------
 -a --all         | Select all                       |                                  
--c --category    | Specify categor(y/ies)           | -s <categor(y/ies)>              
+-c --category    | Specify categor(y/ies)           | -s []:all | [categories]         
 -d --default     | Normal console output            |                                  
 -f --force       | Force execution                  |                                  
 -h --help        | Show command help                |                                  
 -i --interactive | Enter command prompt mode        |                                  
 -P --path        | Specify a file path              | -P <path>                        
--p --plugin      | Specify plugins(s)               | -p <plugins(s)>                  
+-p --plugin      | Specify plugins(s)               | -p []:all | [categories]         
 -q --quiet       | Reduced console output           |                                  
--s --server      | Specify server(s)                | -s <server(s)>                   
--S --software    | Specify server software          | -S <software(s)>                 
--v --verbose     | Detailed console output          | 
+-s --server      | Specify server(s)                | -s []:all | [servers]            
+-S --software    | Specify server software          | -S []:all | [software]           
+-v --verbose     | Detailed console output          |                                  
 ```
 
 ##### Adding commands

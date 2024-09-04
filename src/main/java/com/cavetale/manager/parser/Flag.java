@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public enum Flag {
     ALL("Select all"),
-    CATEGORY("Specify categor(y/ies)", "-s <categor(y/ies)>") {
+    CATEGORY("Specify categor(y/ies)", "-s []:all | [categories]") {
         @Override
         public @NotNull NotAContainer container() {
             return new CategoryContainer();
@@ -25,20 +25,20 @@ public enum Flag {
             return new PathContainer();
         }
     },
-    PLUGIN('p', "Specify plugins(s)", "-p <plugins(s)>") {
+    PLUGIN('p', "Specify plugins(s)", "-p []:all | [categories]") {
         @Override
         public @NotNull NotAContainer container() {
             return new PluginContainer();
         }
     },
     QUIET("Reduced console output"),
-    SERVER('s', "Specify server(s)", "-s <server(s)>") {
+    SERVER('s', "Specify server(s)", "-s []:all | [servers]") {
         @Override
         public @NotNull NotAContainer container() {
             return new ServerContainer();
         }
     },
-    SOFTWARE('S', "Specify server software", "-S <software(s)>") {
+    SOFTWARE('S', "Specify server software", "-S []:all | [software]") {
         @Override
         public @NotNull NotAContainer container() {
             return new SoftwareContainer();
