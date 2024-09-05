@@ -60,8 +60,6 @@ public final class Manager {
 
     // TODO: Add resource pack download
 
-    // TODO: Update readme
-
     public static void exit() {
         Console.log(Type.DEBUG, "Exiting\n");
         Console.sep();
